@@ -116,7 +116,7 @@ The YouTube grid set should include a **"Go to Grid Explorer"** button (or equiv
 2. The cell already has a *Jump to grid* or *Grid Explorer* action — **keep that action as-is**.
 3. Add a **second action** to the same cell, placed **before** the navigate action:
    - **Action type:** Run Application / Computer Control
-   - **Application / File:** `wscript.exe` <img src="wscript_icon.png" alt="wscript" width="400">
+   - **Application / File:** `wscript.exe` <img src="wscript_icon.png" alt="wscript" width="100">
    - **Arguments:** `"C:\YouTube_Navigator_V6\send.vbs" exit`
 4. Save and exit edit mode.
 
