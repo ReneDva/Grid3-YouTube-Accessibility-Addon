@@ -166,7 +166,7 @@ One of the key design principles of this system is that **no software changes ar
 - **Add direct video/playlist buttons** using the `open:` argument with a YouTube URL.
 - **Adjust layout and cell size** within Grid 3 to match the user's motor and visual capabilities.
 
-This means a therapist, teacher, or carer can fully tailor the YouTube experience for a specific user directly inside Grid 3, without any developer involvement.
+This means a therapist, teacher, or caregiver can fully tailor the YouTube experience for a specific user directly inside Grid 3, without any developer involvement.
 
 ---
 
