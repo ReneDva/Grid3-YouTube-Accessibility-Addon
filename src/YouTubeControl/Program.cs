@@ -39,7 +39,11 @@ static class Program
             HandleCriticalError(logger, e.ExceptionObject as Exception ?? new Exception("Unknown unhandled error."));
         TaskScheduler.UnobservedTaskException += (_, e) =>
         {
-            logger.LogException(ComponentName, "Unobserved task exception", e.Exception);
+            if (!IsBenignUnobservedException(e.Exception))
+            {
+                logger.LogException(ComponentName, "Unobserved task exception", e.Exception);
+            }
+
             e.SetObserved();
         };
 
@@ -112,6 +116,33 @@ static class Program
         {
             // Safe to ignore during shutdown races.
         }
+    }
+
+    private static bool IsBenignUnobservedException(Exception exception)
+    {
+        var exceptions = exception is AggregateException aggregateException
+            ? aggregateException.Flatten().InnerExceptions
+            : [exception];
+
+        if (exceptions.Count == 0)
+        {
+            return false;
+        }
+
+        foreach (var inner in exceptions)
+        {
+            var message = inner.Message;
+            var isBenign =
+                message.Contains("Response body is unavailable for redirect responses", StringComparison.OrdinalIgnoreCase) ||
+                message.Contains("Execution Context was destroyed", StringComparison.OrdinalIgnoreCase);
+
+            if (!isBenign)
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /// <summary>
