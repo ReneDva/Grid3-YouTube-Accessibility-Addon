@@ -9,7 +9,8 @@ V7 replaces the V6 JavaScript + VBScript bridge with a single .NET WinExe proces
 - In-process ad skipper task
 
 Docs:
-- Setup and caregiver workflow: [docs/SETUP.md](docs/SETUP.md)
+- Setup and caregiver workflow (V7): [docs/SETUP_V7.md](docs/SETUP_V7.md)
+- Legacy setup guide (V6): [docs/SETUP_V6.md](docs/SETUP_V6.md)
 - Runtime architecture: [ARCHITECTURE.md](ARCHITECTURE.md)
 - Migration plan and stage status: [docs/Architecture_Design.V7-plan.md](docs/Architecture_Design.V7-plan.md)
 
@@ -48,39 +49,52 @@ Docs:
 
 ---
 
-## Build and Run
+## Full Build and Packaging Instructions (V7)
 
-### Build
+Run all commands from repository root.
+
+### 1. Build (Debug)
 
 ```powershell
 dotnet build src/YouTubeControl/YouTubeControl.csproj
 ```
 
-### Test
+### 2. Run Unit Tests
 
 ```powershell
 dotnet test tests/YouTubeControl.Tests/YouTubeControl.Tests.csproj
 ```
 
-### Start Leader
+### 3. Publish Production Binary (Release, Single File)
 
 ```powershell
-src/YouTubeControl/bin/Debug/net10.0-windows/YouTubeControl.exe
+dotnet publish src/YouTubeControl/YouTubeControl.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:PublishAot=true
 ```
 
-### Send Commands (Messenger Mode)
+Expected output:
+
+```text
+src/YouTubeControl/bin/Release/net10.0-windows/win-x64/publish/YouTubeControl.exe
+```
+
+### 4. Build Installer (Inno Setup)
 
 ```powershell
-src/YouTubeControl/bin/Debug/net10.0-windows/YouTubeControl.exe home
-src/YouTubeControl/bin/Debug/net10.0-windows/YouTubeControl.exe down
-src/YouTubeControl/bin/Debug/net10.0-windows/YouTubeControl.exe search:disney songs
+"C:\Program Files (x86)\Inno Setup 6\ISCC.exe" "src\inno_setup_v7.iss"
+```
+
+Expected output:
+
+```text
+Output/YouTube_V7_Full_Installer.exe
 ```
 
 ---
 
-## In-Process Ad Skipper (V7)
+## Built-In Ad Skipper (V7, Implemented)
 
-V7 ad skipping runs inside Leader mode and no longer requires a separate `skip_ads.exe` process.
+The V7 ad skipper is already implemented and active in the current codebase.
+It runs inside Leader mode and no longer requires a separate `skip_ads.exe` process.
 
 Behavior:
 - Polls every `1500ms`
@@ -121,6 +135,59 @@ Stop on first failure:
 ```powershell
 powershell -ExecutionPolicy Bypass -File ./scripts/run_youtubecontrol_sequence.ps1 -StopOnFailure
 ```
+
+---
+
+## Manual Full Command Validation (All Actions)
+
+After installation, run this from CMD or PowerShell:
+
+```powershell
+cd C:\YouTube_Navigator_V7
+```
+
+### 1. Start Leader (no arguments)
+
+```powershell
+.\YouTubeControl.exe
+```
+
+Wait until Chrome opens and YouTube is ready.
+
+### 2. Run full action coverage (Messenger commands)
+
+```powershell
+.\YouTubeControl.exe home
+.\YouTubeControl.exe down
+.\YouTubeControl.exe up
+.\YouTubeControl.exe enter
+.\YouTubeControl.exe back
+
+.\YouTubeControl.exe play_pause
+.\YouTubeControl.exe play_pause
+
+.\YouTubeControl.exe fullscreen
+.\YouTubeControl.exe fullscreen
+.\YouTubeControl.exe toggle
+
+.\YouTubeControl.exe like
+.\YouTubeControl.exe like
+
+.\YouTubeControl.exe search:disney songs
+.\YouTubeControl.exe down
+.\YouTubeControl.exe enter
+
+.\YouTubeControl.exe open:https://www.youtube.com/shorts
+.\YouTubeControl.exe down
+
+.\YouTubeControl.exe refresh
+
+.\YouTubeControl.exe stop
+```
+
+Notes:
+- `stop` is an alias of `exit` and terminates Leader.
+- If you prefer, end with `.\YouTubeControl.exe exit` instead of `stop`.
 
 ---
 

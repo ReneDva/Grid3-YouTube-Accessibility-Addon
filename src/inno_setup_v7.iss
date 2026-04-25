@@ -80,7 +80,7 @@ begin
   begin
     MsgBox(
       'Initial startup must be performed by a teacher or therapist.' + #13#10 +
-      'A manual sign-in to the user''s Chrome account is required.',
+      'A manual sign-in to the user''s Chrome profile account is required.',
       mbInformation,
       MB_OK);
   end;

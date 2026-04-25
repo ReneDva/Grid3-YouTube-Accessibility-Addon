@@ -42,7 +42,7 @@ The new architecture shifts from a script-based bridge to a **Resident Backgroun
 ## 2. The New Workflow
 
 ### Phase A: Installation & First Run (The "Smart Setup")
-1. On first execution, the Leader launches Chrome Canary with a fixed user-data directory (`C:\YouTube_User_Data_V5`).
+1. On first execution, the Leader launches Chrome Canary with a fixed user-data directory (`C:\Grid3_YouTube_Accessibility_Addon_User_Data`).
 2. **Manual Login:** The installer (parent/therapist) signs in to the desired Google/YouTube account once.
 3. **Session Persistence:** Chrome persists the signed-in session automatically inside the fixed local user-data folder.
 4. **Initialization:** Subsequent launches reuse the same folder and attach over `--remote-debugging-port=15432`.
@@ -94,7 +94,7 @@ These blocks run *inside Chrome* via CDP injection. They are language-agnostic â
 | V6 | V7 | .NET Library |
 |---|---|---|
 | `Setup_System.bat` `start "" chrome.exe ...` | `Process.Start(new ProcessStartInfo { FileName = chromePath, Arguments = flags })` | `System.Diagnostics.Process` |
-| Hardcoded `--user-data-dir=C:\YouTube_User_Data_V5` | `userDataDir` read from `config.json` | `System.Text.Json` |
+| Hardcoded `--user-data-dir=C:\Grid3_YouTube_Accessibility_Addon_User_Data` | Fixed constant in `ChromeManager` for stable deployment behavior | `System.Diagnostics.Process` |
 | No `--profile-directory` flag | `--profile-directory="{savedProfile}"` added from `config.json` | `System.Diagnostics.Process` |
 
 #### `ensureSkipperRunning()` â†’ In-Process Ad-Skipper
