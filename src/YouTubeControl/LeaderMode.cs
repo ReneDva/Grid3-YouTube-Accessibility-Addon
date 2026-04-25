@@ -19,6 +19,7 @@ internal static class LeaderMode
 {
     private const string ComponentName = "LeaderMode";
     private static readonly SemaphoreSlim BrowserLock = new(1, 1);
+    private static volatile bool _exitRequested;
 
     private static readonly HashSet<string> SupportedActions =
     [
@@ -35,13 +36,18 @@ internal static class LeaderMode
     /// <returns>A task that represents the lifetime of the leader loop.</returns>
     public static async Task RunAsync(Logger logger, CancellationToken cancellationToken)
     {
-        if (!ChromeManager.Launch(logger))
-        {
-            logger.Log(ComponentName, "Leader startup aborted because Chrome bootstrap failed.");
-            throw new InvalidOperationException("Chrome bootstrap failed.");
-        }
+        _exitRequested = false;
 
-        await EnsureBrowserConnectedAsync(logger, cancellationToken).ConfigureAwait(false);
+        var startupBrowser = await EnsureBrowserConnectedAsync(
+            logger,
+            cancellationToken,
+            allowLaunchIfUnavailable: true).ConfigureAwait(false);
+
+        if (startupBrowser is null)
+        {
+            logger.Log(ComponentName, "Leader startup aborted because Chrome attach/launch bootstrap failed.");
+            throw new InvalidOperationException("Chrome bootstrap attach/launch failed.");
+        }
 
         var pipeTask = RunPipeServerLoopAsync(logger, cancellationToken);
         var recoveryTask = RunCdpRecoveryLoopAsync(logger, cancellationToken);
@@ -107,7 +113,11 @@ internal static class LeaderMode
         {
             try
             {
-                await EnsureBrowserConnectedAsync(logger, cancellationToken).ConfigureAwait(false);
+                await EnsureBrowserConnectedAsync(
+                    logger,
+                    cancellationToken,
+                    allowLaunchIfUnavailable: false).ConfigureAwait(false);
+
                 await Task.Delay(TimeSpan.FromSeconds(3), cancellationToken).ConfigureAwait(false);
             }
             catch (OperationCanceledException)
@@ -137,30 +147,52 @@ internal static class LeaderMode
 
         if (action == "exit")
         {
+            _exitRequested = true;
             await CloseBrowserAsync(logger).ConfigureAwait(false);
-            logger.Log(ComponentName, "Exit command received. Browser closed.");
+            logger.Log(ComponentName, "Exit command received. Browser tabs and window were closed.");
             return;
         }
 
+        _exitRequested = false;
+
         if (action == "refresh")
         {
-            var pageForRefresh = await GetYouTubePageAsync(logger, cancellationToken).ConfigureAwait(false);
+            var pageForRefresh = await GetYouTubePageAsync(
+                logger,
+                cancellationToken,
+                allowLaunchIfUnavailable: false).ConfigureAwait(false);
+
             if (pageForRefresh is null)
             {
+                logger.Log(ComponentName, "Refresh ignored because no active YouTube tab was found.");
                 return;
             }
 
+            await pageForRefresh.BringToFrontAsync().ConfigureAwait(false);
             await pageForRefresh.ReloadAsync().ConfigureAwait(false);
             logger.Log(ComponentName, "Refresh command executed.");
             return;
         }
 
-        var page = await GetYouTubePageAsync(logger, cancellationToken).ConfigureAwait(false);
+        var allowLaunchIfUnavailable = action is "home" or "open" or "search";
+        var page = await GetYouTubePageAsync(
+            logger,
+            cancellationToken,
+            allowLaunchIfUnavailable).ConfigureAwait(false);
+
         if (page is null)
         {
             logger.Log(ComponentName, "No browser page available for command dispatch.");
             return;
         }
+
+        if (!allowLaunchIfUnavailable && !IsYouTubeUrl(page.Url))
+        {
+            logger.Log(ComponentName, $"Action '{action}' ignored because no YouTube tab is open.");
+            return;
+        }
+
+        await page.BringToFrontAsync().ConfigureAwait(false);
 
         var actionForScript = action;
 
@@ -211,9 +243,16 @@ internal static class LeaderMode
         return !string.IsNullOrWhiteSpace(action);
     }
 
-    private static async Task<IPage?> GetYouTubePageAsync(Logger logger, CancellationToken cancellationToken)
+    private static async Task<IPage?> GetYouTubePageAsync(
+        Logger logger,
+        CancellationToken cancellationToken,
+        bool allowLaunchIfUnavailable)
     {
-        var browser = await EnsureBrowserConnectedAsync(logger, cancellationToken).ConfigureAwait(false);
+        var browser = await EnsureBrowserConnectedAsync(
+            logger,
+            cancellationToken,
+            allowLaunchIfUnavailable).ConfigureAwait(false);
+
         if (browser is null)
         {
             return null;
@@ -222,13 +261,13 @@ internal static class LeaderMode
         try
         {
             var pages = await browser.PagesAsync().ConfigureAwait(false);
-            var youtubePage = pages.FirstOrDefault(p => p.Url.Contains("youtube.com", StringComparison.OrdinalIgnoreCase));
+            var youtubePage = pages.FirstOrDefault(p => IsYouTubeUrl(p.Url));
             if (youtubePage is not null)
             {
                 return youtubePage;
             }
 
-            return pages.FirstOrDefault() ?? await browser.NewPageAsync().ConfigureAwait(false);
+            return pages.FirstOrDefault();
         }
         catch (TargetClosedException)
         {
@@ -242,7 +281,16 @@ internal static class LeaderMode
         }
     }
 
-    private static async Task<IBrowser?> EnsureBrowserConnectedAsync(Logger logger, CancellationToken cancellationToken)
+    private static bool IsYouTubeUrl(string? url)
+    {
+        return !string.IsNullOrWhiteSpace(url) &&
+            url.Contains("youtube.com", StringComparison.OrdinalIgnoreCase);
+    }
+
+    private static async Task<IBrowser?> EnsureBrowserConnectedAsync(
+        Logger logger,
+        CancellationToken cancellationToken,
+        bool allowLaunchIfUnavailable)
     {
         if (_browser is { IsConnected: true })
         {
@@ -259,32 +307,24 @@ internal static class LeaderMode
 
             await InvalidateBrowserAsync().ConfigureAwait(false);
 
-            for (var attempt = 0; attempt < 5; attempt++)
+            if (await TryConnectWithBackoffAsync(logger, cancellationToken, maxAttempts: 3).ConfigureAwait(false))
             {
-                if (cancellationToken.IsCancellationRequested)
-                {
-                    return null;
-                }
+                return _browser;
+            }
 
-                try
-                {
-                    _browser = await Puppeteer.ConnectAsync(new ConnectOptions
-                    {
-                        BrowserURL = ChromeManager.BrowserUrl,
-                    }).ConfigureAwait(false);
+            if (!allowLaunchIfUnavailable || _exitRequested)
+            {
+                return null;
+            }
 
-                    logger.Log(ComponentName, $"Connected to Chrome CDP at {ChromeManager.BrowserUrl}.");
-                    return _browser;
-                }
-                catch (Exception ex)
-                {
-                    var delayMs = (int)(500 * Math.Pow(2, attempt));
-                    logger.LogException(ComponentName, $"CDP connect attempt {attempt + 1} failed", ex);
-                    await Task.Delay(delayMs, cancellationToken).ConfigureAwait(false);
+            if (!ChromeManager.Launch(logger))
+            {
+                return null;
+            }
 
-                    // Ensure Chrome is started with debugging flags even after browser closes.
-                    ChromeManager.Launch(logger);
-                }
+            if (await TryConnectWithBackoffAsync(logger, cancellationToken, maxAttempts: 5).ConfigureAwait(false))
+            {
+                return _browser;
             }
 
             return null;
@@ -295,17 +335,90 @@ internal static class LeaderMode
         }
     }
 
+    private static async Task<bool> TryConnectWithBackoffAsync(
+        Logger logger,
+        CancellationToken cancellationToken,
+        int maxAttempts)
+    {
+        for (var attempt = 0; attempt < maxAttempts; attempt++)
+        {
+            if (cancellationToken.IsCancellationRequested)
+            {
+                return false;
+            }
+
+            try
+            {
+                _browser = await Puppeteer.ConnectAsync(new ConnectOptions
+                {
+                    BrowserURL = ChromeManager.BrowserUrl,
+                }).ConfigureAwait(false);
+
+                logger.Log(ComponentName, $"Connected to Chrome CDP at {ChromeManager.BrowserUrl}.");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                var delayMs = (int)(500 * Math.Pow(2, attempt));
+                logger.LogException(ComponentName, $"CDP connect attempt {attempt + 1} failed", ex);
+                await Task.Delay(delayMs, cancellationToken).ConfigureAwait(false);
+            }
+        }
+
+        return false;
+    }
+
     private static async Task CloseBrowserAsync(Logger logger)
     {
         try
         {
             var browser = _browser;
+            if (browser is null || !browser.IsConnected)
+            {
+                browser = await EnsureBrowserConnectedAsync(
+                    logger,
+                    CancellationToken.None,
+                    allowLaunchIfUnavailable: false).ConfigureAwait(false);
+            }
+
             if (browser is null)
             {
+                logger.Log(ComponentName, "Exit command could not find an attached browser instance.");
                 return;
             }
 
-            await browser.CloseAsync().ConfigureAwait(false);
+            IReadOnlyList<IPage> pages;
+            try
+            {
+                pages = await browser.PagesAsync().ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                logger.LogException(ComponentName, "Failed to query browser pages during exit", ex);
+                pages = [];
+            }
+
+            foreach (var page in pages)
+            {
+                try
+                {
+                    await page.CloseAsync().ConfigureAwait(false);
+                }
+                catch (Exception ex)
+                {
+                    logger.LogException(ComponentName, "Failed to close browser tab during exit", ex);
+                }
+            }
+
+            try
+            {
+                await browser.CloseAsync().ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                logger.LogException(ComponentName, "Failed to close browser window during exit", ex);
+            }
+
             await InvalidateBrowserAsync().ConfigureAwait(false);
         }
         catch (Exception ex)
@@ -314,14 +427,14 @@ internal static class LeaderMode
         }
     }
 
-    private static async Task InvalidateBrowserAsync()
+    private static Task InvalidateBrowserAsync()
     {
         var browser = _browser;
         _browser = null;
 
         if (browser is null)
         {
-            return;
+            return Task.CompletedTask;
         }
 
         try
@@ -332,5 +445,7 @@ internal static class LeaderMode
         {
             // Ignore invalidation failures.
         }
+
+        return Task.CompletedTask;
     }
 }

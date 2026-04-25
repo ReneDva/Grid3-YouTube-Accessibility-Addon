@@ -1,13 +1,31 @@
+// Represents persisted configuration used by YouTubeControl startup.
+// Loads optional values from config.json and falls back to defaults.
+// Contains the AppConfig model and config parsing helpers.
 using System.Text.Json;
 
 namespace YouTubeControl.Models;
 
+/// <summary>
+/// Stores runtime configuration for Chrome startup behavior.
+/// </summary>
 internal sealed class AppConfig
 {
+    /// <summary>
+    /// Gets or sets the Chrome executable path override.
+    /// </summary>
     public string? ChromePath { get; set; }
 
+    /// <summary>
+    /// Gets or sets the user-data directory override.
+    /// </summary>
     public string? UserDataDir { get; set; }
 
+    /// <summary>
+    /// Loads configuration from disk or returns defaults when unavailable.
+    /// </summary>
+    /// <param name="configPath">The file path of config.json.</param>
+    /// <param name="logger">The logger used for parse and I/O failures.</param>
+    /// <returns>An initialized configuration object with safe fallback values.</returns>
     public static AppConfig LoadOrDefault(string configPath, Logger logger)
     {
         var fallback = CreateDefault();
@@ -52,6 +70,10 @@ internal sealed class AppConfig
         }
     }
 
+    /// <summary>
+    /// Creates the default configuration values.
+    /// </summary>
+    /// <returns>An AppConfig instance populated with default Chrome and profile paths.</returns>
     public static AppConfig CreateDefault()
     {
         return new AppConfig

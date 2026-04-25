@@ -14,7 +14,6 @@ namespace YouTubeControl;
 internal static class ChromeManager
 {
     private const string ComponentName = "ChromeManager";
-    private const string StartupUrl = "https://www.youtube.com";
 
     public const int DebugPort = 15432;
     public const string BrowserUrl = "http://127.0.0.1:15432";
@@ -64,8 +63,7 @@ internal static class ChromeManager
             "--autoplay-policy=no-user-gesture-required " +
             "--disable-session-crashed-bubble " +
             "--disable-infobars " +
-            "--restore-last-session " +
-            $"\"{StartupUrl}\"";
+            "--restore-last-session";
 
         try
         {
