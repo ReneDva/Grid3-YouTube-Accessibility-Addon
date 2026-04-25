@@ -156,6 +156,53 @@ internal static class LeaderMode
 
         _exitRequested = false;
 
+        var allowLaunchIfUnavailable = action is "home" or "open" or "search";
+        for (var attempt = 0; attempt < 2; attempt++)
+        {
+            try
+            {
+                await DispatchCommandOnceAsync(
+                    action,
+                    query,
+                    allowLaunchIfUnavailable,
+                    logger,
+                    cancellationToken).ConfigureAwait(false);
+
+                return;
+            }
+            catch (OperationCanceledException)
+            {
+                throw;
+            }
+            catch (Exception ex) when (attempt == 0 && IsRecoverableSessionException(ex))
+            {
+                logger.LogException(ComponentName, $"Recoverable session error for action '{action}'. Reconnecting and retrying once.", ex);
+                await InvalidateBrowserAsync().ConfigureAwait(false);
+                await Task.Delay(TimeSpan.FromMilliseconds(250), cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                logger.LogException(ComponentName, $"Command '{action}' failed", ex);
+                return;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Executes one command attempt against the active browser/page state.
+    /// </summary>
+    /// <param name="action">The normalized action keyword.</param>
+    /// <param name="query">Optional payload for search/open actions.</param>
+    /// <param name="allowLaunchIfUnavailable">Whether missing browser/session can trigger launch.</param>
+    /// <param name="logger">The logger used for diagnostics.</param>
+    /// <param name="cancellationToken">The shutdown token.</param>
+    private static async Task DispatchCommandOnceAsync(
+        string action,
+        string query,
+        bool allowLaunchIfUnavailable,
+        Logger logger,
+        CancellationToken cancellationToken)
+    {
         if (action == "refresh")
         {
             var pageForRefresh = await GetYouTubePageAsync(
@@ -169,13 +216,17 @@ internal static class LeaderMode
                 return;
             }
 
-            await pageForRefresh.BringToFrontAsync().ConfigureAwait(false);
+            if (!await TryBringToFrontAsync(pageForRefresh, logger).ConfigureAwait(false))
+            {
+                logger.Log(ComponentName, "Refresh ignored because target page is no longer available.");
+                return;
+            }
+
             await pageForRefresh.ReloadAsync().ConfigureAwait(false);
             logger.Log(ComponentName, "Refresh command executed.");
             return;
         }
 
-        var allowLaunchIfUnavailable = action is "home" or "open" or "search";
         var page = await GetYouTubePageAsync(
             logger,
             cancellationToken,
@@ -224,6 +275,29 @@ internal static class LeaderMode
         var navScript = NavigationActions.BuildNavScript(actionForScript);
         var result = await page.EvaluateExpressionAsync<string>(navScript).ConfigureAwait(false);
         logger.Log(ComponentName, $"Action '{actionForScript}' executed with result: {result}");
+    }
+
+    /// <summary>
+    /// Determines whether a command failure is a transient browser-session issue.
+    /// </summary>
+    /// <param name="exception">The exception produced by command execution.</param>
+    /// <returns><see langword="true"/> when reconnect+retry is appropriate; otherwise <see langword="false"/>.</returns>
+    private static bool IsRecoverableSessionException(Exception exception)
+    {
+        if (exception is TargetClosedException)
+        {
+            return true;
+        }
+
+        if (exception is AggregateException aggregateException)
+        {
+            return aggregateException.InnerExceptions.Any(IsRecoverableSessionException);
+        }
+
+        var message = exception.Message;
+        return message.Contains("Session closed", StringComparison.OrdinalIgnoreCase) ||
+            message.Contains("frame was detached", StringComparison.OrdinalIgnoreCase) ||
+            message.Contains("executionContextCreated", StringComparison.OrdinalIgnoreCase);
     }
 
     private static bool TryParseCommand(string rawCommand, out string action, out string query)
