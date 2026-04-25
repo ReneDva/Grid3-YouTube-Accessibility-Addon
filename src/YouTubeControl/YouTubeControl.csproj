@@ -5,6 +5,7 @@
     <TargetFramework>net10.0-windows</TargetFramework>
     <PublishAot>true</PublishAot>
     <_SuppressWinFormsTrimError>true</_SuppressWinFormsTrimError>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>

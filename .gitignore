@@ -4,3 +4,4 @@ venv/
 **/obj/
 *.user
 /.vscode
+Output/
