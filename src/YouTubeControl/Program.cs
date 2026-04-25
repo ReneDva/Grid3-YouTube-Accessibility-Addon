@@ -70,6 +70,14 @@ static class Program
         EventHandler processExitHandler = (_, _) => TryCancel(cancellationTokenSource);
         AppDomain.CurrentDomain.ProcessExit += processExitHandler;
 
+        // Stop leader when command dispatcher signals explicit exit/stop.
+        Action leaderShutdownHandler = () =>
+        {
+            logger.Log(ComponentName, "Leader shutdown requested by command.");
+            TryCancel(cancellationTokenSource);
+        };
+        LeaderMode.ShutdownRequested += leaderShutdownHandler;
+
         logger.Log(ComponentName, "Leader started.");
         var leaderTask = LeaderMode.RunAsync(logger, cancellationTokenSource.Token);
         _ = leaderTask.ContinueWith(
@@ -86,6 +94,7 @@ static class Program
         cancellationTokenSource.Token.WaitHandle.WaitOne();
 
         AppDomain.CurrentDomain.ProcessExit -= processExitHandler;
+        LeaderMode.ShutdownRequested -= leaderShutdownHandler;
         leaderMutex.ReleaseMutex();
         logger.Log(ComponentName, "Leader stopped.");
     }

@@ -22,9 +22,14 @@ internal static class LeaderMode
     private static readonly SemaphoreSlim BrowserLock = new(1, 1);
     private static volatile bool _exitRequested;
 
+    /// <summary>
+    /// Raised when the leader should terminate after handling an exit command.
+    /// </summary>
+    internal static event Action? ShutdownRequested;
+
     private static readonly HashSet<string> SupportedActions =
     [
-        "home", "up", "down", "enter", "back", "play_pause", "fullscreen", "toggle", "like", "search", "open", "exit", "refresh",
+        "home", "up", "down", "enter", "back", "play_pause", "fullscreen", "toggle", "like", "search", "open", "exit", "stop", "refresh",
     ];
 
     private static IBrowser? _browser;
@@ -146,11 +151,17 @@ internal static class LeaderMode
             return;
         }
 
+        if (action == "stop")
+        {
+            action = "exit";
+        }
+
         if (action == "exit")
         {
             _exitRequested = true;
             await CloseBrowserAsync(logger).ConfigureAwait(false);
             logger.Log(ComponentName, "Exit command received. Browser tabs and window were closed.");
+            RequestLeaderShutdown(logger);
             return;
         }
 
@@ -569,5 +580,21 @@ internal static class LeaderMode
         }
 
         return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Requests graceful leader shutdown after an explicit exit command.
+    /// </summary>
+    /// <param name="logger">The logger used for callback failures.</param>
+    private static void RequestLeaderShutdown(Logger logger)
+    {
+        try
+        {
+            ShutdownRequested?.Invoke();
+        }
+        catch (Exception ex)
+        {
+            logger.LogException(ComponentName, "Failed to signal leader shutdown", ex);
+        }
     }
 }
