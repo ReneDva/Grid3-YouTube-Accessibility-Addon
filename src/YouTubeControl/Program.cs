@@ -1,32 +1,49 @@
+// Entry point and role selector for YouTubeControl.
+// Chooses Leader or Messenger mode with a global mutex and named pipe.
+// Contains the Program class and global startup/error lifecycle flow.
 namespace YouTubeControl;
 
+/// <summary>
+/// Coordinates process startup, role selection, and shutdown for YouTubeControl.
+/// </summary>
+/// <remarks>
+/// Initializes logging and exception hooks, then either forwards a command to the active leader
+/// instance or starts the leader loop and waits for a shutdown signal.
+/// </remarks>
 static class Program
 {
+    private const string ComponentName = "Program";
+
+    // Shared named pipe for leader and messenger.
     internal const string PipeName = "YouTubeControlPipe";
+
+    // Global mutex for single leader election.
     private const string LeaderMutexName = "Global\\YouTubeControl_Leader_Mutex";
 
     /// <summary>
-    ///  The main entry point for the application.
+    /// Starts the application and chooses leader or messenger behavior.
     /// </summary>
+    /// <param name="args">The command arguments received by this process instance.</param>
     [STAThread]
     static void Main(string[] args)
     {
-        // To customize application configuration such as set high DPI settings or default font,
-        // see https://aka.ms/applicationconfiguration.
+        // Initialize WinForms app defaults.
         ApplicationConfiguration.Initialize();
 
         var logger = new Logger(Path.Combine(AppContext.BaseDirectory, "logs.txt"));
 
+        // Register global crash handlers.
         Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
         Application.ThreadException += (_, e) => HandleCriticalError(logger, e.Exception);
         AppDomain.CurrentDomain.UnhandledException += (_, e) =>
             HandleCriticalError(logger, e.ExceptionObject as Exception ?? new Exception("Unknown unhandled error."));
         TaskScheduler.UnobservedTaskException += (_, e) =>
         {
-            logger.LogException("Unobserved task exception", e.Exception);
+            logger.LogException(ComponentName, "Unobserved task exception", e.Exception);
             e.SetObserved();
         };
 
+        // Try to become the leader instance.
         using var leaderMutex = new Mutex(false, LeaderMutexName);
 
         var isLeader = false;
@@ -37,35 +54,44 @@ static class Program
         catch (AbandonedMutexException)
         {
             isLeader = true;
-            logger.Log("Leader mutex was abandoned. Taking ownership.");
+            logger.Log(ComponentName, "Leader mutex was abandoned. Taking ownership.");
         }
 
         if (!isLeader)
         {
+            // Forward args to the current leader.
             MessengerMode.SendCommand(args, logger);
             return;
         }
 
+        // Start leader lifetime token.
         using var cancellationTokenSource = new CancellationTokenSource();
+        // Cancel leader loop on process exit.
         AppDomain.CurrentDomain.ProcessExit += (_, _) => cancellationTokenSource.Cancel();
 
-        logger.Log("Leader started.");
+        logger.Log(ComponentName, "Leader started.");
         var leaderTask = LeaderMode.RunAsync(logger, cancellationTokenSource.Token);
         _ = leaderTask.ContinueWith(
-            t => logger.LogException("Leader background task faulted", t.Exception ?? new Exception("Unknown task exception.")),
+            t => logger.LogException(ComponentName, "Leader background task faulted", t.Exception ?? new Exception("Unknown task exception.")),
             CancellationToken.None,
             TaskContinuationOptions.OnlyOnFaulted,
             TaskScheduler.Default);
 
+        // Keep process alive until shutdown.
         cancellationTokenSource.Token.WaitHandle.WaitOne();
 
         leaderMutex.ReleaseMutex();
-        logger.Log("Leader stopped.");
+        logger.Log(ComponentName, "Leader stopped.");
     }
 
+    /// <summary>
+    /// Logs a critical failure and requests application shutdown.
+    /// </summary>
+    /// <param name="logger">The logger instance used for crash reporting.</param>
+    /// <param name="exception">The unhandled exception that triggered this path.</param>
     private static void HandleCriticalError(Logger logger, Exception exception)
     {
-        logger.LogException("Critical process failure", exception);
+        logger.LogException(ComponentName, "Critical process failure", exception);
         try
         {
             Application.Exit();

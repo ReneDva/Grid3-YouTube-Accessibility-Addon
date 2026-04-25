@@ -4,13 +4,16 @@ using System.Text;
 
 namespace YouTubeControl;
 
+// A simple logger that writes messages to a specified log file with timestamps. It includes error handling to ensure that logging failures do not disrupt the main application flow.
 internal sealed class Logger
 {
     private readonly string _logPath;
     private readonly Lock _sync = new();
+    private const string DefaultComponent = "General";
 
     public Logger(string logPath)
     {
+        // Ensure the log directory exists
         _logPath = logPath;
 
         var directory = Path.GetDirectoryName(_logPath);
@@ -20,11 +23,20 @@ internal sealed class Logger
         }
     }
 
+    public void Log(string component, string message)
+    {
+        var normalizedComponent = string.IsNullOrWhiteSpace(component) ? DefaultComponent : component.Trim();
+        Log($"[{normalizedComponent}] {message}");
+    }
+
+    // Logs a message to the log file with a timestamp. If logging fails, it attempts to write the failure details to a fallback log file in the system's temporary directory.
     public void Log(string message)
     {
         try
         {
+            // Prepend a timestamp to the log message
             var line = $"{DateTimeOffset.Now:O} | {message}{Environment.NewLine}";
+            // Ensure that log writes are thread-safe
             lock (_sync)
             {
                 File.AppendAllText(_logPath, line, Encoding.UTF8);
@@ -36,12 +48,19 @@ internal sealed class Logger
         }
     }
 
-    public void LogException(string context, Exception exception)
+    public void LogException(string component, string context, Exception exception)
     {
         var stackTrace = string.IsNullOrWhiteSpace(exception.StackTrace) ? "n/a" : exception.StackTrace;
-        Log($"{context}: {exception.GetType().Name}: {exception.Message}{Environment.NewLine}{stackTrace}");
+        Log(component, $"{context}: {exception.GetType().Name}: {exception.Message}{Environment.NewLine}{stackTrace}");
     }
 
+    // Logs an exception with contextual information. It formats the exception details and stack trace into a readable format before logging. If logging fails, it attempts to write the failure details to a fallback log file.
+    public void LogException(string context, Exception exception)
+    {
+        LogException(DefaultComponent, context, exception);
+    }
+
+    // Attempts to write a fallback log entry if the primary log write fails. This ensures that logging failures do not go completely unnoticed.
     private void TryWriteFallback(Exception loggingException, string originalMessage)
     {
         try

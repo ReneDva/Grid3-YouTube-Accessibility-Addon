@@ -8,6 +8,7 @@ namespace YouTubeControl;
 internal static class MessengerMode
 {
     private const int ConnectionTimeoutMs = 2000;
+    private const string ComponentName = "MessengerMode";
 
     internal static string? BuildCommand(string[] args)
     {
@@ -48,11 +49,11 @@ internal static class MessengerMode
         }
         catch (TimeoutException)
         {
-            logger.Log("Messenger timeout while connecting to leader pipe.");
+            logger.Log(ComponentName, "Messenger timeout while connecting to leader pipe.");
         }
         catch (Exception ex)
         {
-            logger.LogException("Messenger send failed", ex);
+            logger.LogException(ComponentName, "Messenger send failed", ex);
         }
     }
 }
