@@ -283,6 +283,11 @@ internal static class LeaderMode
                 break;
         }
 
+        if (actionForScript is "open" or "search")
+        {
+            await NormalizeYouTubePresentationAsync(page, actionForScript, logger).ConfigureAwait(false);
+        }
+
         var navScript = NavigationActions.BuildNavScript(actionForScript);
         var result = await page.EvaluateExpressionAsync<string>(navScript).ConfigureAwait(false);
         logger.Log(ComponentName, $"Action '{actionForScript}' executed with result: {result}");
@@ -498,6 +503,42 @@ internal static class LeaderMode
         {
             logger.LogException(ComponentName, "Failed to bring page to front", ex);
             return false;
+        }
+    }
+
+    /// <summary>
+    /// Normalizes YouTube page presentation after home/open/search navigation.
+    /// </summary>
+    /// <param name="page">The page to normalize.</param>
+    /// <param name="action">The current navigation action.</param>
+    /// <param name="logger">The logger used for normalization diagnostics.</param>
+    private static async Task NormalizeYouTubePresentationAsync(IPage page, string action, Logger logger)
+    {
+        if (!await TryBringToFrontAsync(page, logger).ConfigureAwait(false))
+        {
+            return;
+        }
+
+        try
+        {
+            const string normalizeScript = "(() => {" +
+                "document.documentElement.style.zoom = '100%';" +
+                "if (document.body) { document.body.style.zoom = '100%'; }" +
+                "window.scrollTo(0, 0);" +
+                "window.dispatchEvent(new Event('resize'));" +
+                "return 'presentation-normalized';" +
+                "})()";
+
+            var result = await page.EvaluateExpressionAsync<string>(normalizeScript).ConfigureAwait(false);
+            logger.Log(ComponentName, $"Presentation normalization for action '{action}': {result}");
+        }
+        catch (TargetClosedException)
+        {
+            await InvalidateBrowserAsync().ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            logger.LogException(ComponentName, $"Failed to normalize presentation for action '{action}'", ex);
         }
     }
 

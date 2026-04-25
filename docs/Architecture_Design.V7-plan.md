@@ -236,6 +236,7 @@ Output/
 | **Ad-skip** | Start a YouTube video with a pre-roll ad | Skip button clicked automatically within 1500ms |
 | **Connection recovery** | Kill Chrome manually; reopen Chrome | Leader detects disconnect and reconnects |
 | **Exit** | Run `YouTubeControl.exe exit` | Chrome closes cleanly; Leader process terminates |
+| **Home display** | Run `YouTubeControl.exe home` | YouTube home is focused and rendered with normalized full-window layout |
 | **Hebrew search** | Run `YouTubeControl.exe "search:דיסני"` | YouTube search results for "דיסני" load correctly |
 
 ---
@@ -251,7 +252,8 @@ Output/
 7. **Recovery Loop:** Keep retrying CDP attach if Chrome is closed and reconnect when available again.
 8. **In-Process Ad-Skipper:** Port `browserSideScript` polling as a cancellable background task.
 9. **Optional Profile UI (Deferred):** Add `ProfileSetupForm.cs` only if fixed-folder strategy is later replaced.
-10. **Packaging:** Configure single-file self-contained publish; update Grid 3 cell configurations.
+10. **Stage 4 Display Normalization:** Normalize window/layout after `home/open/search` so YouTube fills the active Canary window.
+11. **Packaging:** Configure single-file self-contained publish; update Grid 3 cell configurations.
 
 ---
 

@@ -58,6 +58,7 @@ internal static class ChromeManager
         var arguments =
             $"--remote-debugging-port={DebugPort} " +
             $"--user-data-dir=\"{userDataDir}\" " +
+            "--start-maximized " +
             "--no-first-run " +
             "--no-default-browser-check " +
             "--autoplay-policy=no-user-gesture-required " +
