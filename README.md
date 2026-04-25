@@ -136,6 +136,34 @@ For full setup instructions see [docs/SETUP.md](docs/SETUP.md).
 
 ---
 
+## Automated Full Regression Script (C# Controller)
+
+For the .NET controller build, use the automated test runner script:
+
+`scripts/run_youtubecontrol_sequence.ps1`
+
+What it does:
+- Stops any previous `YouTubeControl.exe` process before test start
+- Starts `YouTubeControl.exe` without arguments (leader mode)
+- Waits 15 seconds before first command
+- Runs a full command sequence that covers all supported actions
+- Waits 7 seconds after `home`, otherwise waits 5 seconds between commands
+- If `exit` or `stop` appears mid-sequence, restarts the leader and verifies it is running before continuing
+
+Run from repository root:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\run_youtubecontrol_sequence.ps1
+```
+
+Fail fast on first non-zero command result:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\run_youtubecontrol_sequence.ps1 -StopOnFailure
+```
+
+---
+
 ## Visual Overview
 
 ### Example of YouTube Interface with Accessibility Features
