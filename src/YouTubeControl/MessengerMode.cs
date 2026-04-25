@@ -9,12 +9,16 @@ internal static class MessengerMode
 
     public static void SendCommand(string[] args, Logger logger)
     {
-        if (args.Length == 0 || string.IsNullOrWhiteSpace(args[0]))
+        if (args.Length == 0)
         {
             return;
         }
 
-        var command = args[0].Trim();
+        var command = string.Join(" ", args).Trim();
+        if (string.IsNullOrWhiteSpace(command))
+        {
+            return;
+        }
 
         try
         {
