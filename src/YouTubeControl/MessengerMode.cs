@@ -1,15 +1,27 @@
-// src\YouTubeControl\MessengerMode.cs
-// This file contains the implementation of the MessengerMode, which is responsible for sending commands to the leader instance via a named pipe. It attempts to connect to the leader's pipe and send the command, logging any errors that occur during the process. If the connection times out or fails, it logs the appropriate messages without throwing exceptions to the caller.
+// Builds command text from process arguments.
+// Connects to the leader pipe and forwards one command line.
+// Contains the MessengerMode class for messenger-side relay logic.
 using System.IO.Pipes;
 using System.Text;
 
 namespace YouTubeControl;
 
+/// <summary>
+/// Relays commands from a messenger instance to the active leader instance.
+/// </summary>
+/// <remarks>
+/// Converts input arguments into a single command line and writes it to the shared named pipe.
+/// </remarks>
 internal static class MessengerMode
 {
     private const int ConnectionTimeoutMs = 2000;
     private const string ComponentName = "MessengerMode";
 
+    /// <summary>
+    /// Builds a normalized command line from input arguments.
+    /// </summary>
+    /// <param name="args">The process arguments to combine into one command string.</param>
+    /// <returns>A trimmed command line, or <see langword="null" /> when input is empty.</returns>
     internal static string? BuildCommand(string[] args)
     {
         if (args.Length == 0)
@@ -21,7 +33,11 @@ internal static class MessengerMode
         return string.IsNullOrWhiteSpace(command) ? null : command;
     }
 
-    // Sends the command represented by the args array to the leader instance via a named pipe. If the connection or sending fails, it logs the error and returns without throwing exceptions.
+    /// <summary>
+    /// Sends the command represented by <paramref name="args" /> to the leader pipe.
+    /// </summary>
+    /// <param name="args">The process arguments to forward.</param>
+    /// <param name="logger">The logger used for timeout and error reporting.</param>
     public static void SendCommand(string[] args, Logger logger)
     {
         var command = BuildCommand(args);
@@ -45,6 +61,7 @@ internal static class MessengerMode
                 AutoFlush = true,
             };
 
+            // Send one line so leader can ReadLineAsync.
             writer.WriteLine(command);
         }
         catch (TimeoutException)

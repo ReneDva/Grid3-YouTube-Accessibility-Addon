@@ -1,43 +1,59 @@
-// src\YouTubeControl\LeaderMode.cs
-// This file contains the implementation of the LeaderMode, which is responsible for running a named pipe server loop that listens for incoming commands from messenger instances. The LeaderMode runs in a background task and handles incoming connections asynchronously. It logs received commands and any errors that occur during the pipe server loop. The loop continues until the provided cancellation token is triggered, at which point it performs cleanup and logs that it has stopped.
+// Hosts leader-side pipe listening for incoming messenger commands.
+// Runs an async loop with cancellation and timeout-aware accepts.
+// Contains the LeaderMode class for leader process command intake.
 using System.IO.Pipes;
 using System.Text;
 
 namespace YouTubeControl;
 
+/// <summary>
+/// Runs the leader-side named pipe loop for command intake.
+/// </summary>
+/// <remarks>
+/// Accepts one connection per loop iteration, reads a single command line, and logs results
+/// until <paramref name="cancellationToken" /> is canceled.
+/// </remarks>
 internal static class LeaderMode
 {
     private const string ComponentName = "LeaderMode";
 
+    /// <summary>
+    /// Starts the leader pipe loop on a background task.
+    /// </summary>
+    /// <param name="logger">The logger used for command and error events.</param>
+    /// <param name="cancellationToken">The cancellation token for graceful shutdown.</param>
+    /// <returns>A task that represents the lifetime of the leader loop.</returns>
     public static Task RunAsync(Logger logger, CancellationToken cancellationToken)
     {
-        /* The leader mode runs a loop that creates a NamedPipeServerStream and waits for incoming connections. When a client connects, it reads a command from the pipe and logs it. The loop continues until the cancellation token is triggered, at which point it exits gracefully. Any exceptions that occur during the loop are caught and logged, ensuring that the leader mode remains robust and does not crash unexpectedly.
-         */
         return Task.Run(() => RunPipeServerLoopAsync(logger, cancellationToken), cancellationToken);
     }
 
+    /// <summary>
+    /// Executes the pipe server accept-read loop until cancellation is requested.
+    /// </summary>
+    /// <param name="logger">The logger used for command and error events.</param>
+    /// <param name="cancellationToken">The cancellation token for graceful shutdown.</param>
     private static async Task RunPipeServerLoopAsync(Logger logger, CancellationToken cancellationToken)
     {
-        /* The pipe server loop continuously creates a NamedPipeServerStream and waits for clients to connect. It uses an asynchronous wait with a cancellation token to allow for graceful shutdown. When a client connects, it reads a command from the pipe and logs it. If the command is empty or whitespace, it logs that an empty command was received. The loop handles OperationCanceledException to allow for expected shutdown scenarios and logs any other exceptions that may occur during the pipe operations.
-         */
         while (!cancellationToken.IsCancellationRequested)
         {
             try
             {
-                // Create a new named pipe server stream for each connection. This allows multiple clients to connect sequentially without needing to manage multiple server instances.
+                // Open one server instance per accepted command.
                 using var server = new NamedPipeServerStream(
                     Program.PipeName,
                     PipeDirection.In,
                     NamedPipeServerStream.MaxAllowedServerInstances,
                     PipeTransmissionMode.Byte,
                     PipeOptions.Asynchronous);
-                
+
+                // Stop waiting after a bounded accept window.
                 using var acceptTimeoutCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
                 acceptTimeoutCts.CancelAfter(TimeSpan.FromSeconds(30));
 
                 await server.WaitForConnectionAsync(acceptTimeoutCts.Token).ConfigureAwait(false);
 
-                // Once a client is connected, read the command from the pipe. The command is expected to be a single line of text. If the command is null, empty, or whitespace, log that an empty command was received.
+                // Read one command line from the connected client.
                 using var reader = new StreamReader(server, Encoding.UTF8, detectEncodingFromByteOrderMarks: false, leaveOpen: true);
                 var command = await reader.ReadLineAsync().ConfigureAwait(false);
 
@@ -52,7 +68,7 @@ internal static class LeaderMode
             }
             catch (OperationCanceledException)
             {
-                // Expected on shutdown or when the accept timeout expires.
+                // Expected on shutdown or timed-out accept.
             }
             catch (Exception ex)
             {

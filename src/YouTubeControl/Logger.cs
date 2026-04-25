@@ -1,21 +1,32 @@
-// src\YouTubeControl\Logger.cs
-// This file contains the implementation of the Logger class, which provides simple logging functionality for the application. The Logger writes log messages to a specified file, including timestamps for each entry. It also provides a method for logging exceptions with contextual information. The Logger is designed to be thread-safe and to fail silently if any issues occur during logging, ensuring that it does not interfere with the main application flow.
+// Writes timestamped log entries to a local file.
+// Adds component-tagged and exception-focused helper overloads.
+// Contains the Logger class with silent fallback behavior.
 using System.Text;
 
 namespace YouTubeControl;
 
-// A simple logger that writes messages to a specified log file with timestamps. It includes error handling to ensure that logging failures do not disrupt the main application flow.
+/// <summary>
+/// Writes timestamped diagnostic events to a log file.
+/// </summary>
+/// <remarks>
+/// Uses a lock for thread-safe writes and falls back to a temp log if primary write fails.
+/// </remarks>
 internal sealed class Logger
 {
     private readonly string _logPath;
     private readonly Lock _sync = new();
     private const string DefaultComponent = "General";
 
+    /// <summary>
+    /// Initializes a new instance of the Logger class.
+    /// </summary>
+    /// <param name="logPath">The absolute or relative path of the primary log file.</param>
     public Logger(string logPath)
     {
-        // Ensure the log directory exists
+        // Persist configured log path.
         _logPath = logPath;
 
+        // Ensure log directory is present.
         var directory = Path.GetDirectoryName(_logPath);
         if (!string.IsNullOrWhiteSpace(directory))
         {
@@ -23,20 +34,29 @@ internal sealed class Logger
         }
     }
 
+    /// <summary>
+    /// Writes a component-tagged message to the log.
+    /// </summary>
+    /// <param name="component">The component name prefix for the entry.</param>
+    /// <param name="message">The log message text.</param>
     public void Log(string component, string message)
     {
         var normalizedComponent = string.IsNullOrWhiteSpace(component) ? DefaultComponent : component.Trim();
         Log($"[{normalizedComponent}] {message}");
     }
 
-    // Logs a message to the log file with a timestamp. If logging fails, it attempts to write the failure details to a fallback log file in the system's temporary directory.
+    /// <summary>
+    /// Writes a raw message with timestamp to the primary log file.
+    /// </summary>
+    /// <param name="message">The message text to append.</param>
     public void Log(string message)
     {
         try
         {
-            // Prepend a timestamp to the log message
+            // Prefix with timestamp.
             var line = $"{DateTimeOffset.Now:O} | {message}{Environment.NewLine}";
-            // Ensure that log writes are thread-safe
+
+            // Serialize concurrent writers.
             lock (_sync)
             {
                 File.AppendAllText(_logPath, line, Encoding.UTF8);
@@ -48,23 +68,38 @@ internal sealed class Logger
         }
     }
 
+    /// <summary>
+    /// Writes an exception entry scoped to a specific component.
+    /// </summary>
+    /// <param name="component">The component name prefix for the entry.</param>
+    /// <param name="context">The operation context for the exception.</param>
+    /// <param name="exception">The exception to format and log.</param>
     public void LogException(string component, string context, Exception exception)
     {
         var stackTrace = string.IsNullOrWhiteSpace(exception.StackTrace) ? "n/a" : exception.StackTrace;
         Log(component, $"{context}: {exception.GetType().Name}: {exception.Message}{Environment.NewLine}{stackTrace}");
     }
 
-    // Logs an exception with contextual information. It formats the exception details and stack trace into a readable format before logging. If logging fails, it attempts to write the failure details to a fallback log file.
+    /// <summary>
+    /// Writes an exception entry using the default component tag.
+    /// </summary>
+    /// <param name="context">The operation context for the exception.</param>
+    /// <param name="exception">The exception to format and log.</param>
     public void LogException(string context, Exception exception)
     {
         LogException(DefaultComponent, context, exception);
     }
 
-    // Attempts to write a fallback log entry if the primary log write fails. This ensures that logging failures do not go completely unnoticed.
+    /// <summary>
+    /// Attempts a fallback log write when the primary log write path fails.
+    /// </summary>
+    /// <param name="loggingException">The exception raised during primary log write.</param>
+    /// <param name="originalMessage">The original message that failed to persist.</param>
     private void TryWriteFallback(Exception loggingException, string originalMessage)
     {
         try
         {
+            // Write fallback entry in temp directory.
             var fallbackPath = Path.Combine(Path.GetTempPath(), "YouTubeControl.fallback.log");
             var fallbackLine =
                 $"{DateTimeOffset.Now:O} | Primary log write failed ({loggingException.GetType().Name}: {loggingException.Message}) | Original message: {originalMessage}{Environment.NewLine}";
