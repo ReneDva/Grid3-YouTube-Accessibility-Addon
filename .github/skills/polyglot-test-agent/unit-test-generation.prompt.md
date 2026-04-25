@@ -23,7 +23,7 @@ If you identify a strong pattern, follow it unless the user explicitly requests 
 Generate concise, parameterized, and effective unit tests using discovered conventions.
 
 - **Prefer mocking** over generating one-off testing types
-- **Prefer unit tests** over integration tests, unless integration tests are clearly needed and can run locally
+- **Prefer unit tests** over integration tests, unless integration tests are clearly needed and can run locally, if you need user hel for running the integration test ask for help in chat and explain in details the test steps and how to get the output that you need and document the manual test as well.
 - **Traverse code thoroughly** to ensure high coverage (80%+) of the entire scope
 
 ### Key Testing Goals
