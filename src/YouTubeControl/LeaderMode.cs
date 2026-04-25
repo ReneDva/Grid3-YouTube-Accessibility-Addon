@@ -25,6 +25,12 @@ internal static class LeaderMode
     /// <returns>A task that represents the lifetime of the leader loop.</returns>
     public static Task RunAsync(Logger logger, CancellationToken cancellationToken)
     {
+        if (!ChromeManager.Launch(logger))
+        {
+            logger.Log(ComponentName, "Leader startup aborted because Chrome bootstrap failed.");
+            return Task.FromException(new InvalidOperationException("Chrome bootstrap failed."));
+        }
+
         return Task.Run(() => RunPipeServerLoopAsync(logger, cancellationToken), cancellationToken);
     }
 

@@ -67,12 +67,17 @@ static class Program
         // Start leader lifetime token.
         using var cancellationTokenSource = new CancellationTokenSource();
         // Cancel leader loop on process exit.
-        AppDomain.CurrentDomain.ProcessExit += (_, _) => cancellationTokenSource.Cancel();
+        EventHandler processExitHandler = (_, _) => TryCancel(cancellationTokenSource);
+        AppDomain.CurrentDomain.ProcessExit += processExitHandler;
 
         logger.Log(ComponentName, "Leader started.");
         var leaderTask = LeaderMode.RunAsync(logger, cancellationTokenSource.Token);
         _ = leaderTask.ContinueWith(
-            t => logger.LogException(ComponentName, "Leader background task faulted", t.Exception ?? new Exception("Unknown task exception.")),
+            t =>
+            {
+                logger.LogException(ComponentName, "Leader background task faulted", t.Exception ?? new Exception("Unknown task exception."));
+                TryCancel(cancellationTokenSource);
+            },
             CancellationToken.None,
             TaskContinuationOptions.OnlyOnFaulted,
             TaskScheduler.Default);
@@ -80,8 +85,24 @@ static class Program
         // Keep process alive until shutdown.
         cancellationTokenSource.Token.WaitHandle.WaitOne();
 
+        AppDomain.CurrentDomain.ProcessExit -= processExitHandler;
         leaderMutex.ReleaseMutex();
         logger.Log(ComponentName, "Leader stopped.");
+    }
+
+    private static void TryCancel(CancellationTokenSource cancellationTokenSource)
+    {
+        try
+        {
+            if (!cancellationTokenSource.IsCancellationRequested)
+            {
+                cancellationTokenSource.Cancel();
+            }
+        }
+        catch (ObjectDisposedException)
+        {
+            // Safe to ignore during shutdown races.
+        }
     }
 
     /// <summary>
