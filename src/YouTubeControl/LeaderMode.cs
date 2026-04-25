@@ -262,6 +262,13 @@ internal static class LeaderMode
             return;
         }
 
+        if (action is "fullscreen" or "toggle")
+        {
+            var fullscreenResult = await ToggleFullscreenWithDebugAsync(page, action, logger, cancellationToken).ConfigureAwait(false);
+            logger.Log(ComponentName, $"Action '{action}' executed with result: {fullscreenResult}");
+            return;
+        }
+
         if (action is "home" or "open" or "search")
         {
             await SyncViewportWithWindowAsync(page, action, "before-navigation", logger).ConfigureAwait(false);
@@ -653,6 +660,83 @@ internal static class LeaderMode
         catch
         {
             return (0, 0, 0, 0, 1);
+        }
+    }
+
+    /// <summary>
+    /// Sends a native keyboard fullscreen toggle and records deep browser state logs.
+    /// </summary>
+    /// <param name="page">The active target page.</param>
+    /// <param name="action">The requested fullscreen action.</param>
+    /// <param name="logger">The logger used for diagnostics.</param>
+    /// <param name="cancellationToken">The shutdown token.</param>
+    /// <returns>A short execution status string.</returns>
+    private static async Task<string> ToggleFullscreenWithDebugAsync(
+        IPage page,
+        string action,
+        Logger logger,
+        CancellationToken cancellationToken)
+    {
+        if (!await TryBringToFrontAsync(page, logger).ConfigureAwait(false))
+        {
+            return "Fullscreen target unavailable";
+        }
+
+        var notAllowedConsoleMessages = new List<string>();
+        EventHandler<ConsoleEventArgs>? consoleHandler = (_, args) =>
+        {
+            var text = args.Message?.Text ?? string.Empty;
+            if (text.Contains("NotAllowedError", StringComparison.OrdinalIgnoreCase))
+            {
+                lock (notAllowedConsoleMessages)
+                {
+                    notAllowedConsoleMessages.Add(text);
+                }
+            }
+        };
+
+        page.Console += consoleHandler;
+        try
+        {
+            var setup = await page.EvaluateExpressionAsync<string>(NavigationActions.BuildFullscreenDebugSetupScript()).ConfigureAwait(false);
+            logger.Log(ComponentName, $"Fullscreen debug setup: {setup}");
+
+            var beforeState = await page.EvaluateExpressionAsync<string>(NavigationActions.BuildFullscreenStateSnapshotScript("before-f-key")).ConfigureAwait(false);
+            logger.Log(ComponentName, $"Fullscreen debug state before key: {beforeState}");
+
+            await page.Keyboard.PressAsync("f").ConfigureAwait(false);
+            await Task.Delay(TimeSpan.FromMilliseconds(450), cancellationToken).ConfigureAwait(false);
+
+            var afterState = await page.EvaluateExpressionAsync<string>(NavigationActions.BuildFullscreenStateSnapshotScript("after-f-key")).ConfigureAwait(false);
+            logger.Log(ComponentName, $"Fullscreen debug state after key: {afterState}");
+
+            var eventSummary = await page.EvaluateExpressionAsync<string>(NavigationActions.BuildFullscreenEventSummaryScript()).ConfigureAwait(false);
+            logger.Log(ComponentName, $"Fullscreen debug events summary: {eventSummary}");
+
+            string consoleSummary;
+            lock (notAllowedConsoleMessages)
+            {
+                consoleSummary = notAllowedConsoleMessages.Count == 0
+                    ? "none"
+                    : string.Join(" || ", notAllowedConsoleMessages);
+            }
+
+            logger.Log(ComponentName, $"Fullscreen debug NotAllowedError console entries: {consoleSummary}");
+            return "Native fullscreen key sent";
+        }
+        catch (TargetClosedException)
+        {
+            await InvalidateBrowserAsync().ConfigureAwait(false);
+            return "Fullscreen target closed";
+        }
+        catch (Exception ex)
+        {
+            logger.LogException(ComponentName, $"Failed fullscreen debug toggle for '{action}'", ex);
+            return "Fullscreen debug toggle failed";
+        }
+        finally
+        {
+            page.Console -= consoleHandler;
         }
     }
 
