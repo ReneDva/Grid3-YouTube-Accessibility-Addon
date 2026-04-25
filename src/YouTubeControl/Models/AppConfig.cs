@@ -84,7 +84,7 @@ internal sealed class AppConfig
                 "Chrome SxS",
                 "Application",
                 "chrome.exe"),
-            UserDataDir = @"C:\YouTube_User_Data",
+            UserDataDir = @"C:\Grid3_YouTube_Accessibility_Addon_User_Data",
         };
     }
 }

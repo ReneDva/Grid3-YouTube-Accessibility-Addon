@@ -5,6 +5,7 @@
 #define PublishExe "..\\src\\YouTubeControl\\bin\\Release\\net10.0-windows\\win-x64\\publish\\YouTubeControl.exe"
 #define ChromeSetupBundle "..\\Output\\ChromeSetup.exe"
 #define AppIcon "..\\docs\\navi_small.ico"
+#define UserDataDir "C:\Grid3_YouTube_Accessibility_Addon_User_Data"
 
 [Setup]
 AppName={#MyAppName}
@@ -30,7 +31,7 @@ Source: "{#AppIcon}"; DestDir: "{app}"; DestName: "navi_small.ico"; Flags: ignor
 Source: "{#ChromeSetupBundle}"; DestDir: "{tmp}"; DestName: "ChromeSetup.exe"; Flags: ignoreversion deleteafterinstall
 
 [Dirs]
-Name: "C:\YouTube_User_Data_V5"; Permissions: users-full
+Name: "{#UserDataDir}"; Permissions: users-full
 Name: "{app}"; Permissions: users-full
 
 [Icons]
@@ -47,7 +48,7 @@ Filename: "{tmp}\ChromeSetup.exe"; \
 
 ; Configure Windows Defender exclusions for app and data directory.
 Filename: "powershell.exe"; \
-    Parameters: "-ExecutionPolicy Bypass -Command \"Add-MpPreference -ExclusionPath '{app}', 'C:\YouTube_User_Data_V5'\""; \
+  Parameters: "-ExecutionPolicy Bypass -Command ""Add-MpPreference -ExclusionPath '{app}', '{#UserDataDir}'"""; \
     Flags: runhidden waituntilterminated; \
     StatusMsg: "Configuring Windows Defender exclusions..."
 
@@ -71,4 +72,16 @@ end;
 function InitializeSetup(): Boolean;
 begin
   Result := True;
+end;
+
+procedure CurStepChanged(CurStep: TSetupStep);
+begin
+  if (CurStep = ssPostInstall) and not WizardSilent then
+  begin
+    MsgBox(
+      'Initial startup must be performed by a teacher or therapist.' + #13#10 +
+      'A manual sign-in to the user''s Chrome account is required.',
+      mbInformation,
+      MB_OK);
+  end;
 end;

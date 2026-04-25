@@ -32,7 +32,7 @@ internal static class ChromeManager
         "Application",
         "chrome.exe");
 
-    private const string FixedUserDataDir = @"C:\YouTube_User_Data";
+    private const string FixedUserDataDir = @"C:\Grid3_YouTube_Accessibility_Addon_User_Data";
 
     /// <summary>
     /// Launches Chrome with the configured debugging profile.

@@ -72,7 +72,7 @@ File: `src/YouTubeControl/ChromeManager.cs`
 Responsibilities:
 - Resolves Chrome binary path (Canary first, then Stable fallback)
 - Launches Chrome with debug port `15432`
-- Uses fixed user-data directory (`C:\YouTube_User_Data`)
+- Uses fixed user-data directory (`C:\Grid3_YouTube_Accessibility_Addon_User_Data`)
 
 ### 2.5 NavigationActions
 
