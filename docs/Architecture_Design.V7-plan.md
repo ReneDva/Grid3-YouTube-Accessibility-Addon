@@ -42,12 +42,10 @@ The new architecture shifts from a script-based bridge to a **Resident Backgroun
 ## 2. The New Workflow
 
 ### Phase A: Installation & First Run (The "Smart Setup")
-1. On first execution, the Wrapper detects no `config.json` exists.
-2. **Profile Selection:** Chrome Canary launches in generic mode (no profile flag) showing the Profile Picker.
-3. **User Interaction:** The installer (parent/therapist) selects or logs into the desired Google/YouTube account.
-4. **Automatic Detection:** The Wrapper identifies the most-recently-modified `Profile*` directory under Chrome's `User Data` folder.
-5. **Save:** Profile name written to `config.json` alongside the EXE.
-6. **Initialization:** Chrome restarts with the specific profile and `--remote-debugging-port=15432`.
+1. On first execution, the Leader launches Chrome Canary with a fixed user-data directory (`C:\YouTube_User_Data_V5`).
+2. **Manual Login:** The installer (parent/therapist) signs in to the desired Google/YouTube account once.
+3. **Session Persistence:** Chrome persists the signed-in session automatically inside the fixed local user-data folder.
+4. **Initialization:** Subsequent launches reuse the same folder and attach over `--remote-debugging-port=15432`.
 
 ### Phase B: Daily Use (The Resident Mode)
 1. **Grid 3 Startup:** The YouTube grid opening runs `YouTubeControl.exe` (no arguments).
@@ -133,6 +131,8 @@ These blocks run *inside Chrome* via CDP injection. They are language-agnostic â
 - **Library:** `System.IO.Pipes`
 
 #### First-Run Profile UI (Visual Picker)
+
+> **Status update (current strategy):** Deferred. V7 uses fixed user-data directory + manual first login. Custom profile UI remains optional for a later slice.
 
 **Trigger:** `config.json` absent on Leader startup.
 
@@ -242,14 +242,16 @@ Output/
 
 ## 9. Development Roadmap
 
-1. **Project Setup:** Create `.NET 8` WinForms project; add `PuppeteerSharp` NuGet package.
+1. **Project Setup:** Create `.NET 10` WinForms project; add `PuppeteerSharp` NuGet package.
 2. **Single-Instance Logic:** Implement Mutex-based Leader/Messenger election in `Program.cs`.
 3. **Named Pipe IPC:** Build `NamedPipeServerStream` listener (Leader) and `NamedPipeClientStream` writer (Messenger).
-4. **Chrome Integration:** Port CDP logic to C# using `PuppeteerSharp`; migrate `navScript` and `browserSideScript` as string constants.
-5. **In-Process Ad-Skipper:** Run `AdSkipperTask.cs` polling loop as a cancellable background `Task`.
-6. **Profile Configuration UI:** Build `ProfileSetupForm.cs` with first-run detection, Chrome profile scan, and `config.json` write.
-7. **Connection Recovery:** Wrap CDP calls in retry loop with `WebSocketException` handling.
-8. **Packaging:** Configure single-file self-contained publish; update Grid 3 cell configurations.
+4. **Stage 3.1 Bootstrap:** Launch Chrome at Leader startup with fixed user-data path and remote debugging enabled.
+5. **Stage 3.2 Connectivity:** Attach to running Chrome via `Puppeteer.ConnectAsync("http://127.0.0.1:15432")` and keep Leader alive.
+6. **Stage 3.3 Runtime Dispatch:** Port `navScript` into `NavigationActions` and execute commands via `Runtime.evaluate`.
+7. **Recovery Loop:** Keep retrying CDP attach if Chrome is closed and reconnect when available again.
+8. **In-Process Ad-Skipper:** Port `browserSideScript` polling as a cancellable background task.
+9. **Optional Profile UI (Deferred):** Add `ProfileSetupForm.cs` only if fixed-folder strategy is later replaced.
+10. **Packaging:** Configure single-file self-contained publish; update Grid 3 cell configurations.
 
 ---
 
