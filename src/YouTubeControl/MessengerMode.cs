@@ -30,7 +30,7 @@ internal static class MessengerMode
 
             client.Connect(ConnectionTimeoutMs);
 
-            using var writer = new StreamWriter(client, new UTF8Encoding(false), leaveOpen: false)
+            using var writer = new StreamWriter(client, Encoding.UTF8, leaveOpen: false)
             {
                 AutoFlush = true,
             };
