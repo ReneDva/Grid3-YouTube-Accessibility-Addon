@@ -18,6 +18,7 @@ namespace YouTubeControl;
 internal static class LeaderMode
 {
     private const string ComponentName = "LeaderMode";
+    private const string HomeUrl = "https://www.youtube.com";
     private static readonly SemaphoreSlim BrowserLock = new(1, 1);
     private static volatile bool _exitRequested;
 
@@ -192,14 +193,18 @@ internal static class LeaderMode
             return;
         }
 
-        await page.BringToFrontAsync().ConfigureAwait(false);
+        if (!await TryBringToFrontAsync(page, logger).ConfigureAwait(false))
+        {
+            logger.Log(ComponentName, "Command ignored because target page is no longer available.");
+            return;
+        }
 
         var actionForScript = action;
 
         switch (action)
         {
             case "home":
-                await page.GoToAsync("https://www.youtube.com").ConfigureAwait(false);
+                await page.GoToAsync(HomeUrl).ConfigureAwait(false);
                 await Task.Delay(TimeSpan.FromSeconds(4), cancellationToken).ConfigureAwait(false);
                 actionForScript = "open";
                 break;
@@ -261,13 +266,25 @@ internal static class LeaderMode
         try
         {
             var pages = await browser.PagesAsync().ConfigureAwait(false);
-            var youtubePage = pages.FirstOrDefault(p => IsYouTubeUrl(p.Url));
+            var openPages = pages.Where(p => !p.IsClosed).ToList();
+
+            var youtubePage = openPages.FirstOrDefault(p => IsYouTubeUrl(p.Url));
             if (youtubePage is not null)
             {
                 return youtubePage;
             }
 
-            return pages.FirstOrDefault();
+            if (!allowLaunchIfUnavailable)
+            {
+                return null;
+            }
+
+            if (openPages.Count > 0)
+            {
+                return openPages[0];
+            }
+
+            return await browser.NewPageAsync().ConfigureAwait(false);
         }
         catch (TargetClosedException)
         {
@@ -366,6 +383,37 @@ internal static class LeaderMode
         }
 
         return false;
+    }
+
+    /// <summary>
+    /// Brings the target page to the foreground when the page/session is still valid.
+    /// </summary>
+    /// <param name="page">The candidate page to focus.</param>
+    /// <param name="logger">The logger used for focus failures.</param>
+    /// <returns><see langword="true"/> when the page was focused; otherwise <see langword="false"/>.</returns>
+    private static async Task<bool> TryBringToFrontAsync(IPage page, Logger logger)
+    {
+        try
+        {
+            if (page.IsClosed)
+            {
+                await InvalidateBrowserAsync().ConfigureAwait(false);
+                return false;
+            }
+
+            await page.BringToFrontAsync().ConfigureAwait(false);
+            return true;
+        }
+        catch (TargetClosedException)
+        {
+            await InvalidateBrowserAsync().ConfigureAwait(false);
+            return false;
+        }
+        catch (Exception ex)
+        {
+            logger.LogException(ComponentName, "Failed to bring page to front", ex);
+            return false;
+        }
     }
 
     private static async Task CloseBrowserAsync(Logger logger)
