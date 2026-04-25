@@ -58,8 +58,9 @@ internal static class LeaderMode
 
         var pipeTask = RunPipeServerLoopAsync(logger, cancellationToken);
         var recoveryTask = RunCdpRecoveryLoopAsync(logger, cancellationToken);
+        var adSkipperTask = RunAdSkipperLoopAsync(logger, cancellationToken);
 
-        await Task.WhenAll(pipeTask, recoveryTask).ConfigureAwait(false);
+        await Task.WhenAll(pipeTask, recoveryTask, adSkipperTask).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -135,6 +136,64 @@ internal static class LeaderMode
             {
                 logger.LogException(ComponentName, "CDP recovery loop error", ex);
             }
+        }
+    }
+
+    private static async Task RunAdSkipperLoopAsync(Logger logger, CancellationToken cancellationToken)
+    {
+        while (!cancellationToken.IsCancellationRequested)
+        {
+            try
+            {
+                var page = await TryGetSkippableYouTubePageAsync().ConfigureAwait(false);
+                if (page is not null)
+                {
+                    await AdSkipperTask.TrySkipAsync(page, logger, cancellationToken).ConfigureAwait(false);
+                }
+
+                await Task.Delay(AdSkipperTask.PollInterval, cancellationToken).ConfigureAwait(false);
+            }
+            catch (OperationCanceledException)
+            {
+                // Expected on shutdown.
+            }
+            catch (TargetClosedException)
+            {
+                await InvalidateBrowserAsync().ConfigureAwait(false);
+            }
+            catch
+            {
+                // Keep this loop silent to avoid log noise when no skip action occurs.
+            }
+        }
+    }
+
+    private static async Task<IPage?> TryGetSkippableYouTubePageAsync()
+    {
+        if (_exitRequested)
+        {
+            return null;
+        }
+
+        var browser = _browser;
+        if (browser is null || !browser.IsConnected)
+        {
+            return null;
+        }
+
+        try
+        {
+            var pages = await browser.PagesAsync().ConfigureAwait(false);
+            return pages.FirstOrDefault(page => !page.IsClosed && IsSkippableYouTubeUrl(page.Url));
+        }
+        catch (TargetClosedException)
+        {
+            await InvalidateBrowserAsync().ConfigureAwait(false);
+            return null;
+        }
+        catch
+        {
+            return null;
         }
     }
 
@@ -406,6 +465,17 @@ internal static class LeaderMode
     {
         return !string.IsNullOrWhiteSpace(url) &&
             url.Contains("youtube.com", StringComparison.OrdinalIgnoreCase);
+    }
+
+    private static bool IsSkippableYouTubeUrl(string? url)
+    {
+        if (string.IsNullOrWhiteSpace(url))
+        {
+            return false;
+        }
+
+        return url.Contains("youtube.com/watch", StringComparison.OrdinalIgnoreCase) ||
+            url.Contains("youtube.com/shorts", StringComparison.OrdinalIgnoreCase);
     }
 
     private static async Task<IBrowser?> EnsureBrowserConnectedAsync(

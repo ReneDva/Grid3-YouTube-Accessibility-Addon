@@ -99,6 +99,8 @@ These blocks run *inside Chrome* via CDP injection. They are language-agnostic �
 
 #### `ensureSkipperRunning()` → In-Process Ad-Skipper
 
+> **Status update (implemented):** V7 now runs the ad-skipper in-process inside the Leader via `Actions/AdSkipperTask.cs`, polling every 1500ms and logging only when a skip click is executed.
+
 | V6 | V7 | .NET Library |
 |---|---|---|
 | `exec('tasklist')` + `spawn('skip_ads.exe')` | Ad-skipper runs as a `Task` inside the Leader process — no second EXE | `System.Threading.Tasks` |
