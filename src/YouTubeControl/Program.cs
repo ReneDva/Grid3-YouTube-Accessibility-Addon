@@ -21,6 +21,11 @@ static class Program
         Application.ThreadException += (_, e) => HandleCriticalError(logger, e.Exception);
         AppDomain.CurrentDomain.UnhandledException += (_, e) =>
             HandleCriticalError(logger, e.ExceptionObject as Exception ?? new Exception("Unknown unhandled error."));
+        TaskScheduler.UnobservedTaskException += (_, e) =>
+        {
+            logger.LogException("Unobserved task exception", e.Exception);
+            e.SetObserved();
+        };
 
         using var leaderMutex = new Mutex(false, LeaderMutexName);
 

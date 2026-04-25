@@ -15,4 +15,8 @@
     <PackageReference Include="System.IO.Pipes.AccessControl" Version="5.0.0" />
   </ItemGroup>
 
+  <Target Name="ResetLogsOnBuild" BeforeTargets="BeforeBuild">
+    <Delete Files="$(MSBuildProjectDirectory)\bin\$(Configuration)\$(TargetFramework)\logs.txt" TreatErrorsAsWarnings="true" />
+  </Target>
+
 </Project>
