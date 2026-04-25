@@ -3,6 +3,7 @@
 // Contains the LeaderMode class for leader process command intake.
 using System.IO.Pipes;
 using System.Text;
+using System.Text.Json;
 using PuppeteerSharp;
 using YouTubeControl.Actions;
 
@@ -261,6 +262,11 @@ internal static class LeaderMode
             return;
         }
 
+        if (action is "home" or "open" or "search")
+        {
+            await SyncViewportWithWindowAsync(page, action, "before-navigation", logger).ConfigureAwait(false);
+        }
+
         var actionForScript = action;
 
         switch (action)
@@ -285,6 +291,7 @@ internal static class LeaderMode
 
         if (actionForScript is "open" or "search")
         {
+            await SyncViewportWithWindowAsync(page, actionForScript, "after-navigation", logger).ConfigureAwait(false);
             await NormalizeYouTubePresentationAsync(page, actionForScript, logger).ConfigureAwait(false);
         }
 
@@ -459,6 +466,7 @@ internal static class LeaderMode
                 _browser = await Puppeteer.ConnectAsync(new ConnectOptions
                 {
                     BrowserURL = ChromeManager.BrowserUrl,
+                    DefaultViewport = null,
                 }).ConfigureAwait(false);
 
                 logger.Log(ComponentName, $"Connected to Chrome CDP at {ChromeManager.BrowserUrl}.");
@@ -539,6 +547,112 @@ internal static class LeaderMode
         catch (Exception ex)
         {
             logger.LogException(ComponentName, $"Failed to normalize presentation for action '{action}'", ex);
+        }
+    }
+
+    /// <summary>
+    /// Forces viewport/device metrics sync with the current Chrome window bounds.
+    /// </summary>
+    /// <param name="page">The page to synchronize.</param>
+    /// <param name="action">The action that triggered synchronization.</param>
+    /// <param name="phase">The operation phase (before/after navigation).</param>
+    /// <param name="logger">The logger used for sync diagnostics.</param>
+    private static async Task SyncViewportWithWindowAsync(IPage page, string action, string phase, Logger logger)
+    {
+        if (!await TryBringToFrontAsync(page, logger).ConfigureAwait(false))
+        {
+            return;
+        }
+
+        try
+        {
+            // Requested by QA: attempt to clear any active emulation profile before viewport sync.
+            try
+            {
+                await page.EmulateAsync(null!).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                logger.Log(ComponentName, $"Emulation reset skipped for '{action}' ({phase}): {ex.GetType().Name}: {ex.Message}");
+            }
+
+            await page.SetViewportAsync(new ViewPortOptions
+            {
+                Width = 0,
+                Height = 0,
+                IsMobile = false,
+                HasTouch = false,
+                IsLandscape = false,
+                DeviceScaleFactor = 1,
+            }).ConfigureAwait(false);
+
+            var metricsJson = await page.EvaluateExpressionAsync<string>(
+                "(() => JSON.stringify({" +
+                "innerWidth: window.innerWidth," +
+                "innerHeight: window.innerHeight," +
+                "screenWidth: (window.screen && (window.screen.availWidth || window.screen.width)) || 0," +
+                "screenHeight: (window.screen && (window.screen.availHeight || window.screen.height)) || 0," +
+                "dpr: window.devicePixelRatio" +
+                "}))()")
+                .ConfigureAwait(false);
+
+            var metrics = ParseViewportMetrics(metricsJson);
+
+            if (metrics.InnerWidth <= 820 && metrics.ScreenWidth > metrics.InnerWidth)
+            {
+                await page.SetViewportAsync(new ViewPortOptions
+                {
+                    Width = metrics.ScreenWidth,
+                    Height = metrics.ScreenHeight > 0 ? metrics.ScreenHeight : metrics.InnerHeight,
+                    IsMobile = false,
+                    HasTouch = false,
+                    IsLandscape = false,
+                    DeviceScaleFactor = 1,
+                }).ConfigureAwait(false);
+
+                metricsJson = await page.EvaluateExpressionAsync<string>(
+                    "(() => JSON.stringify({" +
+                    "innerWidth: window.innerWidth," +
+                    "innerHeight: window.innerHeight," +
+                    "screenWidth: (window.screen && (window.screen.availWidth || window.screen.width)) || 0," +
+                    "screenHeight: (window.screen && (window.screen.availHeight || window.screen.height)) || 0," +
+                    "dpr: window.devicePixelRatio" +
+                    "}))()")
+                    .ConfigureAwait(false);
+
+                metrics = ParseViewportMetrics(metricsJson);
+            }
+
+            logger.Log(ComponentName, $"Viewport sync for '{action}' ({phase}): viewport={metrics.InnerWidth}x{metrics.InnerHeight};screen={metrics.ScreenWidth}x{metrics.ScreenHeight};dpr={metrics.Dpr:0.##}");
+        }
+        catch (TargetClosedException)
+        {
+            await InvalidateBrowserAsync().ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            logger.LogException(ComponentName, $"Failed viewport sync for '{action}' ({phase})", ex);
+        }
+    }
+
+    private static (int InnerWidth, int InnerHeight, int ScreenWidth, int ScreenHeight, double Dpr) ParseViewportMetrics(string metricsJson)
+    {
+        try
+        {
+            using var document = JsonDocument.Parse(metricsJson);
+            var root = document.RootElement;
+
+            var innerWidth = root.TryGetProperty("innerWidth", out var iw) ? iw.GetInt32() : 0;
+            var innerHeight = root.TryGetProperty("innerHeight", out var ih) ? ih.GetInt32() : 0;
+            var screenWidth = root.TryGetProperty("screenWidth", out var sw) ? sw.GetInt32() : 0;
+            var screenHeight = root.TryGetProperty("screenHeight", out var sh) ? sh.GetInt32() : 0;
+            var dpr = root.TryGetProperty("dpr", out var dprEl) ? dprEl.GetDouble() : 1;
+
+            return (innerWidth, innerHeight, screenWidth, screenHeight, dpr);
+        }
+        catch
+        {
+            return (0, 0, 0, 0, 1);
         }
     }
 

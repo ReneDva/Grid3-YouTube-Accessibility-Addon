@@ -33,6 +33,20 @@ internal static class NavigationActions
                 return "Like button not found";
             }
 
+            if (action === 'fullscreen' || action === 'toggle') {
+                const fullscreenBtn = document.querySelector('button.ytp-fullscreen-button');
+                if (fullscreenBtn) { fullscreenBtn.click(); return "Fullscreen Toggled"; }
+
+                const video = document.querySelector('video');
+                if (video) {
+                    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'f', code: 'KeyF', bubbles: true }));
+                    document.dispatchEvent(new KeyboardEvent('keyup', { key: 'f', code: 'KeyF', bubbles: true }));
+                    return "Fullscreen Key Toggled";
+                }
+
+                return "Fullscreen target not found";
+            }
+
             const clearHighlights = () => {
                 document.querySelectorAll('*').forEach(i => {
                     if (i.style && i.style.outlineColor === 'rgb(255, 0, 0)') { i.style.outline = 'none'; }

@@ -59,6 +59,8 @@ internal static class ChromeManager
             $"--remote-debugging-port={DebugPort} " +
             $"--user-data-dir=\"{userDataDir}\" " +
             "--start-maximized " +
+            "--force-device-scale-factor=1 " +
+            "--disable-features=Translate,SidePanel,ContentsCodeCache " +
             "--no-first-run " +
             "--no-default-browser-check " +
             "--autoplay-policy=no-user-gesture-required " +
