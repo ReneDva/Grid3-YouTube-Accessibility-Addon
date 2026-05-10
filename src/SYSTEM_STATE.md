@@ -62,43 +62,43 @@ This document captures the currently implemented runtime state for the code unde
 
 ```mermaid
 flowchart TD
-    A[Process Start: Program.Main(args)] --> B{Acquire Global Mutex?}
+  A["Process Start: Program.Main(args)"] --> B{"Acquire Global Mutex?"}
 
-    B -- No, leader exists --> C[MessengerMode.BuildCommand]
-    C --> D[NamedPipeClientStream to YouTubeControlPipe]
-    D --> E[Messenger exits]
+  B -- "No: leader exists" --> C["MessengerMode.BuildCommand"]
+  C --> D["NamedPipeClientStream to YouTubeControlPipe"]
+  D --> E["Messenger exits"]
 
-    B -- Yes, this process is leader --> F[Init logging and global exception handlers]
-    F --> G[Create CancellationTokenSource]
-    G --> H[LeaderMode.RunAsync]
+  B -- "Yes: this process is leader" --> F["Init logging and global exception handlers"]
+  F --> G["Create CancellationTokenSource"]
+  G --> H["LeaderMode.RunAsync"]
 
-    H --> I[EnsureBrowserConnectedAsync]
-    I --> J{CDP attached?}
-    J -- Yes --> K[Start 3 parallel leader loops]
-    J -- No and launch allowed --> L[ChromeManager.Launch]
-    L --> I
-    J -- No and launch not allowed --> M[Command cannot execute]
+  H --> I["EnsureBrowserConnectedAsync"]
+  I --> J{"CDP attached?"}
+  J -- "Yes" --> K["Start 3 parallel leader loops"]
+  J -- "No, launch allowed" --> L["ChromeManager.Launch"]
+  L --> I
+  J -- "No, launch not allowed" --> M["Command cannot execute"]
 
-    K --> N[Pipe Server Loop]
-    K --> O[CDP Recovery Loop]
-    K --> P[Ad Skipper Loop 1500ms]
+  K --> N["Pipe Server Loop"]
+  K --> O["CDP Recovery Loop"]
+  K --> P["Ad Skipper Loop (1500ms)"]
 
-    N --> Q[DispatchCommandAsync]
-    Q --> R{Action type}
+  N --> Q["DispatchCommandAsync"]
+  Q --> R{"Action type"}
 
-    R -- home/open/search/up/down/enter/back/play_pause/like/fullscreen/toggle --> S[NavigationActions.BuildNavScript]
-    S --> T[page.EvaluateExpressionAsync]
+  R -- "nav and media actions" --> S["NavigationActions.BuildNavScript"]
+  S --> T["page.EvaluateExpressionAsync"]
 
-    R -- refresh --> U[page.ReloadAsync]
+  R -- "refresh" --> U["page.ReloadAsync"]
 
-    R -- exit or stop --> V[CloseBrowserAsync]
-    V --> W[Raise ShutdownRequested]
-    W --> X[Cancel token, stop loops, release mutex, leader exits]
+  R -- "exit or stop" --> V["CloseBrowserAsync"]
+  V --> W["Raise ShutdownRequested"]
+  W --> X["Cancel token, stop loops, release mutex, leader exits"]
 
-    P --> Y[AdSkipperTask.TrySkipAsync]
-    Y --> Z{Skip target found?}
-    Z -- Yes --> AA[Mouse click on skip or close-ad target]
-    Z -- No --> AB[No-op and continue polling]
+  P --> Y["AdSkipperTask.TrySkipAsync"]
+  Y --> Z{"Skip target found?"}
+  Z -- "Yes" --> AA["Mouse click on skip or close-ad target"]
+  Z -- "No" --> AB["No-op and continue polling"]
 ```
 
 ## Operational Notes (Current State)
