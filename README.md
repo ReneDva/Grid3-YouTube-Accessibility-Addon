@@ -12,6 +12,7 @@ Docs:
 - Setup and caregiver workflow (V7): [docs/SETUP_V7.md](docs/SETUP_V7.md)
 - Legacy setup guide (V6): [docs/SETUP_V6.md](docs/SETUP_V6.md)
 - Runtime architecture: [ARCHITECTURE.md](ARCHITECTURE.md)
+- Current system state (src): [src/SYSTEM_STATE.md](src/SYSTEM_STATE.md)
 - Migration plan and stage status: [docs/Architecture_Design.V7-plan.md](docs/Architecture_Design.V7-plan.md)
 
 ---
