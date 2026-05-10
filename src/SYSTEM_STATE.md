@@ -86,10 +86,38 @@ flowchart TD
   N --> Q["DispatchCommandAsync"]
   Q --> R{"Action type"}
 
-  R -- "nav and media actions" --> S["NavigationActions.BuildNavScript"]
-  S --> T["page.EvaluateExpressionAsync"]
+  R -- "home" --> H1["Go to YouTube home"]
+  H1 --> H2["Run open-focus behavior"]
+  H2 --> FX1["Red navigation frame on first item"]
 
-  R -- "refresh" --> U["page.ReloadAsync"]
+  R -- "search:query" --> S1["Open search results URL"]
+  S1 --> S2["Focus reset"]
+  S2 --> FX1
+
+  R -- "open:url" --> O1["Open explicit URL"]
+  O1 --> O2["Focus reset"]
+  O2 --> FX1
+
+  R -- "back" --> B1["Browser go-back"]
+  B1 --> B2["Focus reset"]
+  B2 --> FX1
+
+  R -- "down (next)" --> D1["Move navIndex +1"]
+  D1 --> D2["Red frame moves to next item"]
+
+  R -- "up (prev)" --> U1["Move navIndex -1"]
+  U1 --> U2["Red frame moves to previous item"]
+
+  R -- "enter (choose current video)" --> E1["Click focused link"]
+  E1 --> E2["Navigate to selected video/page"]
+
+  R -- "play_pause" --> P1["Toggle video or Shorts playback"]
+
+  R -- "like" --> L1["Click like button when found"]
+
+  R -- "fullscreen or toggle" --> F1["Toggle fullscreen via trusted keyboard path"]
+
+  R -- "refresh" --> R1["Reload active YouTube page"]
 
   R -- "exit or stop" --> V["CloseBrowserAsync"]
   V --> W["Raise ShutdownRequested"]
@@ -100,6 +128,25 @@ flowchart TD
   Z -- "Yes" --> AA["Mouse click on skip or close-ad target"]
   Z -- "No" --> AB["No-op and continue polling"]
 ```
+
+## User Actions and Visible Effects
+
+- home: opens YouTube home and applies focus reset with red navigation frame on the first navigable item.
+- search:query: opens search results and resets focus with red navigation frame.
+- open:url: opens the given URL and resets focus with red navigation frame when a navigable list is available.
+- back: browser back navigation and focus reset with red navigation frame.
+- down (next): moves to next item in list navigation.
+- up (prev): moves to previous item in list navigation.
+- enter (choose current video): clicks the currently focused item (thumbnail/title link).
+- play_pause: toggles play/pause in standard video or Shorts context.
+- like: clicks like action when selector is found.
+- fullscreen and toggle: toggles fullscreen state.
+- refresh: reloads active YouTube page.
+- exit and stop: closes browser and requests leader shutdown.
+
+Navigation frame details:
+- Implemented by browser-side highlight styling in NavigationActions (8px red outline).
+- Frame is reset/cleared and reapplied on focus-changing actions.
 
 ## Operational Notes (Current State)
 
