@@ -1,72 +1,149 @@
 # Grid3-YouTube-Accessibility-Addon (V7)
 
-Grid3-YouTube-Accessibility-Addon is a Windows background controller that connects Grid 3 commands to YouTube in Chrome via CDP.
+_If you are a parent, teacher, therapist, or installer, start with the V7 user guide: [docs/SETUP_V7.md](docs/SETUP_V7.md)._
 
-V7 replaces the V6 JavaScript + VBScript bridge with a single .NET WinExe process model:
-- Leader mode (resident background process)
-- Messenger mode (short-lived command relay)
-- Named Pipe IPC (no HTTP command server)
-- In-process ad skipper task
+## Overview
 
-Docs:
-- Setup and caregiver workflow (V7): [docs/SETUP_V7.md](docs/SETUP_V7.md)
-- Legacy setup guide (V6): [docs/SETUP_V6.md](docs/SETUP_V6.md)
-- Runtime architecture: [ARCHITECTURE.md](ARCHITECTURE.md)
-- Current system state (src): [src/SYSTEM_STATE.md](src/SYSTEM_STATE.md)
-- Migration plan and stage status: [docs/Architecture_Design.V7-plan.md](docs/Architecture_Design.V7-plan.md)
+Grid3-YouTube-Accessibility-Addon V7 is a Windows background controller that connects Grid 3 command cells to YouTube in Chrome through CDP (Chrome DevTools Protocol).
+
+V7 replaced the old V6 script chain (`send.vbs` + HTTP + `nav.exe`) with a single C# executable that runs in two modes:
+
+- Leader mode: resident controller process
+- Messenger mode: short-lived command relay process
+
+This removes command-window flicker, removes HTTP command transport from runtime, and centralizes lifecycle control in one process.
 
 ---
 
-## Current Runtime Model (V7)
+## Documentation Map
+
+Use this map based on your current task.
+
+| Developer Journey | Start Here | Then Continue To |
+|---|---|---|
+| Discovery | [Overview](#overview) | [Core Concepts and Architecture](#core-concepts-and-architecture) |
+| Evaluation | [Technology Stack](#technology-stack) | [Supported Command Reference](#supported-command-reference) |
+| First Implementation | [Getting Started](#getting-started) | [Build, Test, and Packaging](#build-test-and-packaging) |
+| Troubleshooting | [Troubleshooting](#troubleshooting) | [Validation and Advanced Operations](#validation-and-advanced-operations) |
+| Advanced Usage | [Validation and Advanced Operations](#validation-and-advanced-operations) | [Release Notes and Branch History](#implementation-notes-release-notes-and-branch-history) |
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+- Windows 10/11
+- .NET 10 SDK
+- Chrome Canary (preferred runtime target; stable fallback logic exists)
+- Inno Setup 6 (required only to build installer)
+
+### Quick Start (Developer)
+
+Run from repository root.
+
+```powershell
+dotnet build src/YouTubeControl/YouTubeControl.csproj
+dotnet test tests/YouTubeControl.Tests/YouTubeControl.Tests.csproj
+dotnet publish src/YouTubeControl/YouTubeControl.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:PublishAot=true
+```
+
+Published binary:
+
+```text
+src/YouTubeControl/bin/Release/net10.0-windows/win-x64/publish/YouTubeControl.exe
+```
+
+### First Runtime Check
+
+```powershell
+cd C:\YouTube_Navigator_V7
+.\YouTubeControl.exe
+.\YouTubeControl.exe home
+.\YouTubeControl.exe stop
+```
+
+---
+
+## Core Concepts and Architecture
+
+### Core Technical References
+
+- Active runtime architecture document: [ARCHITECTURE.md](ARCHITECTURE.md)
+- Runtime flow and behavior reference: [src/SYSTEM_STATE.md](src/SYSTEM_STATE.md)
+- V7 migration design and rollout notes: [docs/Architecture_Design.V7-plan.md](docs/Architecture_Design.V7-plan.md)
+
+### Runtime Model (V7)
 
 | Component | Responsibility |
 |---|---|
-| `YouTubeControl.exe` (Leader) | Owns CDP session, executes commands, runs in-process ad-skipper, handles shutdown |
-| `YouTubeControl.exe <action>` (Messenger) | Sends action over named pipe and exits quickly |
-| Named Pipe (`YouTubeControlPipe`) | Low-latency local IPC between Messenger and Leader |
-| Global Mutex | Single leader election (`Global\\YouTubeControl_Leader_Mutex`) |
-| Chrome Canary / Chrome Stable | Browser target on debug port `15432` |
+| YouTubeControl.exe (Leader) | Owns CDP session, receives commands, executes actions, runs ad-skipper, controls shutdown |
+| YouTubeControl.exe <action> (Messenger) | Sends one command to Leader over named pipe and exits quickly |
+| Named Pipe (YouTubeControlPipe) | Local low-latency command transport |
+| Global Mutex | Single-leader election (`Global\\YouTubeControl_Leader_Mutex`) |
+| ChromeManager | Chrome discovery/launch, debug port wiring, user-data directory handling |
 
 ---
 
-## Supported Actions
+## Technology Stack
 
-| Action | Behavior |
+| Area | Technology | Version / Notes |
+|---|---|---|
+| Primary language | C# | .NET 10 (`net10.0-windows`) |
+| Runtime model | WinExe + WinForms capability | Headless background process with Windows app manifest |
+| Browser automation | PuppeteerSharp | NuGet: `PuppeteerSharp` `24.40.0` |
+| IPC | Named Pipes | `System.IO.Pipes`, pipe name `YouTubeControlPipe` |
+| Browser protocol | CDP | Debug endpoint on port `15432` |
+| Ad skipping | In-process background task | Poll interval `1500ms` |
+| Build / packaging | .NET CLI + Inno Setup | Installer script: `src/inno_setup_v7.iss` |
+| Test framework | xUnit + Microsoft.NET.Test.Sdk + Coverlet | Tests in `tests/YouTubeControl.Tests` |
+| Utility scripting | PowerShell | Regression sequence runner in `scripts/` |
+
+### Languages and Artifacts
+
+- C# (.NET): runtime, IPC server/client, command dispatch, browser lifecycle, logging
+- JavaScript (embedded/injected): browser-side navigation and ad-skip logic via CDP evaluation
+- PowerShell: sequence-based validation workflows
+- Inno Setup script: Windows installer generation
+
+---
+
+## Supported Command Reference
+
+| Command | Description |
 |---|---|
-| `home` | Navigate to YouTube home and normalize page interaction state |
-| `up` | Move focus up / previous item |
-| `down` | Move focus down / next item |
-| `enter` | Activate focused item |
-| `back` | Navigate browser history back |
-| `play_pause` | Toggle player play/pause |
-| `fullscreen` | Toggle fullscreen |
-| `toggle` | Alias command handled by fullscreen toggle path |
-| `like` | Toggle Like action in supported player contexts |
-| `search:<query>` | Open YouTube search for `<query>` |
-| `open:<url>` | Open explicit URL |
-| `refresh` | Reload active YouTube page |
-| `exit` | Close browser and terminate leader |
-| `stop` | Alias to `exit` |
+| home | Navigate to YouTube home and normalize interaction state |
+| up | Move highlight to previous item |
+| down | Move highlight to next item |
+| enter | Activate highlighted item |
+| back | Browser history back |
+| play_pause | Toggle player state |
+| fullscreen | Toggle fullscreen mode |
+| toggle | Alias for fullscreen path |
+| like | Toggle like action where supported |
+| search:<query> | Open YouTube search results |
+| open:<url> | Open explicit URL |
+| refresh | Reload active page |
+| exit | Close browser and terminate leader |
+| stop | Alias for exit |
 
 ---
 
-## Full Build and Packaging Instructions (V7)
+## Build, Test, and Packaging
 
-Run all commands from repository root.
-
-### 1. Build (Debug)
+### Build
 
 ```powershell
 dotnet build src/YouTubeControl/YouTubeControl.csproj
 ```
 
-### 2. Run Unit Tests
+### Unit Tests
 
 ```powershell
 dotnet test tests/YouTubeControl.Tests/YouTubeControl.Tests.csproj
 ```
 
-### 3. Publish Production Binary (Release, Single File)
+### Publish Release Binary (single-file AOT)
 
 ```powershell
 dotnet publish src/YouTubeControl/YouTubeControl.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:PublishAot=true
@@ -78,7 +155,7 @@ Expected output:
 src/YouTubeControl/bin/Release/net10.0-windows/win-x64/publish/YouTubeControl.exe
 ```
 
-### 4. Build Installer (Inno Setup)
+### Build Installer
 
 ```powershell
 "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" "src\inno_setup_v7.iss"
@@ -92,40 +169,51 @@ Output/YouTube_V7_Full_Installer.exe
 
 ---
 
-## Built-In Ad Skipper (V7, Implemented)
+## Repository Layout
 
-The V7 ad skipper is already implemented and active in the current codebase.
-It runs inside Leader mode and no longer requires a separate `skip_ads.exe` process.
+```text
+src/
+  YouTubeControl/
+    Program.cs
+    LeaderMode.cs
+    MessengerMode.cs
+    ChromeManager.cs
+    Logger.cs
+    Actions/
+      NavigationActions.cs
+      AdSkipperTask.cs
+    Models/
+      AppConfig.cs
 
-Behavior:
-- Polls every `1500ms`
-- Targets active YouTube `watch` / `shorts` pages
-- Searches for visible skip/close-ad selectors
-- Clicks skip target when found
-- Logs only when a click is actually executed (keeps steady-state logs clean)
-- Stops cleanly via `CancellationToken` when `exit` or `stop` is triggered
+tests/
+  YouTubeControl.Tests/
 
-Implementation:
-- `src/YouTubeControl/Actions/AdSkipperTask.cs`
-- Integrated in `src/YouTubeControl/LeaderMode.cs`
+scripts/
+  run_youtubecontrol_sequence.ps1
+
+docs/
+  SETUP_V7.md
+  SETUP_V6.md
+  Architecture_Design.V7-plan.md
+```
 
 ---
 
-## Automated Full Regression Script
+## Troubleshooting
 
-Use the full-sequence regression runner:
+| Problem | What to check |
+|---|---|
+| Commands do nothing | Confirm Leader is running first (`YouTubeControl.exe` with no args) |
+| Browser does not open | Verify Chrome Canary exists and launch path is available |
+| Command cell fails in Grid 3 | Ensure each cell runs `YouTubeControl.exe <action>` |
+| Search/open command fails | Validate command format: `search:<query>` or `open:<url>` |
+| Shutdown fails | Use `exit` or `stop` explicitly |
 
-`scripts/run_youtubecontrol_sequence.ps1`
+---
 
-What it does:
-- Stops any existing `YouTubeControl.exe` process
-- Starts Leader mode (no-args)
-- Waits 15 seconds before the first action
-- Executes full action sequence coverage
-- Waits 7 seconds after `home`, otherwise 5 seconds
-- Restarts and verifies leader after terminal actions when sequence continues
+## Validation and Advanced Operations
 
-Run:
+### Automated full-sequence validation
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File ./scripts/run_youtubecontrol_sequence.ps1
@@ -137,27 +225,11 @@ Stop on first failure:
 powershell -ExecutionPolicy Bypass -File ./scripts/run_youtubecontrol_sequence.ps1 -StopOnFailure
 ```
 
----
-
-## Manual Full Command Validation (All Actions)
-
-After installation, run this from CMD or PowerShell:
+### Manual runtime smoke test (full command coverage)
 
 ```powershell
 cd C:\YouTube_Navigator_V7
-```
-
-### 1. Start Leader (no arguments)
-
-```powershell
 .\YouTubeControl.exe
-```
-
-Wait until Chrome opens and YouTube is ready.
-
-### 2. Run full action coverage (Messenger commands)
-
-```powershell
 .\YouTubeControl.exe home
 .\YouTubeControl.exe down
 .\YouTubeControl.exe up
@@ -186,44 +258,18 @@ Wait until Chrome opens and YouTube is ready.
 .\YouTubeControl.exe stop
 ```
 
-Notes:
-- `stop` is an alias of `exit` and terminates Leader.
-- If you prefer, end with `.\YouTubeControl.exe exit` instead of `stop`.
-
 ---
 
-## Publish (Single File)
+## Implementation Notes, Release Notes, and Branch History
 
-```powershell
-dotnet publish src/YouTubeControl/YouTubeControl.csproj -c Release -r win-x64 --self-contained -p:PublishSingleFile=true
-```
+Implementation notes:
 
----
+- V7 runtime does not use the old V6 HTTP command-server model
+- Grid 3 command cells should call `YouTubeControl.exe <action>` directly
+- Ad skipping is integrated in-process in `AdSkipperTask` (no external `skip_ads.exe` dependency)
+- Legacy V6 assets may exist for migration/reference purposes only
 
-## V7 Source Layout
+Branch references:
 
-```text
-src/
-  YouTubeControl/
-    Program.cs
-    LeaderMode.cs
-    MessengerMode.cs
-    ChromeManager.cs
-    Logger.cs
-    Actions/
-      NavigationActions.cs
-      AdSkipperTask.cs
-    Models/
-      AppConfig.cs
-
-scripts/
-  run_youtubecontrol_sequence.ps1
-```
-
----
-
-## Notes
-
-- V7 no longer uses port `3000` command HTTP flow.
-- Grid 3 cells should call `YouTubeControl.exe <action>` directly.
-- Legacy V6 assets may still exist in the repository for migration history; see cleanup guidance in ongoing migration tasks.
+- Current version branch (active/default): [main](https://github.com/ReneDva/Grid3-YouTube-Accessibility-Addon/tree/main)
+- Older V6 baseline snapshot branch: [backup/v6-script-http-baseline](https://github.com/ReneDva/Grid3-YouTube-Accessibility-Addon/tree/backup/v6-script-http-baseline)
