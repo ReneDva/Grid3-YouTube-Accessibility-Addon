@@ -1,0 +1,880 @@
+// Hosts leader-side pipe listening for incoming messenger commands.
+// Runs an async loop with cancellation and timeout-aware accepts.
+// Contains the LeaderMode class for leader process command intake.
+using System.IO.Pipes;
+using System.Text;
+using System.Text.Json;
+using PuppeteerSharp;
+using YouTubeControl.Actions;
+
+namespace YouTubeControl;
+
+/// <summary>
+/// Runs the leader-side named pipe loop for command intake.
+/// </summary>
+/// <remarks>
+/// Accepts one connection per loop iteration, reads a single command line, and logs results
+/// until <paramref name="cancellationToken" /> is canceled.
+/// </remarks>
+internal static class LeaderMode
+{
+    private const string ComponentName = "LeaderMode";
+    private const string HomeUrl = "https://www.youtube.com";
+    private static readonly SemaphoreSlim BrowserLock = new(1, 1);
+    private static volatile bool _exitRequested;
+
+    /// <summary>
+    /// Raised when the leader should terminate after handling an exit command.
+    /// </summary>
+    internal static event Action? ShutdownRequested;
+
+    private static readonly HashSet<string> SupportedActions =
+    [
+        "home", "up", "down", "enter", "back", "play_pause", "fullscreen", "toggle", "like", "search", "open", "exit", "stop", "refresh",
+    ];
+
+    private static IBrowser? _browser;
+
+    /// <summary>
+    /// Starts the leader pipe loop on a background task.
+    /// </summary>
+    /// <param name="logger">The logger used for command and error events.</param>
+    /// <param name="cancellationToken">The cancellation token for graceful shutdown.</param>
+    /// <returns>A task that represents the lifetime of the leader loop.</returns>
+    public static async Task RunAsync(Logger logger, CancellationToken cancellationToken)
+    {
+        _exitRequested = false;
+
+        var startupBrowser = await EnsureBrowserConnectedAsync(
+            logger,
+            cancellationToken,
+            allowLaunchIfUnavailable: true).ConfigureAwait(false);
+
+        if (startupBrowser is null)
+        {
+            logger.Log(ComponentName, "Leader startup aborted because Chrome attach/launch bootstrap failed.");
+            throw new InvalidOperationException("Chrome bootstrap attach/launch failed.");
+        }
+
+        var pipeTask = RunPipeServerLoopAsync(logger, cancellationToken);
+        var recoveryTask = RunCdpRecoveryLoopAsync(logger, cancellationToken);
+        var adSkipperTask = RunAdSkipperLoopAsync(logger, cancellationToken);
+
+        await Task.WhenAll(pipeTask, recoveryTask, adSkipperTask).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Executes the pipe server accept-read loop until cancellation is requested.
+    /// </summary>
+    /// <param name="logger">The logger used for command and error events.</param>
+    /// <param name="cancellationToken">The cancellation token for graceful shutdown.</param>
+    private static async Task RunPipeServerLoopAsync(Logger logger, CancellationToken cancellationToken)
+    {
+        while (!cancellationToken.IsCancellationRequested)
+        {
+            try
+            {
+                // Open one server instance per accepted command.
+                using var server = new NamedPipeServerStream(
+                    Program.PipeName,
+                    PipeDirection.In,
+                    NamedPipeServerStream.MaxAllowedServerInstances,
+                    PipeTransmissionMode.Byte,
+                    PipeOptions.Asynchronous);
+
+                // Stop waiting after a bounded accept window.
+                using var acceptTimeoutCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+                acceptTimeoutCts.CancelAfter(TimeSpan.FromSeconds(30));
+
+                await server.WaitForConnectionAsync(acceptTimeoutCts.Token).ConfigureAwait(false);
+
+                // Read one command line from the connected client.
+                using var reader = new StreamReader(server, Encoding.UTF8, detectEncodingFromByteOrderMarks: false, leaveOpen: true);
+                var command = await reader.ReadLineAsync().ConfigureAwait(false);
+
+                if (!string.IsNullOrWhiteSpace(command))
+                {
+                    logger.Log(ComponentName, $"Leader received command: {command}");
+                    await DispatchCommandAsync(command, logger, cancellationToken).ConfigureAwait(false);
+                }
+                else
+                {
+                    logger.Log(ComponentName, "Leader received an empty command.");
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                // Expected on shutdown or timed-out accept.
+            }
+            catch (Exception ex)
+            {
+                logger.LogException(ComponentName, "Leader pipe loop error", ex);
+            }
+        }
+
+        logger.Log(ComponentName, "Leader pipe loop stopped.");
+    }
+
+    private static async Task RunCdpRecoveryLoopAsync(Logger logger, CancellationToken cancellationToken)
+    {
+        while (!cancellationToken.IsCancellationRequested)
+        {
+            try
+            {
+                await EnsureBrowserConnectedAsync(
+                    logger,
+                    cancellationToken,
+                    allowLaunchIfUnavailable: false).ConfigureAwait(false);
+
+                await Task.Delay(TimeSpan.FromSeconds(3), cancellationToken).ConfigureAwait(false);
+            }
+            catch (OperationCanceledException)
+            {
+                // Expected on shutdown.
+            }
+            catch (Exception ex)
+            {
+                logger.LogException(ComponentName, "CDP recovery loop error", ex);
+            }
+        }
+    }
+
+    private static async Task RunAdSkipperLoopAsync(Logger logger, CancellationToken cancellationToken)
+    {
+        while (!cancellationToken.IsCancellationRequested)
+        {
+            try
+            {
+                var page = await TryGetSkippableYouTubePageAsync().ConfigureAwait(false);
+                if (page is not null)
+                {
+                    await AdSkipperTask.TrySkipAsync(page, logger, cancellationToken).ConfigureAwait(false);
+                }
+
+                await Task.Delay(AdSkipperTask.PollInterval, cancellationToken).ConfigureAwait(false);
+            }
+            catch (OperationCanceledException)
+            {
+                // Expected on shutdown.
+            }
+            catch (TargetClosedException)
+            {
+                await InvalidateBrowserAsync().ConfigureAwait(false);
+            }
+            catch
+            {
+                // Keep this loop silent to avoid log noise when no skip action occurs.
+            }
+        }
+    }
+
+    private static async Task<IPage?> TryGetSkippableYouTubePageAsync()
+    {
+        if (_exitRequested)
+        {
+            return null;
+        }
+
+        var browser = _browser;
+        if (browser is null || !browser.IsConnected)
+        {
+            return null;
+        }
+
+        try
+        {
+            var pages = await browser.PagesAsync().ConfigureAwait(false);
+            return pages.FirstOrDefault(page => !page.IsClosed && IsSkippableYouTubeUrl(page.Url));
+        }
+        catch (TargetClosedException)
+        {
+            await InvalidateBrowserAsync().ConfigureAwait(false);
+            return null;
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    private static async Task DispatchCommandAsync(string rawCommand, Logger logger, CancellationToken cancellationToken)
+    {
+        if (!TryParseCommand(rawCommand, out var action, out var query))
+        {
+            logger.Log(ComponentName, $"Rejected invalid command: {rawCommand}");
+            return;
+        }
+
+        if (!SupportedActions.Contains(action))
+        {
+            logger.Log(ComponentName, $"Rejected unsupported action: {action}");
+            return;
+        }
+
+        if (action == "stop")
+        {
+            action = "exit";
+        }
+
+        if (action == "exit")
+        {
+            _exitRequested = true;
+            await CloseBrowserAsync(logger).ConfigureAwait(false);
+            logger.Log(ComponentName, "Exit command received. Browser tabs and window were closed.");
+            RequestLeaderShutdown(logger);
+            return;
+        }
+
+        _exitRequested = false;
+
+        var allowLaunchIfUnavailable = action is "home" or "open" or "search";
+        for (var attempt = 0; attempt < 2; attempt++)
+        {
+            try
+            {
+                await DispatchCommandOnceAsync(
+                    action,
+                    query,
+                    allowLaunchIfUnavailable,
+                    logger,
+                    cancellationToken).ConfigureAwait(false);
+
+                return;
+            }
+            catch (OperationCanceledException)
+            {
+                throw;
+            }
+            catch (Exception ex) when (attempt == 0 && IsRecoverableSessionException(ex))
+            {
+                logger.LogException(ComponentName, $"Recoverable session error for action '{action}'. Reconnecting and retrying once.", ex);
+                await InvalidateBrowserAsync().ConfigureAwait(false);
+                await Task.Delay(TimeSpan.FromMilliseconds(250), cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                logger.LogException(ComponentName, $"Command '{action}' failed", ex);
+                return;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Executes one command attempt against the active browser/page state.
+    /// </summary>
+    /// <param name="action">The normalized action keyword.</param>
+    /// <param name="query">Optional payload for search/open actions.</param>
+    /// <param name="allowLaunchIfUnavailable">Whether missing browser/session can trigger launch.</param>
+    /// <param name="logger">The logger used for diagnostics.</param>
+    /// <param name="cancellationToken">The shutdown token.</param>
+    private static async Task DispatchCommandOnceAsync(
+        string action,
+        string query,
+        bool allowLaunchIfUnavailable,
+        Logger logger,
+        CancellationToken cancellationToken)
+    {
+        if (action == "refresh")
+        {
+            var pageForRefresh = await GetYouTubePageAsync(
+                logger,
+                cancellationToken,
+                allowLaunchIfUnavailable: false).ConfigureAwait(false);
+
+            if (pageForRefresh is null)
+            {
+                logger.Log(ComponentName, "Refresh ignored because no active YouTube tab was found.");
+                return;
+            }
+
+            if (!await TryBringToFrontAsync(pageForRefresh, logger).ConfigureAwait(false))
+            {
+                logger.Log(ComponentName, "Refresh ignored because target page is no longer available.");
+                return;
+            }
+
+            await pageForRefresh.ReloadAsync().ConfigureAwait(false);
+            logger.Log(ComponentName, "Refresh command executed.");
+            return;
+        }
+
+        var page = await GetYouTubePageAsync(
+            logger,
+            cancellationToken,
+            allowLaunchIfUnavailable).ConfigureAwait(false);
+
+        if (page is null)
+        {
+            logger.Log(ComponentName, "No browser page available for command dispatch.");
+            return;
+        }
+
+        if (!allowLaunchIfUnavailable && !IsYouTubeUrl(page.Url))
+        {
+            logger.Log(ComponentName, $"Action '{action}' ignored because no YouTube tab is open.");
+            return;
+        }
+
+        if (!await TryBringToFrontAsync(page, logger).ConfigureAwait(false))
+        {
+            logger.Log(ComponentName, "Command ignored because target page is no longer available.");
+            return;
+        }
+
+        if (action is "fullscreen" or "toggle")
+        {
+            var fullscreenResult = await ToggleFullscreenAsync(page, cancellationToken).ConfigureAwait(false);
+            logger.Log(ComponentName, $"Action '{action}' executed with result: {fullscreenResult}");
+            return;
+        }
+
+        if (action is "home" or "open" or "search")
+        {
+            await SyncViewportWithWindowAsync(page, action, "before-navigation", logger).ConfigureAwait(false);
+        }
+
+        var actionForScript = action;
+
+        switch (action)
+        {
+            case "home":
+                await page.GoToAsync(HomeUrl).ConfigureAwait(false);
+                await Task.Delay(TimeSpan.FromSeconds(4), cancellationToken).ConfigureAwait(false);
+                actionForScript = "open";
+                break;
+            case "open" when !string.IsNullOrWhiteSpace(query):
+                await page.GoToAsync(query).ConfigureAwait(false);
+                break;
+            case "search" when !string.IsNullOrWhiteSpace(query):
+                await page.GoToAsync($"https://www.youtube.com/results?search_query={Uri.EscapeDataString(query)}").ConfigureAwait(false);
+                await Task.Delay(TimeSpan.FromMilliseconds(2500), cancellationToken).ConfigureAwait(false);
+                break;
+            case "back":
+                await page.GoBackAsync().ConfigureAwait(false);
+                await Task.Delay(TimeSpan.FromSeconds(3), cancellationToken).ConfigureAwait(false);
+                break;
+        }
+
+        if (actionForScript is "open" or "search")
+        {
+            await SyncViewportWithWindowAsync(page, actionForScript, "after-navigation", logger).ConfigureAwait(false);
+            await NormalizeYouTubePresentationAsync(page, actionForScript, logger).ConfigureAwait(false);
+        }
+
+        var navScript = NavigationActions.BuildNavScript(actionForScript);
+        var result = await page.EvaluateExpressionAsync<string>(navScript).ConfigureAwait(false);
+        logger.Log(ComponentName, $"Action '{actionForScript}' executed with result: {result}");
+    }
+
+    /// <summary>
+    /// Determines whether a command failure is a transient browser-session issue.
+    /// </summary>
+    /// <param name="exception">The exception produced by command execution.</param>
+    /// <returns><see langword="true"/> when reconnect+retry is appropriate; otherwise <see langword="false"/>.</returns>
+    private static bool IsRecoverableSessionException(Exception exception)
+    {
+        if (exception is TargetClosedException)
+        {
+            return true;
+        }
+
+        if (exception is AggregateException aggregateException)
+        {
+            return aggregateException.InnerExceptions.Any(IsRecoverableSessionException);
+        }
+
+        var message = exception.Message;
+        return message.Contains("Session closed", StringComparison.OrdinalIgnoreCase) ||
+            message.Contains("frame was detached", StringComparison.OrdinalIgnoreCase) ||
+            message.Contains("executionContextCreated", StringComparison.OrdinalIgnoreCase);
+    }
+
+    private static bool TryParseCommand(string rawCommand, out string action, out string query)
+    {
+        action = string.Empty;
+        query = string.Empty;
+
+        if (string.IsNullOrWhiteSpace(rawCommand) || rawCommand.Length > 512)
+        {
+            return false;
+        }
+
+        var firstColon = rawCommand.IndexOf(':');
+        if (firstColon < 0)
+        {
+            action = rawCommand.Trim().ToLowerInvariant();
+            return !string.IsNullOrWhiteSpace(action);
+        }
+
+        action = rawCommand[..firstColon].Trim().ToLowerInvariant();
+        query = rawCommand[(firstColon + 1)..].Trim();
+        return !string.IsNullOrWhiteSpace(action);
+    }
+
+    private static async Task<IPage?> GetYouTubePageAsync(
+        Logger logger,
+        CancellationToken cancellationToken,
+        bool allowLaunchIfUnavailable)
+    {
+        var browser = await EnsureBrowserConnectedAsync(
+            logger,
+            cancellationToken,
+            allowLaunchIfUnavailable).ConfigureAwait(false);
+
+        if (browser is null)
+        {
+            return null;
+        }
+
+        try
+        {
+            var pages = await browser.PagesAsync().ConfigureAwait(false);
+            var openPages = pages.Where(p => !p.IsClosed).ToList();
+
+            var youtubePage = openPages.FirstOrDefault(p => IsYouTubeUrl(p.Url));
+            if (youtubePage is not null)
+            {
+                return youtubePage;
+            }
+
+            if (!allowLaunchIfUnavailable)
+            {
+                return null;
+            }
+
+            if (openPages.Count > 0)
+            {
+                return openPages[0];
+            }
+
+            return await browser.NewPageAsync().ConfigureAwait(false);
+        }
+        catch (TargetClosedException)
+        {
+            await InvalidateBrowserAsync().ConfigureAwait(false);
+            return null;
+        }
+        catch (Exception ex)
+        {
+            logger.LogException(ComponentName, "Failed to resolve active browser page", ex);
+            return null;
+        }
+    }
+
+    private static bool IsYouTubeUrl(string? url)
+    {
+        return !string.IsNullOrWhiteSpace(url) &&
+            url.Contains("youtube.com", StringComparison.OrdinalIgnoreCase);
+    }
+
+    private static bool IsSkippableYouTubeUrl(string? url)
+    {
+        if (string.IsNullOrWhiteSpace(url))
+        {
+            return false;
+        }
+
+        return url.Contains("youtube.com/watch", StringComparison.OrdinalIgnoreCase) ||
+            url.Contains("youtube.com/shorts", StringComparison.OrdinalIgnoreCase);
+    }
+
+    private static async Task<IBrowser?> EnsureBrowserConnectedAsync(
+        Logger logger,
+        CancellationToken cancellationToken,
+        bool allowLaunchIfUnavailable)
+    {
+        if (_browser is { IsConnected: true })
+        {
+            return _browser;
+        }
+
+        await BrowserLock.WaitAsync(cancellationToken).ConfigureAwait(false);
+        try
+        {
+            if (_browser is { IsConnected: true })
+            {
+                return _browser;
+            }
+
+            await InvalidateBrowserAsync().ConfigureAwait(false);
+
+            if (await TryConnectWithBackoffAsync(logger, cancellationToken, maxAttempts: 3).ConfigureAwait(false))
+            {
+                return _browser;
+            }
+
+            if (!allowLaunchIfUnavailable || _exitRequested)
+            {
+                return null;
+            }
+
+            if (!ChromeManager.Launch(logger))
+            {
+                return null;
+            }
+
+            if (await TryConnectWithBackoffAsync(logger, cancellationToken, maxAttempts: 5).ConfigureAwait(false))
+            {
+                return _browser;
+            }
+
+            return null;
+        }
+        finally
+        {
+            BrowserLock.Release();
+        }
+    }
+
+    private static async Task<bool> TryConnectWithBackoffAsync(
+        Logger logger,
+        CancellationToken cancellationToken,
+        int maxAttempts)
+    {
+        for (var attempt = 0; attempt < maxAttempts; attempt++)
+        {
+            if (cancellationToken.IsCancellationRequested)
+            {
+                return false;
+            }
+
+            try
+            {
+                _browser = await Puppeteer.ConnectAsync(new ConnectOptions
+                {
+                    BrowserURL = ChromeManager.BrowserUrl,
+                    DefaultViewport = null,
+                }).ConfigureAwait(false);
+
+                logger.Log(ComponentName, $"Connected to Chrome CDP at {ChromeManager.BrowserUrl}.");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                var delayMs = (int)(500 * Math.Pow(2, attempt));
+                logger.LogException(ComponentName, $"CDP connect attempt {attempt + 1} failed", ex);
+                await Task.Delay(delayMs, cancellationToken).ConfigureAwait(false);
+            }
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    /// Brings the target page to the foreground when the page/session is still valid.
+    /// </summary>
+    /// <param name="page">The candidate page to focus.</param>
+    /// <param name="logger">The logger used for focus failures.</param>
+    /// <returns><see langword="true"/> when the page was focused; otherwise <see langword="false"/>.</returns>
+    private static async Task<bool> TryBringToFrontAsync(IPage page, Logger logger)
+    {
+        try
+        {
+            if (page.IsClosed)
+            {
+                await InvalidateBrowserAsync().ConfigureAwait(false);
+                return false;
+            }
+
+            await page.BringToFrontAsync().ConfigureAwait(false);
+            return true;
+        }
+        catch (TargetClosedException)
+        {
+            await InvalidateBrowserAsync().ConfigureAwait(false);
+            return false;
+        }
+        catch (Exception ex)
+        {
+            logger.LogException(ComponentName, "Failed to bring page to front", ex);
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Normalizes YouTube page presentation after home/open/search navigation.
+    /// </summary>
+    /// <param name="page">The page to normalize.</param>
+    /// <param name="action">The current navigation action.</param>
+    /// <param name="logger">The logger used for normalization diagnostics.</param>
+    private static async Task NormalizeYouTubePresentationAsync(IPage page, string action, Logger logger)
+    {
+        if (!await TryBringToFrontAsync(page, logger).ConfigureAwait(false))
+        {
+            return;
+        }
+
+        try
+        {
+            const string normalizeScript = "(() => {" +
+                "document.documentElement.style.zoom = '100%';" +
+                "if (document.body) { document.body.style.zoom = '100%'; }" +
+                "window.scrollTo(0, 0);" +
+                "window.dispatchEvent(new Event('resize'));" +
+                "return 'presentation-normalized';" +
+                "})()";
+
+            var result = await page.EvaluateExpressionAsync<string>(normalizeScript).ConfigureAwait(false);
+            logger.Log(ComponentName, $"Presentation normalization for action '{action}': {result}");
+        }
+        catch (TargetClosedException)
+        {
+            await InvalidateBrowserAsync().ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            logger.LogException(ComponentName, $"Failed to normalize presentation for action '{action}'", ex);
+        }
+    }
+
+    /// <summary>
+    /// Forces viewport/device metrics sync with the current Chrome window bounds.
+    /// </summary>
+    /// <param name="page">The page to synchronize.</param>
+    /// <param name="action">The action that triggered synchronization.</param>
+    /// <param name="phase">The operation phase (before/after navigation).</param>
+    /// <param name="logger">The logger used for sync diagnostics.</param>
+    private static async Task SyncViewportWithWindowAsync(IPage page, string action, string phase, Logger logger)
+    {
+        if (!await TryBringToFrontAsync(page, logger).ConfigureAwait(false))
+        {
+            return;
+        }
+
+        try
+        {
+            await page.SetViewportAsync(new ViewPortOptions
+            {
+                Width = 0,
+                Height = 0,
+                IsMobile = false,
+                HasTouch = false,
+                IsLandscape = false,
+                DeviceScaleFactor = 1,
+            }).ConfigureAwait(false);
+
+            var metricsJson = await page.EvaluateExpressionAsync<string>(
+                "(() => JSON.stringify({" +
+                "innerWidth: window.innerWidth," +
+                "innerHeight: window.innerHeight," +
+                "screenWidth: (window.screen && (window.screen.availWidth || window.screen.width)) || 0," +
+                "screenHeight: (window.screen && (window.screen.availHeight || window.screen.height)) || 0," +
+                "dpr: window.devicePixelRatio" +
+                "}))()")
+                .ConfigureAwait(false);
+
+            var metrics = ParseViewportMetrics(metricsJson);
+            var usedFallbackSizing = false;
+
+            if (metrics.InnerWidth <= 820 && metrics.ScreenWidth > metrics.InnerWidth)
+            {
+                usedFallbackSizing = true;
+                await page.SetViewportAsync(new ViewPortOptions
+                {
+                    Width = metrics.ScreenWidth,
+                    Height = metrics.ScreenHeight > 0 ? metrics.ScreenHeight : metrics.InnerHeight,
+                    IsMobile = false,
+                    HasTouch = false,
+                    IsLandscape = false,
+                    DeviceScaleFactor = 1,
+                }).ConfigureAwait(false);
+
+                metricsJson = await page.EvaluateExpressionAsync<string>(
+                    "(() => JSON.stringify({" +
+                    "innerWidth: window.innerWidth," +
+                    "innerHeight: window.innerHeight," +
+                    "screenWidth: (window.screen && (window.screen.availWidth || window.screen.width)) || 0," +
+                    "screenHeight: (window.screen && (window.screen.availHeight || window.screen.height)) || 0," +
+                    "dpr: window.devicePixelRatio" +
+                    "}))()")
+                    .ConfigureAwait(false);
+
+                metrics = ParseViewportMetrics(metricsJson);
+            }
+
+            if (usedFallbackSizing || metrics.InnerWidth <= 900)
+            {
+                logger.Log(ComponentName, $"Viewport sync for '{action}' ({phase}): viewport={metrics.InnerWidth}x{metrics.InnerHeight};screen={metrics.ScreenWidth}x{metrics.ScreenHeight};dpr={metrics.Dpr:0.##}");
+            }
+        }
+        catch (TargetClosedException)
+        {
+            await InvalidateBrowserAsync().ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            logger.LogException(ComponentName, $"Failed viewport sync for '{action}' ({phase})", ex);
+        }
+    }
+
+    private static (int InnerWidth, int InnerHeight, int ScreenWidth, int ScreenHeight, double Dpr) ParseViewportMetrics(string metricsJson)
+    {
+        try
+        {
+            using var document = JsonDocument.Parse(metricsJson);
+            var root = document.RootElement;
+
+            var innerWidth = root.TryGetProperty("innerWidth", out var iw) ? iw.GetInt32() : 0;
+            var innerHeight = root.TryGetProperty("innerHeight", out var ih) ? ih.GetInt32() : 0;
+            var screenWidth = root.TryGetProperty("screenWidth", out var sw) ? sw.GetInt32() : 0;
+            var screenHeight = root.TryGetProperty("screenHeight", out var sh) ? sh.GetInt32() : 0;
+            var dpr = root.TryGetProperty("dpr", out var dprEl) ? dprEl.GetDouble() : 1;
+
+            return (innerWidth, innerHeight, screenWidth, screenHeight, dpr);
+        }
+        catch
+        {
+            return (0, 0, 0, 0, 1);
+        }
+    }
+
+    /// <summary>
+    /// Toggles fullscreen using trusted native keyboard input with a lightweight state check.
+    /// </summary>
+    /// <param name="page">The active target page.</param>
+    /// <param name="cancellationToken">The shutdown token.</param>
+    /// <returns>A short execution status string.</returns>
+    private static async Task<string> ToggleFullscreenAsync(IPage page, CancellationToken cancellationToken)
+    {
+        if (page.IsClosed)
+        {
+            return "Fullscreen target unavailable";
+        }
+
+        try
+        {
+            var hasFullscreenBefore = await page.EvaluateExpressionAsync<bool>("(() => !!document.fullscreenElement)()")
+                .ConfigureAwait(false);
+
+            if (hasFullscreenBefore)
+            {
+                await page.Keyboard.PressAsync("Escape").ConfigureAwait(false);
+            }
+            else
+            {
+                await page.Keyboard.PressAsync("f").ConfigureAwait(false);
+            }
+
+            await Task.Delay(TimeSpan.FromMilliseconds(450), cancellationToken).ConfigureAwait(false);
+
+            var hasFullscreenAfter = await page.EvaluateExpressionAsync<bool>("(() => !!document.fullscreenElement)()")
+                .ConfigureAwait(false);
+
+            if (hasFullscreenAfter == hasFullscreenBefore)
+            {
+                await page.Keyboard.PressAsync("f").ConfigureAwait(false);
+                await Task.Delay(TimeSpan.FromMilliseconds(450), cancellationToken).ConfigureAwait(false);
+                hasFullscreenAfter = await page.EvaluateExpressionAsync<bool>("(() => !!document.fullscreenElement)()")
+                    .ConfigureAwait(false);
+            }
+
+            return hasFullscreenAfter ? "Fullscreen On" : "Fullscreen Off";
+        }
+        catch (TargetClosedException)
+        {
+            await InvalidateBrowserAsync().ConfigureAwait(false);
+            return "Fullscreen target closed";
+        }
+        catch
+        {
+            return "Fullscreen toggle failed";
+        }
+    }
+
+    private static async Task CloseBrowserAsync(Logger logger)
+    {
+        try
+        {
+            var browser = _browser;
+            if (browser is null || !browser.IsConnected)
+            {
+                browser = await EnsureBrowserConnectedAsync(
+                    logger,
+                    CancellationToken.None,
+                    allowLaunchIfUnavailable: false).ConfigureAwait(false);
+            }
+
+            if (browser is null)
+            {
+                logger.Log(ComponentName, "Exit command could not find an attached browser instance.");
+                return;
+            }
+
+            IReadOnlyList<IPage> pages;
+            try
+            {
+                pages = await browser.PagesAsync().ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                logger.LogException(ComponentName, "Failed to query browser pages during exit", ex);
+                pages = [];
+            }
+
+            foreach (var page in pages)
+            {
+                try
+                {
+                    await page.CloseAsync().ConfigureAwait(false);
+                }
+                catch (Exception ex)
+                {
+                    logger.LogException(ComponentName, "Failed to close browser tab during exit", ex);
+                }
+            }
+
+            try
+            {
+                await browser.CloseAsync().ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                logger.LogException(ComponentName, "Failed to close browser window during exit", ex);
+            }
+
+            await InvalidateBrowserAsync().ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            logger.LogException(ComponentName, "Failed closing browser", ex);
+        }
+    }
+
+    private static Task InvalidateBrowserAsync()
+    {
+        var browser = _browser;
+        _browser = null;
+
+        if (browser is null)
+        {
+            return Task.CompletedTask;
+        }
+
+        try
+        {
+            browser.Disconnect();
+        }
+        catch
+        {
+            // Ignore invalidation failures.
+        }
+
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Requests graceful leader shutdown after an explicit exit command.
+    /// </summary>
+    /// <param name="logger">The logger used for callback failures.</param>
+    private static void RequestLeaderShutdown(Logger logger)
+    {
+        try
+        {
+            ShutdownRequested?.Invoke();
+        }
+        catch (Exception ex)
+        {
+            logger.LogException(ComponentName, "Failed to signal leader shutdown", ex);
+        }
+    }
+}

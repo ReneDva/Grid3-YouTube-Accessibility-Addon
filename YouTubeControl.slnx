@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/YouTubeControl/YouTubeControl.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/YouTubeControl.Tests/YouTubeControl.Tests.csproj" />
+  </Folder>
+</Solution>
