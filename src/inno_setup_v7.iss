@@ -9,7 +9,8 @@
 ; Inno Setup requires .ico for SetupIconFile / IconFilename / UninstallDisplayIcon.
 ; TODO: Regenerate icon_v7.ico from AppIconSourceSvg whenever the SVG is updated.
 #define AppIcon "..\\docs\\icon_v7.ico"
-#define UserDataDir "C:\Grid3_YouTube_Accessibility_Addon_User_Data"
+#define UserDataDir "C:\YouTube_User_Data"
+#define LegacyUserDataDir "C:\Grid3_YouTube_Accessibility_Addon_User_Data"
 
 [Setup]
 AppName={#MyAppName}
@@ -78,13 +79,28 @@ begin
   Result := True;
 end;
 
+function HasProfileData(BaseDir: string): Boolean;
+var
+  DefaultDir: string;
+begin
+  DefaultDir := AddBackslash(BaseDir) + 'Default';
+  Result := FileExists(AddBackslash(DefaultDir) + 'Login Data') or
+            FileExists(AddBackslash(DefaultDir) + 'Preferences');
+end;
+
+function NeedsManualSignIn(): Boolean;
+begin
+  Result := not HasProfileData('{#UserDataDir}') and
+            not HasProfileData('{#LegacyUserDataDir}');
+end;
+
 procedure CurStepChanged(CurStep: TSetupStep);
 begin
-  if (CurStep = ssPostInstall) and not WizardSilent then
+  if (CurStep = ssPostInstall) and not WizardSilent and NeedsManualSignIn() then
   begin
     MsgBox(
       'Initial startup must be performed by a teacher or therapist.' + #13#10 +
-      'A manual sign-in to the user''s Chrome profile account is required.',
+      'A manual sign-in to the user''s Chrome profile account is required for first-time setup only.',
       mbInformation,
       MB_OK);
   end;
