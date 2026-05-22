@@ -243,113 +243,17 @@ internal static class ChromeManager
     /// <returns>A usable directory path, or an empty string when unavailable.</returns>
     private static string ResolveUserDataDirectory(Logger logger)
     {
-        try
+        var migrationCandidates = new[]
         {
-            Directory.CreateDirectory(PreferredUserDataDir);
+            LegacyGrid3UserDataDir,
+            LegacyUserDataDirV5,
+        };
 
-            if (HasProfileData(PreferredUserDataDir))
-            {
-                logger.Log(ComponentName, $"Using preferred Chrome user-data directory: {PreferredUserDataDir}");
-                return PreferredUserDataDir;
-            }
-
-            if (TryMigrateLegacyProfile(LegacyGrid3UserDataDir, PreferredUserDataDir, logger) && HasProfileData(PreferredUserDataDir))
-            {
-                logger.Log(ComponentName, $"Migrated profile from legacy directory: {LegacyGrid3UserDataDir}");
-                return PreferredUserDataDir;
-            }
-
-            if (TryMigrateLegacyProfile(LegacyUserDataDirV5, PreferredUserDataDir, logger) && HasProfileData(PreferredUserDataDir))
-            {
-                logger.Log(ComponentName, $"Migrated profile from legacy directory: {LegacyUserDataDirV5}");
-                return PreferredUserDataDir;
-            }
-
-            if (HasProfileData(LegacyGrid3UserDataDir))
-            {
-                logger.Log(ComponentName, $"Migration skipped; using legacy profile directory for this run: {LegacyGrid3UserDataDir}");
-                return LegacyGrid3UserDataDir;
-            }
-
-            logger.Log(ComponentName, $"First install profile bootstrap at: {PreferredUserDataDir}");
-            return PreferredUserDataDir;
-        }
-        catch (Exception ex)
-        {
-            logger.LogException(ComponentName, $"Failed preparing user data dir: {PreferredUserDataDir}", ex);
-        }
-
-        return string.Empty;
-    }
-
-    private static bool TryMigrateLegacyProfile(string legacyDirectory, string targetDirectory, Logger logger)
-    {
-        if (!HasProfileData(legacyDirectory))
-        {
-            return false;
-        }
-
-        try
-        {
-            Directory.CreateDirectory(targetDirectory);
-            CopyDirectoryRecursively(legacyDirectory, targetDirectory);
-            return true;
-        }
-        catch (Exception ex)
-        {
-            logger.LogException(ComponentName, $"Failed migrating legacy profile from {legacyDirectory} to {targetDirectory}", ex);
-            return false;
-        }
-    }
-
-    private static void CopyDirectoryRecursively(string sourceDirectory, string targetDirectory)
-    {
-        var source = new DirectoryInfo(sourceDirectory);
-        var target = new DirectoryInfo(targetDirectory);
-
-        if (!target.Exists)
-        {
-            target.Create();
-        }
-
-        foreach (var file in source.GetFiles())
-        {
-            var destinationPath = Path.Combine(target.FullName, file.Name);
-            if (!File.Exists(destinationPath))
-            {
-                file.CopyTo(destinationPath, overwrite: false);
-            }
-        }
-
-        foreach (var directory in source.GetDirectories())
-        {
-            var targetSubDirectory = Path.Combine(target.FullName, directory.Name);
-            CopyDirectoryRecursively(directory.FullName, targetSubDirectory);
-        }
-    }
-
-    private static bool HasProfileData(string directory)
-    {
-        try
-        {
-            if (!Directory.Exists(directory))
-            {
-                return false;
-            }
-
-            var defaultProfileDir = Path.Combine(directory, "Default");
-            if (!Directory.Exists(defaultProfileDir))
-            {
-                return false;
-            }
-
-            return File.Exists(Path.Combine(defaultProfileDir, "Login Data")) ||
-                File.Exists(Path.Combine(defaultProfileDir, "Preferences"));
-        }
-        catch
-        {
-            return false;
-        }
+        return UserDataDirectoryPolicy.Resolve(
+            ComponentName,
+            PreferredUserDataDir,
+            migrationCandidates,
+            logger);
     }
 
     /// <summary>
