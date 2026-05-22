@@ -52,44 +52,49 @@ internal static class ChromeManager
         }
     }
 
-    private static void RestoreForegroundWindow(Logger logger)
+    private static bool RestoreForegroundWindow(Logger logger)
     {
         try
         {
             if (_previousForeground == IntPtr.Zero)
             {
-                return;
+                return false;
             }
 
             var current = GetForegroundWindow();
             if (current == _previousForeground)
             {
-                return;
+                return true;
             }
 
             // Try attaching input threads to allow SetForegroundWindow to succeed.
-            var foregroundThread = GetWindowThreadProcessId(_previousForeground, out _);
+            var prevThread = GetWindowThreadProcessId(_previousForeground, out _);
             var currentThread = GetCurrentThreadId();
 
             var attached = false;
             try
             {
-                attached = AttachThreadInput(currentThread, foregroundThread, true);
+                attached = AttachThreadInput(currentThread, prevThread, true);
                 // Restore if minimized
                 ShowWindow(_previousForeground, SW_RESTORE);
                 SetForegroundWindow(_previousForeground);
+
+                // Check if succeeded
+                var after = GetForegroundWindow();
+                return after == _previousForeground;
             }
             finally
             {
                 if (attached)
                 {
-                    AttachThreadInput(currentThread, foregroundThread, false);
+                    AttachThreadInput(currentThread, prevThread, false);
                 }
             }
         }
         catch (Exception ex)
         {
             logger.LogException(ComponentName, "RestoreForegroundWindow failed", ex);
+            return false;
         }
     }
 
@@ -170,8 +175,20 @@ internal static class ChromeManager
             {
                 try
                 {
-                    Thread.Sleep(300);
-                    RestoreForegroundWindow(logger);
+                    const int attempts = 6;
+                    const int delayMs = 250;
+                    for (var attempt = 0; attempt < attempts; attempt++)
+                    {
+                        Thread.Sleep(delayMs);
+                        var ok = RestoreForegroundWindow(logger);
+                        if (ok)
+                        {
+                            logger.Log(ComponentName, $"Restored previous foreground window on attempt {attempt + 1}.");
+                            break;
+                        }
+
+                        logger.Log(ComponentName, $"Restore attempt {attempt + 1} failed; will retry.");
+                    }
                 }
                 catch (Exception ex)
                 {
