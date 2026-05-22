@@ -6,3 +6,4 @@ venv/
 /.vscode
 Output/*
 !Output/YouTube_V7_Full_Installer.exe
+logs/
