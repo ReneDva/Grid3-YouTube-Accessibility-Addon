@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <defs>
+    <clipPath id="circle-clip">
+      <circle cx="128" cy="128" r="120"/>
+    </clipPath>
+  </defs>
+
+  <!-- Background circle - dark navy -->
+  <circle cx="128" cy="128" r="120" fill="#0D1B4B"/>
+
+  <!-- ── GRID 3 LOGO (top-left, large) ── -->
+  <!-- Speech bubble rounded rect -->
+  <rect x="18" y="18" width="120" height="100" rx="20" ry="20" fill="#29ABE2"/>
+  <!-- Speech bubble tail pointing down-right -->
+  <polygon points="78,118 108,118 93,140" fill="#29ABE2"/>
+  <!-- Letter G -->
+  <text x="78" y="100"
+        text-anchor="middle"
+        font-family="Arial Black, Arial, sans-serif"
+        font-weight="900"
+        font-size="72"
+        fill="white">G</text>
+
+  <!-- ── YOUTUBE PLAY BUTTON (bottom-right, large) ── -->
+  <!-- Red rounded rectangle -->
+  <rect x="112" y="138" width="130" height="88" rx="18" ry="18" fill="#FF0000"/>
+  <!-- White play triangle -->
+  <polygon points="156,158 156,206 210,182" fill="white"/>
+
+  <!-- ── CONNECTOR — small link between the two ── -->
+  <circle cx="118" cy="132" r="10" fill="#FFD600"/>
+  <text x="118" y="137"
+        text-anchor="middle"
+        font-family="Arial, sans-serif"
+        font-weight="900"
+        font-size="13"
+        fill="#0D1B4B">+</text>
+
+  <!-- Border ring -->
+  <circle cx="128" cy="128" r="120" fill="none" stroke="#29ABE2" stroke-width="5" opacity="0.5"/>
+</svg>
