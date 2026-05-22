@@ -179,30 +179,30 @@ internal static class ChromeManager
                 {
                     const int attempts = 8;
                     const int delayMs = 250;
-                    var restoredAny = false;
+                    const int stabilityCheckDelayMs = 120;
+                    var stableSuccessAttempt = 0;
 
                     for (var attempt = 0; attempt < attempts; attempt++)
                     {
                         Thread.Sleep(delayMs);
-                        var ok = RestoreForegroundWindow(logger);
-                        if (ok)
+
+                        if (!RestoreForegroundWindow(logger))
                         {
-                            restoredAny = true;
+                            continue;
                         }
 
-                        logger.Log(ComponentName, ok
-                            ? $"Restore attempt {attempt + 1} succeeded."
-                            : $"Restore attempt {attempt + 1} failed; will retry.");
+                        // Guard against early success by requiring foreground stability.
+                        Thread.Sleep(stabilityCheckDelayMs);
+                        if (IsPreviousWindowForeground())
+                        {
+                            stableSuccessAttempt = attempt + 1;
+                            break;
+                        }
                     }
 
-                    var finalForeground = GetForegroundWindow();
-                    if (finalForeground == _previousForeground)
+                    if (stableSuccessAttempt > 0)
                     {
-                        logger.Log(ComponentName, "Foreground restore sequence completed successfully.");
-                    }
-                    else if (restoredAny)
-                    {
-                        logger.Log(ComponentName, "Foreground was restored at least once but did not remain on the previous window.");
+                        logger.Log(ComponentName, $"Foreground restore sequence completed successfully on attempt {stableSuccessAttempt}.");
                     }
                     else
                     {
@@ -220,6 +220,18 @@ internal static class ChromeManager
         catch (Exception ex)
         {
             logger.LogException(ComponentName, "Failed to launch Chrome", ex);
+            return false;
+        }
+    }
+
+    private static bool IsPreviousWindowForeground()
+    {
+        try
+        {
+            return _previousForeground != IntPtr.Zero && GetForegroundWindow() == _previousForeground;
+        }
+        catch
+        {
             return false;
         }
     }
