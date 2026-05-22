@@ -115,8 +115,8 @@ internal static class ChromeManager
         "Application",
         "chrome.exe");
 
-    private const string FixedUserDataDir = @"C:\Grid3_YouTube_Accessibility_Addon_User_Data";
-    private const string LegacyUserDataDir = @"C:\YouTube_User_Data";
+    private const string PreferredUserDataDir = @"C:\YouTube_User_Data";
+    private const string LegacyGrid3UserDataDir = @"C:\Grid3_YouTube_Accessibility_Addon_User_Data";
     private const string LegacyUserDataDirV5 = @"C:\YouTube_User_Data_V5";
 
     /// <summary>
@@ -233,31 +233,87 @@ internal static class ChromeManager
     {
         try
         {
-            Directory.CreateDirectory(FixedUserDataDir);
+            Directory.CreateDirectory(PreferredUserDataDir);
 
-            if (HasProfileData(FixedUserDataDir))
+            if (HasProfileData(PreferredUserDataDir))
             {
-                return FixedUserDataDir;
+                logger.Log(ComponentName, $"Using preferred Chrome user-data directory: {PreferredUserDataDir}");
+                return PreferredUserDataDir;
             }
 
-            var legacyCandidates = new[] { LegacyUserDataDir, LegacyUserDataDirV5 };
-            foreach (var legacyDir in legacyCandidates)
+            if (TryMigrateLegacyProfile(LegacyGrid3UserDataDir, PreferredUserDataDir, logger) && HasProfileData(PreferredUserDataDir))
             {
-                if (HasProfileData(legacyDir))
-                {
-                    logger.Log(ComponentName, $"Using legacy Chrome user-data directory: {legacyDir}");
-                    return legacyDir;
-                }
+                logger.Log(ComponentName, $"Migrated profile from legacy directory: {LegacyGrid3UserDataDir}");
+                return PreferredUserDataDir;
             }
 
-            return FixedUserDataDir;
+            if (TryMigrateLegacyProfile(LegacyUserDataDirV5, PreferredUserDataDir, logger) && HasProfileData(PreferredUserDataDir))
+            {
+                logger.Log(ComponentName, $"Migrated profile from legacy directory: {LegacyUserDataDirV5}");
+                return PreferredUserDataDir;
+            }
+
+            if (HasProfileData(LegacyGrid3UserDataDir))
+            {
+                logger.Log(ComponentName, $"Migration skipped; using legacy profile directory for this run: {LegacyGrid3UserDataDir}");
+                return LegacyGrid3UserDataDir;
+            }
+
+            logger.Log(ComponentName, $"First install profile bootstrap at: {PreferredUserDataDir}");
+            return PreferredUserDataDir;
         }
         catch (Exception ex)
         {
-            logger.LogException(ComponentName, $"Failed preparing user data dir: {FixedUserDataDir}", ex);
+            logger.LogException(ComponentName, $"Failed preparing user data dir: {PreferredUserDataDir}", ex);
         }
 
         return string.Empty;
+    }
+
+    private static bool TryMigrateLegacyProfile(string legacyDirectory, string targetDirectory, Logger logger)
+    {
+        if (!HasProfileData(legacyDirectory))
+        {
+            return false;
+        }
+
+        try
+        {
+            Directory.CreateDirectory(targetDirectory);
+            CopyDirectoryRecursively(legacyDirectory, targetDirectory);
+            return true;
+        }
+        catch (Exception ex)
+        {
+            logger.LogException(ComponentName, $"Failed migrating legacy profile from {legacyDirectory} to {targetDirectory}", ex);
+            return false;
+        }
+    }
+
+    private static void CopyDirectoryRecursively(string sourceDirectory, string targetDirectory)
+    {
+        var source = new DirectoryInfo(sourceDirectory);
+        var target = new DirectoryInfo(targetDirectory);
+
+        if (!target.Exists)
+        {
+            target.Create();
+        }
+
+        foreach (var file in source.GetFiles())
+        {
+            var destinationPath = Path.Combine(target.FullName, file.Name);
+            if (!File.Exists(destinationPath))
+            {
+                file.CopyTo(destinationPath, overwrite: false);
+            }
+        }
+
+        foreach (var directory in source.GetDirectories())
+        {
+            var targetSubDirectory = Path.Combine(target.FullName, directory.Name);
+            CopyDirectoryRecursively(directory.FullName, targetSubDirectory);
+        }
     }
 
     private static bool HasProfileData(string directory)
