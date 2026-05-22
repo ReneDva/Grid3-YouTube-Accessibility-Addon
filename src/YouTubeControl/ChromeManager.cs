@@ -177,32 +177,61 @@ internal static class ChromeManager
             {
                 try
                 {
-                    const int attempts = 8;
+                    const int attempts = 20;
                     const int delayMs = 250;
                     const int stabilityCheckDelayMs = 120;
+                    const int stableChecksRequired = 3;
+
                     var stableSuccessAttempt = 0;
+                    var sawForegroundSwitch = false;
+                    var stableChecks = 0;
 
                     for (var attempt = 0; attempt < attempts; attempt++)
                     {
                         Thread.Sleep(delayMs);
 
-                        if (!RestoreForegroundWindow(logger))
+                        var currentForeground = GetForegroundWindow();
+                        if (currentForeground != _previousForeground)
                         {
-                            continue;
+                            sawForegroundSwitch = true;
                         }
 
-                        // Guard against early success by requiring foreground stability.
+                        // Keep trying throughout the entire launch window to handle delayed Chrome focus steals.
+                        RestoreForegroundWindow(logger);
+
+                        // Guard against early success by requiring sustained foreground stability.
                         Thread.Sleep(stabilityCheckDelayMs);
                         if (IsPreviousWindowForeground())
                         {
-                            stableSuccessAttempt = attempt + 1;
-                            break;
+                            if (sawForegroundSwitch)
+                            {
+                                stableChecks++;
+                                if (stableChecks >= stableChecksRequired)
+                                {
+                                    stableSuccessAttempt = attempt + 1;
+                                    break;
+                                }
+                            }
                         }
+                        else
+                        {
+                            stableChecks = 0;
+                        }
+                    }
+
+                    if (!IsPreviousWindowForeground())
+                    {
+                        RestoreForegroundWindow(logger);
+                        Thread.Sleep(stabilityCheckDelayMs);
                     }
 
                     if (stableSuccessAttempt > 0)
                     {
                         logger.Log(ComponentName, $"Foreground restore sequence completed successfully on attempt {stableSuccessAttempt}.");
+                    }
+                    else if (IsPreviousWindowForeground())
+                    {
+                        logger.Log(ComponentName, "Foreground restore sequence completed successfully on final pass.");
                     }
                     else
                     {
