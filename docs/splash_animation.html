@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="he" dir="rtl">
+<html lang="he">
 <head>
 <meta charset="UTF-8"/>
 <title>YouTube מתחיל</title>
@@ -7,15 +7,10 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
-    width: 1280px; height: 720px;
+    width: 100vw; height: 100vh;
     background: #F0F8FF;
     font-family: Arial Black, Arial, sans-serif;
     overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 0;
   }
 
   .center-block {
@@ -26,9 +21,9 @@
     gap: 32px;
     position: absolute;
     top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100%;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
   }
 
   /* ── BACKGROUND CIRCLES (decorative) ── */
