@@ -116,6 +116,8 @@ internal static class ChromeManager
         "chrome.exe");
 
     private const string FixedUserDataDir = @"C:\Grid3_YouTube_Accessibility_Addon_User_Data";
+    private const string LegacyUserDataDir = @"C:\YouTube_User_Data";
+    private const string LegacyUserDataDirV5 = @"C:\YouTube_User_Data_V5";
 
     /// <summary>
     /// Launches Chrome with the configured debugging profile.
@@ -175,19 +177,36 @@ internal static class ChromeManager
             {
                 try
                 {
-                    const int attempts = 6;
+                    const int attempts = 8;
                     const int delayMs = 250;
+                    var restoredAny = false;
+
                     for (var attempt = 0; attempt < attempts; attempt++)
                     {
                         Thread.Sleep(delayMs);
                         var ok = RestoreForegroundWindow(logger);
                         if (ok)
                         {
-                            logger.Log(ComponentName, $"Restored previous foreground window on attempt {attempt + 1}.");
-                            break;
+                            restoredAny = true;
                         }
 
-                        logger.Log(ComponentName, $"Restore attempt {attempt + 1} failed; will retry.");
+                        logger.Log(ComponentName, ok
+                            ? $"Restore attempt {attempt + 1} succeeded."
+                            : $"Restore attempt {attempt + 1} failed; will retry.");
+                    }
+
+                    var finalForeground = GetForegroundWindow();
+                    if (finalForeground == _previousForeground)
+                    {
+                        logger.Log(ComponentName, "Foreground restore sequence completed successfully.");
+                    }
+                    else if (restoredAny)
+                    {
+                        logger.Log(ComponentName, "Foreground was restored at least once but did not remain on the previous window.");
+                    }
+                    else
+                    {
+                        logger.Log(ComponentName, "Foreground restore sequence did not restore the previous window.");
                     }
                 }
                 catch (Exception ex)
@@ -215,6 +234,22 @@ internal static class ChromeManager
         try
         {
             Directory.CreateDirectory(FixedUserDataDir);
+
+            if (HasProfileData(FixedUserDataDir))
+            {
+                return FixedUserDataDir;
+            }
+
+            var legacyCandidates = new[] { LegacyUserDataDir, LegacyUserDataDirV5 };
+            foreach (var legacyDir in legacyCandidates)
+            {
+                if (HasProfileData(legacyDir))
+                {
+                    logger.Log(ComponentName, $"Using legacy Chrome user-data directory: {legacyDir}");
+                    return legacyDir;
+                }
+            }
+
             return FixedUserDataDir;
         }
         catch (Exception ex)
@@ -223,6 +258,30 @@ internal static class ChromeManager
         }
 
         return string.Empty;
+    }
+
+    private static bool HasProfileData(string directory)
+    {
+        try
+        {
+            if (!Directory.Exists(directory))
+            {
+                return false;
+            }
+
+            var defaultProfileDir = Path.Combine(directory, "Default");
+            if (!Directory.Exists(defaultProfileDir))
+            {
+                return false;
+            }
+
+            return File.Exists(Path.Combine(defaultProfileDir, "Login Data")) ||
+                File.Exists(Path.Combine(defaultProfileDir, "Preferences"));
+        }
+        catch
+        {
+            return false;
+        }
     }
 
     /// <summary>
