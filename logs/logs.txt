@@ -1,0 +1,1483 @@
+﻿2026-05-20T16:03:18.5635112+03:00 | [Program] Leader started.
+2026-05-20T16:03:20.6734959+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:03:23.2056635+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:03:26.2692396+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:03:28.2907216+03:00 | [ChromeManager] Using Chrome binary: C:\Users\User\AppData\Local\Google\Chrome SxS\Application\chrome.exe
+2026-05-20T16:03:28.9082501+03:00 | [ChromeManager] Chrome launched on debugging port 15432.
+2026-05-20T16:03:30.9949957+03:00 | [LeaderMode] Connected to Chrome CDP at http://127.0.0.1:15432.
+2026-05-20T16:10:31.1980807+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:10:33.7412150+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:10:36.7842136+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:10:43.8504640+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:10:46.3878788+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:10:49.4382772+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:10:56.4853075+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:10:59.0114424+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:11:02.0557132+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:11:09.1137491+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:11:11.6837074+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:11:14.7094038+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:11:21.7536731+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:19:34.4307365+03:00 | [Program] Leader started.
+2026-05-20T16:19:36.4975606+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:19:39.0475554+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:19:42.0830478+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:19:44.1174883+03:00 | [ChromeManager] Using Chrome binary: C:\Users\User\AppData\Local\Google\Chrome SxS\Application\chrome.exe
+2026-05-20T16:19:44.2447888+03:00 | [ChromeManager] Chrome launched on debugging port 15432.
+2026-05-20T16:19:46.3117598+03:00 | [LeaderMode] Connected to Chrome CDP at http://127.0.0.1:15432.
+2026-05-20T16:32:29.5354138+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:32:32.0657776+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:32:35.1257491+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:32:42.1447554+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:32:44.6706886+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:32:47.7348855+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:32:54.7643740+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:32:57.3074379+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:33:00.3429687+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:33:07.3938050+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:33:09.9230383+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:33:12.9543250+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:33:20.0157496+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:33:22.5464339+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:33:25.5940560+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:33:32.6253617+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:33:35.1682525+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:33:38.2266270+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:33:45.2788267+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:33:47.8446453+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:33:50.9015266+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:33:57.9403131+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:34:00.4876068+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:34:03.5345097+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:34:10.5925072+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:34:13.1079973+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:34:16.1364449+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:34:23.2099471+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:34:25.7712908+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:34:28.8172483+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:34:35.8610075+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:34:38.3869739+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:34:41.4064779+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:34:48.4658398+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:34:50.9891711+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:34:54.0192144+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:35:01.0697698+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:35:03.6045859+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:35:06.6435618+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:35:13.6894069+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:35:16.2494407+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:35:19.2904417+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:35:26.3293155+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:35:28.8562200+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:35:31.9026614+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:35:38.9349786+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:35:41.4494465+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:35:44.4784142+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:35:51.5367161+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:35:54.0884336+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:35:57.1324006+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:36:04.1785233+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:36:06.7135830+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:36:09.7485649+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:36:16.7720472+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:36:19.3189565+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:36:22.3622194+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:36:29.3968175+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:36:31.9317369+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:36:34.9546234+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:36:42.0039097+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:36:44.5499129+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:36:47.5907169+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:36:54.6274747+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:36:57.1533395+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:37:00.2094501+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:37:07.2627722+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:37:09.7895238+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:37:12.8211366+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:37:19.9004336+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:37:22.4457331+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:37:25.4951740+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:37:32.5385568+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:37:35.0864053+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:37:38.1307428+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:37:45.1669789+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:37:47.7041403+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:37:50.7278300+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:37:57.7910456+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:38:00.3270381+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:38:03.3809971+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:38:10.4449634+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:38:12.9772063+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:38:15.9974869+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:38:23.0464985+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:38:25.5705047+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:38:28.6067701+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:38:35.6753103+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:38:38.2070486+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:38:41.2342777+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:38:48.3009528+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:38:50.8300744+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:38:53.8693621+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:39:00.9175287+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:39:03.4537345+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:39:06.4785318+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:39:13.5123778+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:39:16.0368575+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:39:19.1028071+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:39:26.1173410+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:39:28.6478223+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:39:31.6758790+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:39:38.7298111+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:39:41.2567268+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:39:44.3474304+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:39:51.3756226+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:39:53.8934375+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:39:56.9142850+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:40:03.9787166+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:40:06.5119926+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:40:09.5416942+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:40:16.5852032+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:40:19.1315510+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:40:22.1637189+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:40:29.2046699+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:40:31.7489135+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:40:34.8092820+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:40:41.8536586+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:40:44.3869981+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:40:47.4471004+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:40:54.5090368+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:40:57.0510334+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:41:00.0920237+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:41:07.1398612+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:41:09.6691019+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:41:12.7147959+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:41:19.7631749+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:41:22.3308421+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:41:25.3624169+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:41:32.4270113+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:41:34.9598140+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:41:38.0007332+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:41:45.0422458+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:41:47.5798012+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:41:50.6329817+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:41:57.6797643+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:42:00.2263867+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:42:03.3158941+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:42:10.3582346+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:42:12.8836580+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:42:15.9161809+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:42:22.9757073+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:42:25.5331879+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:42:28.5857646+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:42:35.6243679+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:42:38.1594466+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:42:41.1915995+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:42:48.2518675+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:42:50.7989473+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:42:53.8477586+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:43:00.8760554+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:43:03.3884780+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:43:06.4265509+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:43:13.4777563+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:43:16.0160430+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:43:19.0608717+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:43:38.4038791+03:00 | [Program] Leader started.
+2026-05-20T16:43:40.4806873+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:43:43.0066050+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:43:46.0362810+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T16:43:48.0481397+03:00 | [ChromeManager] Using Chrome binary: C:\Users\User\AppData\Local\Google\Chrome SxS\Application\chrome.exe
+2026-05-20T16:43:48.1335449+03:00 | [ChromeManager] Chrome launched on debugging port 15432.
+2026-05-20T16:43:50.4595070+03:00 | [LeaderMode] Connected to Chrome CDP at http://127.0.0.1:15432.
+2026-05-20T16:44:17.4753530+03:00 | [AdSkipperTask] Ad skip click executed: Skip Found at 1449,587
+2026-05-20T16:44:21.4875640+03:00 | [LeaderMode] Leader received command: down
+2026-05-20T16:44:21.5287591+03:00 | [LeaderMode] Action 'down' executed with result: Focus Reset
+2026-05-20T16:44:23.3079420+03:00 | [LeaderMode] Leader received command: down
+2026-05-20T16:44:23.3570685+03:00 | [LeaderMode] Action 'down' executed with result: Moved to 1
+2026-05-20T16:44:25.1079844+03:00 | [LeaderMode] Leader received command: down
+2026-05-20T16:44:25.1360380+03:00 | [LeaderMode] Action 'down' executed with result: Moved to 2
+2026-05-20T16:44:26.1867991+03:00 | [LeaderMode] Leader received command: enter
+2026-05-20T16:44:26.2380525+03:00 | [LeaderMode] Action 'enter' executed with result: Navigating...
+2026-05-20T16:44:39.0000610+03:00 | [LeaderMode] Leader received command: play_pause
+2026-05-20T16:44:39.0115640+03:00 | [LeaderMode] Action 'play_pause' executed with result: Video Play/Pause Toggled
+2026-05-20T16:44:41.0243375+03:00 | [LeaderMode] Leader received command: play_pause
+2026-05-20T16:44:41.0322687+03:00 | [LeaderMode] Action 'play_pause' executed with result: Video Play/Pause Toggled
+2026-05-20T16:44:44.3378882+03:00 | [LeaderMode] Leader received command: play_pause
+2026-05-20T16:44:44.3447614+03:00 | [LeaderMode] Action 'play_pause' executed with result: Video Play/Pause Toggled
+2026-05-20T16:47:01.6219167+03:00 | [LeaderMode] Leader received command: play_pause
+2026-05-20T16:47:01.6378033+03:00 | [LeaderMode] Action 'play_pause' executed with result: Video Play/Pause Toggled
+2026-05-20T16:47:03.5797167+03:00 | [LeaderMode] Leader received command: like
+2026-05-20T16:47:03.6349930+03:00 | [LeaderMode] Action 'like' executed with result: Liked!
+2026-05-20T16:47:06.1693505+03:00 | [LeaderMode] Leader received command: like
+2026-05-20T16:47:06.2236162+03:00 | [LeaderMode] Action 'like' executed with result: Liked!
+2026-05-20T16:47:07.7461460+03:00 | [LeaderMode] Leader received command: play_pause
+2026-05-20T16:47:07.7521596+03:00 | [LeaderMode] Action 'play_pause' executed with result: Video Play/Pause Toggled
+2026-05-20T16:47:43.1812917+03:00 | [LeaderMode] Leader received command: home
+2026-05-20T16:47:51.5625041+03:00 | [LeaderMode] Presentation normalization for action 'open': presentation-normalized
+2026-05-20T16:47:51.5854075+03:00 | [LeaderMode] Action 'open' executed with result: Focus Reset
+2026-05-20T16:47:52.0548694+03:00 | [LeaderMode] Leader received command: down
+2026-05-20T16:47:52.0718057+03:00 | [LeaderMode] Action 'down' executed with result: Moved to 1
+2026-05-20T16:47:53.5864268+03:00 | [LeaderMode] Leader received command: down
+2026-05-20T16:47:53.6120326+03:00 | [LeaderMode] Action 'down' executed with result: Moved to 2
+2026-05-20T16:47:56.9936604+03:00 | [LeaderMode] Leader received command: enter
+2026-05-20T16:47:57.1126759+03:00 | [LeaderMode] Action 'enter' executed with result: Navigating...
+2026-05-20T16:48:01.1732376+03:00 | [LeaderMode] Leader received command: down
+2026-05-20T16:48:01.1911999+03:00 | [LeaderMode] Action 'down' executed with result: Shorts Down
+2026-05-20T16:48:04.2442170+03:00 | [LeaderMode] Leader received command: up
+2026-05-20T16:48:04.2608476+03:00 | [LeaderMode] Action 'up' executed with result: Shorts Up
+2026-05-20T16:48:07.0655449+03:00 | [LeaderMode] Leader received command: like
+2026-05-20T16:48:07.1051017+03:00 | [LeaderMode] Action 'like' executed with result: Liked!
+2026-05-20T16:48:08.9872775+03:00 | [LeaderMode] Leader received command: like
+2026-05-20T16:48:09.0473421+03:00 | [LeaderMode] Action 'like' executed with result: Liked!
+2026-05-20T16:48:11.1599713+03:00 | [LeaderMode] Leader received command: play_pause
+2026-05-20T16:48:11.1836398+03:00 | [LeaderMode] Action 'play_pause' executed with result: Shorts Play/Pause Toggled
+2026-05-20T16:48:13.6579507+03:00 | [LeaderMode] Leader received command: back
+2026-05-20T16:48:16.7338861+03:00 | [LeaderMode] Action 'back' executed with result: Focus Reset
+2026-05-20T16:48:17.8249301+03:00 | [LeaderMode] Leader received command: down
+2026-05-20T16:48:17.8494630+03:00 | [LeaderMode] Action 'down' executed with result: Moved to 1
+2026-05-20T16:48:19.1730469+03:00 | [LeaderMode] Leader received command: down
+2026-05-20T16:48:19.1927802+03:00 | [LeaderMode] Action 'down' executed with result: Moved to 2
+2026-05-20T16:48:20.8488937+03:00 | [LeaderMode] Leader received command: down
+2026-05-20T16:48:20.8675745+03:00 | [LeaderMode] Action 'down' executed with result: Moved to 3
+2026-05-20T16:48:24.2886024+03:00 | [LeaderMode] Leader received command: home
+2026-05-20T16:48:36.9324164+03:00 | [LeaderMode] Presentation normalization for action 'open': presentation-normalized
+2026-05-20T16:48:36.9376217+03:00 | [LeaderMode] Action 'open' executed with result: Focus Reset
+2026-05-20T16:49:20.1204690+03:00 | [LeaderMode] Leader received command: search: נועה קירל
+2026-05-20T16:49:29.0164746+03:00 | [LeaderMode] Presentation normalization for action 'search': presentation-normalized
+2026-05-20T16:49:29.1701748+03:00 | [LeaderMode] Action 'search' executed with result: Focus Reset
+2026-05-20T16:49:29.1709509+03:00 | [LeaderMode] Leader received command: down
+2026-05-20T16:49:29.2149219+03:00 | [LeaderMode] Action 'down' executed with result: Moved to 1
+2026-05-20T16:49:30.2127062+03:00 | [LeaderMode] Leader received command: down
+2026-05-20T16:49:30.2497095+03:00 | [LeaderMode] Action 'down' executed with result: Moved to 2
+2026-05-20T16:49:31.5503637+03:00 | [LeaderMode] Leader received command: down
+2026-05-20T16:49:31.5722720+03:00 | [LeaderMode] Action 'down' executed with result: Moved to 3
+2026-05-20T16:49:33.7127419+03:00 | [LeaderMode] Leader received command: enter
+2026-05-20T16:49:33.7983874+03:00 | [LeaderMode] Action 'enter' executed with result: Navigating...
+2026-05-20T16:49:42.3086191+03:00 | [AdSkipperTask] Ad skip click executed: Skip Found at 1449,587
+2026-05-20T16:49:45.5427942+03:00 | [LeaderMode] Leader received command: play_pause
+2026-05-20T16:49:45.5535789+03:00 | [LeaderMode] Action 'play_pause' executed with result: Video Play/Pause Toggled
+2026-05-20T16:49:46.6293114+03:00 | [LeaderMode] Leader received command: play_pause
+2026-05-20T16:49:46.6345337+03:00 | [LeaderMode] Action 'play_pause' executed with result: Video Play/Pause Toggled
+2026-05-20T16:49:49.2192651+03:00 | [LeaderMode] Leader received command: play_pause
+2026-05-20T16:49:49.2295084+03:00 | [LeaderMode] Action 'play_pause' executed with result: Video Play/Pause Toggled
+2026-05-20T16:49:50.5954485+03:00 | [LeaderMode] Leader received command: play_pause
+2026-05-20T16:49:50.6104135+03:00 | [LeaderMode] Action 'play_pause' executed with result: Video Play/Pause Toggled
+2026-05-20T16:49:52.3489434+03:00 | [LeaderMode] Leader received command: play_pause
+2026-05-20T16:49:52.3554663+03:00 | [LeaderMode] Action 'play_pause' executed with result: Video Play/Pause Toggled
+2026-05-20T16:49:55.2831863+03:00 | [LeaderMode] Leader received command: home
+2026-05-20T16:50:06.0881797+03:00 | [LeaderMode] Presentation normalization for action 'open': presentation-normalized
+2026-05-20T16:50:06.1054300+03:00 | [LeaderMode] Action 'open' executed with result: Focus Reset
+2026-05-20T16:55:44.5872633+03:00 | [LeaderMode] Leader received command: search: סיפורי אגדות לילדים
+2026-05-20T16:55:51.2655778+03:00 | [LeaderMode] Presentation normalization for action 'search': presentation-normalized
+2026-05-20T16:55:51.2858483+03:00 | [LeaderMode] Action 'search' executed with result: Focus Reset
+2026-05-20T16:55:54.2616565+03:00 | [LeaderMode] Leader received command: down
+2026-05-20T16:55:54.2937147+03:00 | [LeaderMode] Action 'down' executed with result: Moved to 1
+2026-05-20T16:55:57.4574961+03:00 | [LeaderMode] Leader received command: down
+2026-05-20T16:55:57.4803748+03:00 | [LeaderMode] Action 'down' executed with result: Moved to 2
+2026-05-20T17:03:28.0062547+03:00 | [LeaderMode] Leader received command: down
+2026-05-20T17:03:28.0352470+03:00 | [LeaderMode] Action 'down' executed with result: Moved to 3
+2026-05-20T17:03:29.9619049+03:00 | [LeaderMode] Leader received command: enter
+2026-05-20T17:03:30.0736999+03:00 | [LeaderMode] Action 'enter' executed with result: Navigating...
+2026-05-20T17:03:35.8472253+03:00 | [LeaderMode] Leader received command: fullscreen
+2026-05-20T17:03:37.6314456+03:00 | [LeaderMode] Action 'fullscreen' executed with result: Fullscreen On
+2026-05-20T17:03:39.7118878+03:00 | [AdSkipperTask] Ad skip click executed: Skip Found at 1472,872
+2026-05-20T17:03:44.6980917+03:00 | [LeaderMode] Leader received command: fullscreen
+2026-05-20T17:03:46.8231308+03:00 | [LeaderMode] Action 'fullscreen' executed with result: Fullscreen Off
+2026-05-20T17:03:52.9036212+03:00 | [LeaderMode] Leader received command: play_pause
+2026-05-20T17:03:52.9204885+03:00 | [LeaderMode] Action 'play_pause' executed with result: Video Play/Pause Toggled
+2026-05-20T17:04:39.9132406+03:00 | [LeaderMode] Leader received command: home
+2026-05-20T17:04:45.0333709+03:00 | [MessengerMode] Messenger timeout while connecting to leader pipe.
+2026-05-20T17:04:49.6527998+03:00 | [LeaderMode] Presentation normalization for action 'open': presentation-normalized
+2026-05-20T17:04:49.6887792+03:00 | [LeaderMode] Action 'open' executed with result: Focus Reset
+2026-05-20T17:04:54.0339235+03:00 | [LeaderMode] Leader received command: down
+2026-05-20T17:04:54.0726503+03:00 | [LeaderMode] Action 'down' executed with result: Moved to 1
+2026-05-20T17:04:58.5587528+03:00 | [LeaderMode] Leader received command: home
+2026-05-20T17:05:03.8845962+03:00 | [MessengerMode] Messenger timeout while connecting to leader pipe.
+2026-05-20T17:05:08.1997655+03:00 | [LeaderMode] Presentation normalization for action 'open': presentation-normalized
+2026-05-20T17:05:08.2329344+03:00 | [LeaderMode] Action 'open' executed with result: Focus Reset
+2026-05-20T17:05:14.3436939+03:00 | [LeaderMode] Leader received command: home
+2026-05-20T17:05:27.5764342+03:00 | [LeaderMode] Presentation normalization for action 'open': presentation-normalized
+2026-05-20T17:05:27.5810575+03:00 | [LeaderMode] Action 'open' executed with result: Focus Reset
+2026-05-20T17:06:21.8198110+03:00 | [LeaderMode] Leader received command: home
+2026-05-20T17:06:29.6984060+03:00 | [LeaderMode] Presentation normalization for action 'open': presentation-normalized
+2026-05-20T17:06:29.7287615+03:00 | [LeaderMode] Action 'open' executed with result: Focus Reset
+2026-05-20T17:07:08.5278070+03:00 | [LeaderMode] Leader received command: search: נועה קירל
+2026-05-20T17:07:14.6616076+03:00 | [LeaderMode] Presentation normalization for action 'search': presentation-normalized
+2026-05-20T17:07:14.7641217+03:00 | [LeaderMode] Action 'search' executed with result: Focus Reset
+2026-05-20T17:07:16.2436762+03:00 | [LeaderMode] Leader received command: down
+2026-05-20T17:07:16.3822718+03:00 | [LeaderMode] Action 'down' executed with result: Moved to 1
+2026-05-20T17:07:17.8046667+03:00 | [LeaderMode] Leader received command: down
+2026-05-20T17:07:17.8277110+03:00 | [LeaderMode] Action 'down' executed with result: Moved to 2
+2026-05-20T17:07:20.3397601+03:00 | [LeaderMode] Leader received command: enter
+2026-05-20T17:07:20.4452163+03:00 | [LeaderMode] Action 'enter' executed with result: Navigating...
+2026-05-20T17:07:29.5207240+03:00 | [AdSkipperTask] Ad skip click executed: Skip Found at 1449,587
+2026-05-20T17:07:34.1515050+03:00 | [LeaderMode] Leader received command: play_pause
+2026-05-20T17:07:34.1613271+03:00 | [LeaderMode] Action 'play_pause' executed with result: Video Play/Pause Toggled
+2026-05-20T17:08:55.0602324+03:00 | [LeaderMode] Leader received command: open: C:\Windows\send.vbs open: https://youtu.be/Me3qzAODv2o?list=PLcOgCbokZ7-0WYai-rU3k5xYIyaQetiPI
+2026-05-20T17:08:55.3181760+03:00 | [LeaderMode] Command 'open' failed: NavigationException: net::ERR_FILE_NOT_FOUND at C:\Windows\send.vbs open: https://youtu.be/Me3qzAODv2o?list=PLcOgCbokZ7-0WYai-rU3k5xYIyaQetiPI at C:\Windows\send.vbs open: https://youtu.be/Me3qzAODv2o?list=PLcOgCbokZ7-0WYai-rU3k5xYIyaQetiPI
+   at PuppeteerSharp.Cdp.CdpFrame.<GoToAsync>d__22.MoveNext() + 0x8f2
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<DispatchCommandOnceAsync>d__15.MoveNext() + 0x4f6
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<DispatchCommandAsync>d__14.MoveNext() + 0x3b1
+2026-05-20T17:10:00.3511681+03:00 | [LeaderMode] Leader received command: open: https://youtu.be/Me3qzAODv2o?list=PLcOgCbokZ7-0WYai-rU3k5xYIyaQetiPI
+2026-05-20T17:10:04.9156116+03:00 | [LeaderMode] Presentation normalization for action 'open': presentation-normalized
+2026-05-20T17:10:04.9446449+03:00 | [LeaderMode] Action 'open' executed with result: Focus Reset
+2026-05-20T17:10:14.5061792+03:00 | [LeaderMode] Leader received command: fullscreen
+2026-05-20T17:10:15.4360153+03:00 | [LeaderMode] Action 'fullscreen' executed with result: Fullscreen On
+2026-05-20T17:10:17.7574000+03:00 | [LeaderMode] Leader received command: fullscreen
+2026-05-20T17:10:19.0169435+03:00 | [LeaderMode] Action 'fullscreen' executed with result: Fullscreen Off
+2026-05-20T17:10:24.3696714+03:00 | [LeaderMode] Leader received command: back
+2026-05-20T17:10:27.6862623+03:00 | [LeaderMode] Action 'back' executed with result: Focus Reset
+2026-05-20T17:12:17.2128784+03:00 | [LeaderMode] Leader received command: open: https://youtu.be/UuInsSwfivI
+2026-05-20T17:12:21.6143435+03:00 | [LeaderMode] Presentation normalization for action 'open': presentation-normalized
+2026-05-20T17:12:21.6425300+03:00 | [LeaderMode] Action 'open' executed with result: Focus Reset
+2026-05-20T17:12:27.7233736+03:00 | [AdSkipperTask] Ad skip click executed: Skip Found at 1449,587
+2026-05-20T17:12:37.9022263+03:00 | [LeaderMode] Leader received command: open: https://youtu.be/TGVB3MDm88k
+2026-05-20T17:12:41.8432307+03:00 | [LeaderMode] Presentation normalization for action 'open': presentation-normalized
+2026-05-20T17:12:41.8887108+03:00 | [LeaderMode] Action 'open' executed with result: Focus Reset
+2026-05-20T17:12:52.1578781+03:00 | [LeaderMode] Leader received command: open: https://youtu.be/yBpT1_OFrMc
+2026-05-20T17:12:56.8001154+03:00 | [LeaderMode] Presentation normalization for action 'open': presentation-normalized
+2026-05-20T17:12:56.8202415+03:00 | [LeaderMode] Action 'open' executed with result: Focus Reset
+2026-05-20T17:13:06.3649514+03:00 | [LeaderMode] Leader received command: open: https://youtu.be/WnC7Set0g5s
+2026-05-20T17:13:10.6896627+03:00 | [LeaderMode] Presentation normalization for action 'open': presentation-normalized
+2026-05-20T17:13:10.7275533+03:00 | [LeaderMode] Action 'open' executed with result: Focus Reset
+2026-05-20T17:13:18.7984054+03:00 | [LeaderMode] Leader received command: open: https://youtu.be/L68ooAsGZIU
+2026-05-20T17:13:23.4564635+03:00 | [LeaderMode] Presentation normalization for action 'open': presentation-normalized
+2026-05-20T17:13:23.4733288+03:00 | [LeaderMode] Action 'open' executed with result: Focus Reset
+2026-05-20T17:15:25.2046395+03:00 | [LeaderMode] Leader received command: open: https://youtu.be/UXtC6KeFVP8
+2026-05-20T17:15:30.2152027+03:00 | [LeaderMode] Presentation normalization for action 'open': presentation-normalized
+2026-05-20T17:15:30.2452267+03:00 | [LeaderMode] Action 'open' executed with result: Focus Reset
+2026-05-20T17:15:38.5797488+03:00 | [LeaderMode] Leader received command: open: https://youtu.be/OMEWa3pk4KA
+2026-05-20T17:15:44.0247731+03:00 | [LeaderMode] Presentation normalization for action 'open': presentation-normalized
+2026-05-20T17:15:44.0530559+03:00 | [LeaderMode] Action 'open' executed with result: Focus Reset
+2026-05-20T17:15:49.0014535+03:00 | [LeaderMode] Leader received command: open: https://youtu.be/16y1AkoZkmQ
+2026-05-20T17:15:54.8006740+03:00 | [LeaderMode] Presentation normalization for action 'open': presentation-normalized
+2026-05-20T17:15:54.8282155+03:00 | [LeaderMode] Action 'open' executed with result: Focus Reset
+2026-05-20T17:16:01.2149720+03:00 | [LeaderMode] Leader received command: open: https://youtu.be/zFAbUkOXd9Q
+2026-05-20T17:16:06.4985997+03:00 | [LeaderMode] Presentation normalization for action 'open': presentation-normalized
+2026-05-20T17:16:06.5214755+03:00 | [LeaderMode] Action 'open' executed with result: Focus Reset
+2026-05-20T17:18:08.9513105+03:00 | [LeaderMode] Leader received command: open: https://youtu.be/vLjcSogOl9M
+2026-05-20T17:18:13.6457871+03:00 | [LeaderMode] Presentation normalization for action 'open': presentation-normalized
+2026-05-20T17:18:13.6836946+03:00 | [LeaderMode] Action 'open' executed with result: Focus Reset
+2026-05-20T17:18:16.6446881+03:00 | [LeaderMode] Leader received command: play_pause
+2026-05-20T17:18:16.6937678+03:00 | [LeaderMode] Action 'play_pause' executed with result: Video Play/Pause Toggled
+2026-05-20T17:32:43.7830694+03:00 | [LeaderMode] Leader received command: home
+2026-05-20T17:32:51.6230816+03:00 | [LeaderMode] Presentation normalization for action 'open': presentation-normalized
+2026-05-20T17:32:51.6688026+03:00 | [LeaderMode] Action 'open' executed with result: Focus Reset
+2026-05-20T17:32:53.0134131+03:00 | [LeaderMode] Leader received command: down
+2026-05-20T17:32:53.0303291+03:00 | [LeaderMode] Action 'down' executed with result: Moved to 1
+2026-05-20T17:33:15.7382248+03:00 | [LeaderMode] Leader received command: down
+2026-05-20T17:33:15.7871631+03:00 | [LeaderMode] Action 'down' executed with result: Moved to 2
+2026-05-20T17:33:17.5196670+03:00 | [LeaderMode] Leader received command: down
+2026-05-20T17:33:17.5436541+03:00 | [LeaderMode] Action 'down' executed with result: Moved to 3
+2026-05-20T17:33:18.5479731+03:00 | [LeaderMode] Leader received command: down
+2026-05-20T17:33:18.5671371+03:00 | [LeaderMode] Action 'down' executed with result: Moved to 4
+2026-05-20T17:33:23.3663353+03:00 | [LeaderMode] Leader received command: enter
+2026-05-20T17:33:23.4710113+03:00 | [LeaderMode] Action 'enter' executed with result: Navigating...
+2026-05-20T17:33:29.8078094+03:00 | [LeaderMode] Leader received command: play_pause
+2026-05-20T17:33:29.8361397+03:00 | [LeaderMode] Action 'play_pause' executed with result: Shorts Play/Pause Toggled
+2026-05-20T17:33:31.8283628+03:00 | [LeaderMode] Leader received command: play_pause
+2026-05-20T17:33:31.8357636+03:00 | [LeaderMode] Action 'play_pause' executed with result: Shorts Play/Pause Toggled
+2026-05-20T17:33:37.1471506+03:00 | [LeaderMode] Leader received command: play_pause
+2026-05-20T17:33:37.1669147+03:00 | [LeaderMode] Action 'play_pause' executed with result: Shorts Play/Pause Toggled
+2026-05-20T17:33:41.2003413+03:00 | [LeaderMode] Leader received command: back
+2026-05-20T17:33:44.2804174+03:00 | [LeaderMode] Action 'back' executed with result: Focus Reset
+2026-05-20T17:33:44.5776886+03:00 | [LeaderMode] Leader received command: down
+2026-05-20T17:33:44.6317277+03:00 | [LeaderMode] Action 'down' executed with result: Moved to 1
+2026-05-20T17:33:46.2206601+03:00 | [LeaderMode] Leader received command: down
+2026-05-20T17:33:46.2422757+03:00 | [LeaderMode] Action 'down' executed with result: Moved to 2
+2026-05-20T17:33:47.7775092+03:00 | [LeaderMode] Leader received command: down
+2026-05-20T17:33:47.7971308+03:00 | [LeaderMode] Action 'down' executed with result: Moved to 3
+2026-05-20T17:33:48.8685751+03:00 | [LeaderMode] Leader received command: down
+2026-05-20T17:33:48.8862130+03:00 | [LeaderMode] Action 'down' executed with result: Moved to 4
+2026-05-20T17:33:52.1055061+03:00 | [LeaderMode] Leader received command: down
+2026-05-20T17:33:52.1330412+03:00 | [LeaderMode] Action 'down' executed with result: Moved to 5
+2026-05-20T17:33:53.6618911+03:00 | [LeaderMode] Leader received command: down
+2026-05-20T17:33:53.6827343+03:00 | [LeaderMode] Action 'down' executed with result: Moved to 6
+2026-05-20T17:33:55.1373636+03:00 | [LeaderMode] Leader received command: down
+2026-05-20T17:33:55.1570080+03:00 | [LeaderMode] Action 'down' executed with result: Moved to 7
+2026-05-20T17:33:56.9453680+03:00 | [LeaderMode] Leader received command: down
+2026-05-20T17:33:56.9680379+03:00 | [LeaderMode] Action 'down' executed with result: Moved to 8
+2026-05-20T17:33:58.5803537+03:00 | [LeaderMode] Leader received command: down
+2026-05-20T17:33:58.5965683+03:00 | [LeaderMode] Action 'down' executed with result: Moved to 9
+2026-05-20T17:33:59.9847668+03:00 | [LeaderMode] Leader received command: down
+2026-05-20T17:34:00.0057441+03:00 | [LeaderMode] Action 'down' executed with result: Moved to 10
+2026-05-20T17:34:01.2391800+03:00 | [LeaderMode] Leader received command: down
+2026-05-20T17:34:01.2600459+03:00 | [LeaderMode] Action 'down' executed with result: Moved to 11
+2026-05-20T17:34:03.6229734+03:00 | [LeaderMode] Leader received command: down
+2026-05-20T17:34:03.6433041+03:00 | [LeaderMode] Action 'down' executed with result: Moved to 12
+2026-05-20T17:34:05.3744117+03:00 | [LeaderMode] Leader received command: down
+2026-05-20T17:34:05.4004011+03:00 | [LeaderMode] Action 'down' executed with result: Moved to 13
+2026-05-20T17:34:07.6607086+03:00 | [LeaderMode] Leader received command: down
+2026-05-20T17:34:07.6825462+03:00 | [LeaderMode] Action 'down' executed with result: Moved to 14
+2026-05-20T17:34:10.8252043+03:00 | [LeaderMode] Leader received command: enter
+2026-05-20T17:34:10.9009327+03:00 | [LeaderMode] Action 'enter' executed with result: Navigating...
+2026-05-20T17:34:18.0030225+03:00 | [AdSkipperTask] Ad skip click executed: Skip Found at 1462,587
+2026-05-20T17:34:25.7972222+03:00 | [LeaderMode] Leader received command: down
+2026-05-20T17:34:25.8487266+03:00 | [LeaderMode] Action 'down' executed with result: Focus Reset
+2026-05-20T17:34:28.3415032+03:00 | [LeaderMode] Leader received command: down
+2026-05-20T17:34:28.5271921+03:00 | [LeaderMode] Action 'down' executed with result: Moved to 1
+2026-05-20T17:34:30.3008070+03:00 | [LeaderMode] Leader received command: down
+2026-05-20T17:34:30.3317928+03:00 | [LeaderMode] Action 'down' executed with result: Moved to 2
+2026-05-20T17:34:32.4671334+03:00 | [LeaderMode] Leader received command: down
+2026-05-20T17:34:32.5716388+03:00 | [LeaderMode] Action 'down' executed with result: Moved to 3
+2026-05-20T17:34:35.4226648+03:00 | [LeaderMode] Leader received command: enter
+2026-05-20T17:34:35.5160759+03:00 | [LeaderMode] Action 'enter' executed with result: Navigating...
+2026-05-20T17:34:39.9152224+03:00 | [LeaderMode] Leader received command: play_pause
+2026-05-20T17:34:40.0786670+03:00 | [LeaderMode] Action 'play_pause' executed with result: Video Play/Pause Toggled
+2026-05-20T17:42:45.3005897+03:00 | [LeaderMode] Leader received command: down
+2026-05-20T17:42:45.3723213+03:00 | [LeaderMode] Action 'down' executed with result: Focus Reset
+2026-05-20T17:42:47.3926537+03:00 | [LeaderMode] Leader received command: enter
+2026-05-20T17:42:47.4722280+03:00 | [LeaderMode] Action 'enter' executed with result: Navigating...
+2026-05-20T17:42:55.8669942+03:00 | [LeaderMode] Leader received command: play_pause
+2026-05-20T17:42:56.1545401+03:00 | [LeaderMode] Action 'play_pause' executed with result: Video Play/Pause Toggled
+2026-05-20T17:42:56.5550586+03:00 | [AdSkipperTask] Ad skip click executed: Skip Found at 1449,587
+2026-05-20T17:43:28.9636322+03:00 | [LeaderMode] Leader received command: play_pause
+2026-05-20T17:43:28.9942515+03:00 | [LeaderMode] Action 'play_pause' executed with result: Video Play/Pause Toggled
+2026-05-20T17:44:06.3332954+03:00 | [LeaderMode] Leader received command: exit
+2026-05-20T17:44:06.9401637+03:00 | [LeaderMode] Exit command received. Browser tabs and window were closed.
+2026-05-20T17:44:06.9411399+03:00 | [Program] Leader shutdown requested by command.
+2026-05-20T17:44:06.9421022+03:00 | [LeaderMode] Leader pipe loop stopped.
+2026-05-20T17:44:06.9427295+03:00 | [Program] Leader stopped.
+2026-05-20T17:44:22.7498176+03:00 | [Program] Leader started.
+2026-05-20T17:44:24.8422191+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T17:44:27.3873213+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T17:44:30.0135767+03:00 | [MessengerMode] Messenger timeout while connecting to leader pipe.
+2026-05-20T17:44:30.4506097+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T17:44:32.4648842+03:00 | [ChromeManager] Using Chrome binary: C:\Users\User\AppData\Local\Google\Chrome SxS\Application\chrome.exe
+2026-05-20T17:44:32.5374729+03:00 | [ChromeManager] Chrome launched on debugging port 15432.
+2026-05-20T17:44:34.6236460+03:00 | [LeaderMode] Connected to Chrome CDP at http://127.0.0.1:15432.
+2026-05-20T17:45:24.9405661+03:00 | [LeaderMode] Leader received command: exit
+2026-05-20T17:45:25.0598661+03:00 | [LeaderMode] Exit command received. Browser tabs and window were closed.
+2026-05-20T17:45:25.0607181+03:00 | [Program] Leader shutdown requested by command.
+2026-05-20T17:45:25.0617562+03:00 | [Program] Leader stopped.
+2026-05-20T17:45:32.6672400+03:00 | [Program] Leader started.
+2026-05-20T17:45:34.7506845+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T17:45:37.3153062+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T17:45:40.3552360+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-20T17:45:42.3818130+03:00 | [ChromeManager] Using Chrome binary: C:\Users\User\AppData\Local\Google\Chrome SxS\Application\chrome.exe
+2026-05-20T17:45:42.5156812+03:00 | [ChromeManager] Chrome launched on debugging port 15432.
+2026-05-20T17:45:43.8011247+03:00 | [LeaderMode] Connected to Chrome CDP at http://127.0.0.1:15432.
+2026-05-20T17:45:43.8088093+03:00 | [LeaderMode] Leader received command: home
+2026-05-20T17:45:54.7749188+03:00 | [LeaderMode] Presentation normalization for action 'open': presentation-normalized
+2026-05-20T17:45:54.8268705+03:00 | [LeaderMode] Action 'open' executed with result: Focus Reset
+2026-05-20T17:47:39.0094670+03:00 | [LeaderMode] Leader received command: down
+2026-05-20T17:47:39.0943364+03:00 | [LeaderMode] Action 'down' executed with result: Moved to 1
+2026-05-20T17:47:46.4549147+03:00 | [LeaderMode] Leader received command: play_pause
+2026-05-20T17:47:46.4621774+03:00 | [LeaderMode] Action 'play_pause' executed with result: Video Play/Pause Toggled
+2026-05-20T17:49:53.7004951+03:00 | [LeaderMode] Leader received command: open: https://youtu.be/Kxrzwk9AugE
+2026-05-20T17:49:57.8406187+03:00 | [LeaderMode] Presentation normalization for action 'open': presentation-normalized
+2026-05-20T17:49:57.8597039+03:00 | [LeaderMode] Action 'open' executed with result: Focus Reset
+2026-05-20T17:50:03.2298613+03:00 | [LeaderMode] Leader received command: down
+2026-05-20T17:50:03.2519055+03:00 | [LeaderMode] Action 'down' executed with result: Moved to 1
+2026-05-20T17:50:06.5504702+03:00 | [LeaderMode] Leader received command: down
+2026-05-20T17:50:06.5762103+03:00 | [LeaderMode] Action 'down' executed with result: Moved to 2
+2026-05-20T17:50:07.7965883+03:00 | [LeaderMode] Leader received command: down
+2026-05-20T17:50:07.8101529+03:00 | [LeaderMode] Action 'down' executed with result: Moved to 3
+2026-05-20T17:50:09.0782142+03:00 | [LeaderMode] Leader received command: down
+2026-05-20T17:50:09.0995899+03:00 | [LeaderMode] Action 'down' executed with result: Moved to 4
+2026-05-20T17:50:35.1046808+03:00 | [LeaderMode] Leader received command: down
+2026-05-20T17:50:35.1289418+03:00 | [LeaderMode] Action 'down' executed with result: Moved to 5
+2026-05-20T17:50:36.2839446+03:00 | [LeaderMode] Leader received command: down
+2026-05-20T17:50:36.3007458+03:00 | [LeaderMode] Action 'down' executed with result: Moved to 6
+2026-05-20T17:50:56.6732048+03:00 | [LeaderMode] Leader received command: down
+2026-05-20T17:50:56.6940603+03:00 | [LeaderMode] Action 'down' executed with result: Moved to 7
+2026-05-20T17:50:58.5509002+03:00 | [LeaderMode] Leader received command: down
+2026-05-20T17:50:58.5674954+03:00 | [LeaderMode] Action 'down' executed with result: Moved to 8
+2026-05-20T17:51:00.4116325+03:00 | [LeaderMode] Leader received command: enter
+2026-05-20T17:51:00.5150043+03:00 | [LeaderMode] Action 'enter' executed with result: Navigating...
+2026-05-20T17:51:07.7804594+03:00 | [AdSkipperTask] Ad skip click executed: Skip Found at 1449,587
+2026-05-20T17:51:12.1828665+03:00 | [LeaderMode] Leader received command: down
+2026-05-20T17:51:12.2132501+03:00 | [LeaderMode] Action 'down' executed with result: Focus Reset
+2026-05-20T17:51:13.5426039+03:00 | [LeaderMode] Leader received command: down
+2026-05-20T17:51:13.5573103+03:00 | [LeaderMode] Action 'down' executed with result: Moved to 1
+2026-05-20T17:51:15.8303876+03:00 | [LeaderMode] Leader received command: down
+2026-05-20T17:51:15.8590742+03:00 | [LeaderMode] Action 'down' executed with result: Moved to 2
+2026-05-20T17:51:17.4813036+03:00 | [LeaderMode] Leader received command: down
+2026-05-20T17:51:17.5111945+03:00 | [LeaderMode] Action 'down' executed with result: Moved to 3
+2026-05-20T17:51:19.5397685+03:00 | [LeaderMode] Leader received command: play_pause
+2026-05-20T17:51:19.5507285+03:00 | [LeaderMode] Action 'play_pause' executed with result: Video Play/Pause Toggled
+2026-05-20T17:51:30.4511259+03:00 | [LeaderMode] Leader received command: exit
+2026-05-20T17:51:30.8916330+03:00 | [LeaderMode] Exit command received. Browser tabs and window were closed.
+2026-05-20T17:51:30.8924002+03:00 | [Program] Leader shutdown requested by command.
+2026-05-20T17:51:30.8929490+03:00 | [LeaderMode] Leader pipe loop stopped.
+2026-05-20T17:51:30.8930899+03:00 | [Program] Leader stopped.
+2026-05-22T16:08:57.0263572+03:00 | [Program] Leader started.
+2026-05-22T16:08:59.1493030+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-22T16:09:01.6927868+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-22T16:09:04.7240341+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-22T16:09:06.7423982+03:00 | [ChromeManager] Using Chrome binary: C:\Users\User\AppData\Local\Google\Chrome SxS\Application\chrome.exe
+2026-05-22T16:09:06.8212710+03:00 | [ChromeManager] Chrome launched on debugging port 15432.
+2026-05-22T16:09:08.8390089+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-22T16:09:10.0322217+03:00 | [LeaderMode] Connected to Chrome CDP at http://127.0.0.1:15432.
+2026-05-22T16:09:29.4318761+03:00 | [LeaderMode] Leader received command: exit
+2026-05-22T16:09:29.5042354+03:00 | [LeaderMode] Exit command received. Browser tabs and window were closed.
+2026-05-22T16:09:29.5051780+03:00 | [Program] Leader shutdown requested by command.
+2026-05-22T16:09:29.5057785+03:00 | [Program] Leader stopped.
+2026-05-22T16:10:09.7067712+03:00 | [Program] Leader started.
+2026-05-22T16:10:11.7656595+03:00 | [LeaderMode] CDP connect attempt 1 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-22T16:10:14.3236462+03:00 | [LeaderMode] CDP connect attempt 2 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-22T16:10:17.3589650+03:00 | [LeaderMode] CDP connect attempt 3 failed: ProcessException: Failed to fetch browser webSocket url from http://127.0.0.1:15432.
+   at PuppeteerSharp.Launcher.<GetWSEndpointAsync>d__16.MoveNext() + 0x520
+--- End of stack trace from previous location ---
+   at PuppeteerSharp.Launcher.<ConnectAsync>d__9.MoveNext() + 0x11e
+--- End of stack trace from previous location ---
+   at YouTubeControl.LeaderMode.<TryConnectWithBackoffAsync>d__22.MoveNext() + 0x10e
+2026-05-22T16:10:19.3639419+03:00 | [ChromeManager] Using Chrome binary: C:\Users\User\AppData\Local\Google\Chrome SxS\Application\chrome.exe
+2026-05-22T16:10:19.4395819+03:00 | [ChromeManager] Chrome launched on debugging port 15432.
+2026-05-22T16:10:20.6161074+03:00 | [LeaderMode] Connected to Chrome CDP at http://127.0.0.1:15432.
+2026-05-22T16:10:57.0531884+03:00 | [LeaderMode] Leader received command: exit
+2026-05-22T16:10:57.1380596+03:00 | [LeaderMode] Exit command received. Browser tabs and window were closed.
+2026-05-22T16:10:57.1384799+03:00 | [Program] Leader shutdown requested by command.
+2026-05-22T16:10:57.1392609+03:00 | [LeaderMode] Leader pipe loop stopped.
+2026-05-22T16:10:57.1393786+03:00 | [Program] Leader stopped.

@@ -2,6 +2,9 @@
 // Resolves binary and user-data paths from config with safe fallbacks.
 // Contains the ChromeManager class for Chrome startup orchestration.
 using System.Diagnostics;
+using System.Runtime.InteropServices;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace YouTubeControl;
 
@@ -14,6 +17,81 @@ namespace YouTubeControl;
 internal static class ChromeManager
 {
     private const string ComponentName = "ChromeManager";
+
+    private static IntPtr _previousForeground = IntPtr.Zero;
+
+    [DllImport("user32.dll")]
+    private static extern IntPtr GetForegroundWindow();
+
+    [DllImport("user32.dll")]
+    private static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
+
+    [DllImport("kernel32.dll")]
+    private static extern uint GetCurrentThreadId();
+
+    [DllImport("user32.dll")]
+    private static extern bool AttachThreadInput(uint idAttach, uint idAttachTo, bool fAttach);
+
+    [DllImport("user32.dll")]
+    private static extern bool SetForegroundWindow(IntPtr hWnd);
+
+    [DllImport("user32.dll")]
+    private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
+    private const int SW_RESTORE = 9;
+
+    private static void CaptureForegroundWindow()
+    {
+        try
+        {
+            _previousForeground = GetForegroundWindow();
+        }
+        catch
+        {
+            _previousForeground = IntPtr.Zero;
+        }
+    }
+
+    private static void RestoreForegroundWindow(Logger logger)
+    {
+        try
+        {
+            if (_previousForeground == IntPtr.Zero)
+            {
+                return;
+            }
+
+            var current = GetForegroundWindow();
+            if (current == _previousForeground)
+            {
+                return;
+            }
+
+            // Try attaching input threads to allow SetForegroundWindow to succeed.
+            var foregroundThread = GetWindowThreadProcessId(_previousForeground, out _);
+            var currentThread = GetCurrentThreadId();
+
+            var attached = false;
+            try
+            {
+                attached = AttachThreadInput(currentThread, foregroundThread, true);
+                // Restore if minimized
+                ShowWindow(_previousForeground, SW_RESTORE);
+                SetForegroundWindow(_previousForeground);
+            }
+            finally
+            {
+                if (attached)
+                {
+                    AttachThreadInput(currentThread, foregroundThread, false);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            logger.LogException(ComponentName, "RestoreForegroundWindow failed", ex);
+        }
+    }
 
     public const int DebugPort = 15432;
     public const string BrowserUrl = "http://127.0.0.1:15432";
@@ -41,6 +119,8 @@ internal static class ChromeManager
     /// <returns><see langword="true" /> when launch succeeds; otherwise, <see langword="false" />.</returns>
     public static bool Launch(Logger logger)
     {
+        CaptureForegroundWindow();
+
         var chromePath = ResolveChromePath(string.Empty, logger);
         if (string.IsNullOrWhiteSpace(chromePath))
         {
@@ -84,6 +164,21 @@ internal static class ChromeManager
             }
 
             logger.Log(ComponentName, $"Chrome launched on debugging port {DebugPort}.");
+
+            // Restore previous foreground window shortly after launch so the user's grid regains focus.
+            Task.Run(() =>
+            {
+                try
+                {
+                    Thread.Sleep(300);
+                    RestoreForegroundWindow(logger);
+                }
+                catch (Exception ex)
+                {
+                    logger.LogException(ComponentName, "Failed restoring previous foreground window", ex);
+                }
+            });
+
             return true;
         }
         catch (Exception ex)
