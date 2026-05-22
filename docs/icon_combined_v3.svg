@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+
+  <!-- ── GRID 3 SPEECH BUBBLE (main shape) ── -->
+  <rect x="8" y="8" width="168" height="140" rx="28" ry="28" fill="#29ABE2"/>
+  <!-- Bubble tail pointing down -->
+  <polygon points="64,148 104,148 84,178" fill="#29ABE2"/>
+  <!-- White G letter -->
+  <text x="92" y="118"
+        text-anchor="middle"
+        font-family="Arial Black, Arial, sans-serif"
+        font-weight="900"
+        font-size="96"
+        fill="white">G</text>
+
+  <!-- ── YOUTUBE PLAY BUTTON (bottom-right, overlapping) ── -->
+  <!-- White border/shadow so it pops off the blue -->
+  <rect x="128" y="142" width="120" height="84" rx="16" ry="16" fill="white"/>
+  <!-- Red rounded rect -->
+  <rect x="132" y="146" width="112" height="76" rx="14" ry="14" fill="#FF0000"/>
+  <!-- White play triangle -->
+  <polygon points="170,163 170,205 220,184" fill="white"/>
+
+</svg>
