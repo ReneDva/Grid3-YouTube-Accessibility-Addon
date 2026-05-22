@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <defs>
+    <clipPath id="circle-clip">
+      <circle cx="128" cy="128" r="120"/>
+    </clipPath>
+  </defs>
+
+  <!-- Background circle -->
+  <circle cx="128" cy="128" r="120" fill="#0D1B4B"/>
+
+  <!-- Subtle grid lines (nod to Grid 3) -->
+  <g clip-path="url(#circle-clip)" opacity="0.08">
+    <line x1="0" y1="85" x2="256" y2="85" stroke="white" stroke-width="1.5"/>
+    <line x1="0" y1="128" x2="256" y2="128" stroke="white" stroke-width="1.5"/>
+    <line x1="0" y1="171" x2="256" y2="171" stroke="white" stroke-width="1.5"/>
+    <line x1="85" y1="0" x2="85" y2="256" stroke="white" stroke-width="1.5"/>
+    <line x1="128" y1="0" x2="128" y2="256" stroke="white" stroke-width="1.5"/>
+    <line x1="171" y1="0" x2="171" y2="256" stroke="white" stroke-width="1.5"/>
+  </g>
+
+  <!-- Eye shape (accessibility / eye tracking) -->
+  <!-- Eye whites -->
+  <ellipse cx="128" cy="82" rx="46" ry="24" fill="white"/>
+  <!-- Eye iris -->
+  <circle cx="128" cy="82" r="15" fill="#1565C0"/>
+  <!-- Eye pupil -->
+  <circle cx="128" cy="82" r="8" fill="#0D1B4B"/>
+  <!-- Eye highlight -->
+  <circle cx="132" cy="78" r="3" fill="white" opacity="0.9"/>
+  <!-- Eye lashes / outline -->
+  <ellipse cx="128" cy="82" rx="46" ry="24" fill="none" stroke="white" stroke-width="3"/>
+
+  <!-- YouTube play button -->
+  <!-- Red rounded rectangle -->
+  <rect x="62" y="130" width="132" height="90" rx="18" ry="18" fill="#FF0000"/>
+  <!-- White play triangle -->
+  <polygon points="108,150 108,200 168,175" fill="white"/>
+
+  <!-- Border ring -->
+  <circle cx="128" cy="128" r="120" fill="none" stroke="#3D5AFE" stroke-width="5" opacity="0.6"/>
+</svg>
