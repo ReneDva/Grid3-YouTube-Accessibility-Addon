@@ -4,7 +4,11 @@
 #define MyAppExeName "YouTubeControl.exe"
 #define PublishExe "..\\src\\YouTubeControl\\bin\\Release\\net10.0-windows\\win-x64\\publish\\YouTubeControl.exe"
 #define ChromeSetupBundle "..\\Output\\ChromeSetup.exe"
-#define AppIcon "..\\docs\\navi_small.ico"
+; Source design icon (SVG) for V7 branding.
+#define AppIconSourceSvg "..\\docs\\icon_combined_v3.svg"
+; Inno Setup requires .ico for SetupIconFile / IconFilename / UninstallDisplayIcon.
+; TODO: Regenerate icon_v7.ico from AppIconSourceSvg whenever the SVG is updated.
+#define AppIcon "..\\docs\\icon_v7.ico"
 #define UserDataDir "C:\Grid3_YouTube_Accessibility_Addon_User_Data"
 
 [Setup]
@@ -20,12 +24,12 @@ SolidCompression=yes
 ArchitecturesInstallIn64BitMode=x64
 PrivilegesRequired=admin
 SetupIconFile={#AppIcon}
-UninstallDisplayIcon={app}\navi_small.ico
+UninstallDisplayIcon={app}\icon_v7.ico
 WizardStyle=modern
 
 [Files]
 Source: "{#PublishExe}"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#AppIcon}"; DestDir: "{app}"; DestName: "navi_small.ico"; Flags: ignoreversion
+Source: "{#AppIcon}"; DestDir: "{app}"; DestName: "icon_v7.ico"; Flags: ignoreversion
 
 ; Bundled Chrome Canary installer for prerequisite install when missing.
 Source: "{#ChromeSetupBundle}"; DestDir: "{tmp}"; DestName: "ChromeSetup.exe"; Flags: ignoreversion deleteafterinstall
@@ -35,8 +39,8 @@ Name: "{#UserDataDir}"; Permissions: users-full
 Name: "{app}"; Permissions: users-full
 
 [Icons]
-Name: "{userdesktop}\YouTube Navigator V7"; Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"; IconFilename: "{app}\navi_small.ico"
-Name: "{group}\YouTube Navigator V7"; Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"; IconFilename: "{app}\navi_small.ico"
+Name: "{userdesktop}\YouTube Navigator V7"; Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"; IconFilename: "{app}\icon_v7.ico"
+Name: "{group}\YouTube Navigator V7"; Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"; IconFilename: "{app}\icon_v7.ico"
 
 [Run]
 ; Install Chrome Canary silently only if it is not already installed.
