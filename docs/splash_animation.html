@@ -15,6 +15,20 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 0;
+  }
+
+  .center-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
   }
 
   /* ── BACKGROUND CIRCLES (decorative) ── */
@@ -37,8 +51,8 @@
   .logos {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 40px;
-    margin-bottom: 48px;
   }
 
   /* ── GRID LOGO ── */
@@ -181,38 +195,43 @@
 <div class="bg-circle c2"></div>
 <div class="bg-circle c3"></div>
 
-<!-- Logos -->
-<div class="logos">
-  <div class="grid-logo">
-    <div class="grid-bubble">
-      <span class="grid-g">G</span>
+<!-- All content centered -->
+<div class="center-block">
+
+  <!-- Logos -->
+  <div class="logos">
+    <div class="grid-logo">
+      <div class="grid-bubble">
+        <span class="grid-g">G</span>
+      </div>
+    </div>
+
+    <div class="connector">
+      <div class="connector-arrow">▶</div>
+    </div>
+
+    <div class="yt-logo">
+      <div class="yt-button">
+        <div class="yt-triangle"></div>
+      </div>
     </div>
   </div>
 
-  <div class="connector">
-    <div class="connector-arrow">▶</div>
+  <!-- Text -->
+  <div class="main-text">YouTube מתחיל...</div>
+
+  <!-- Loading bar -->
+  <div class="bar-container">
+    <div class="bar-fill"></div>
   </div>
 
-  <div class="yt-logo">
-    <div class="yt-button">
-      <div class="yt-triangle"></div>
-    </div>
+  <!-- Dots -->
+  <div class="dots">
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
   </div>
-</div>
 
-<!-- Text -->
-<div class="main-text">YouTube מתחיל...</div>
-
-<!-- Loading bar -->
-<div class="bar-container">
-  <div class="bar-fill"></div>
-</div>
-
-<!-- Dots -->
-<div class="dots">
-  <div class="dot"></div>
-  <div class="dot"></div>
-  <div class="dot"></div>
 </div>
 
 <script>
