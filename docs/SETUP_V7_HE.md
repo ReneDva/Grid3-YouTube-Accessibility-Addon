@@ -201,79 +201,79 @@ Parameters: (ריק — ללא פרמטרים)
 
 <div style="display:flex; gap:20px; align-items:flex-start; justify-content:center; margin-top:12px;">
    <div style="flex:0 0 auto; text-align:center; margin-left:12px;">
-      <img src="setup/start-program-with-parameters.png" style="max-width:480px; width:100%; height:auto;" alt="הגדרת פקודה עם פרמטרים"/>
+      <img src="setup/start-program-with-parameters.png" style="max-width:720px; width:100%; height:auto;" alt="הגדרת פקודה עם פרמטרים"/>
    </div>
 
-   <div style="flex:1 1 640px; max-width:900px; direction:rtl; text-align:right;">
+   <div style="flex:1 1 960px; max-width:1350px; direction:rtl; text-align:right;">
       <h3>רשימת כל הפקודות</h3>
       <table style="border-collapse:collapse; width:100%;">
          <thead>
             <tr>
                <th style="border-bottom:1px solid #ccc; padding:6px 8px; text-align:right;">פקודה</th>
                <th style="border-bottom:1px solid #ccc; padding:6px 8px; text-align:right;">מטרה</th>
-               <th style="border-bottom:1px solid #ccc; padding:6px 8px; text-align:left;">דוגמת פרמטר</th>
+               <th style="border-bottom:1px solid #ccc; padding:6px 8px; text-align:right;">פרמטר</th>
             </tr>
          </thead>
          <tbody>
             <tr>
-               <td style="padding:6px 8px; text-align:left;">`home`</td>
+               <td style="padding:6px 8px; text-align:right;">`home`</td>
                <td style="padding:6px 8px;">מעבר לדף הבית</td>
-               <td style="padding:6px 8px;">`home`</td>
+               <td style="padding:6px 8px; text-align:left ">home</td>
             </tr>
             <tr>
-               <td style="padding:6px 8px; text-align:left;">`down`</td>
+               <td style="padding:6px 8px; text-align:right">`down`</td>
                <td style="padding:6px 8px;">מעבר לסרטון הבא</td>
-               <td style="padding:6px 8px;">`down`</td>
+               <td style="padding:6px 8px; text-align:left;">down</td>
             </tr>
             <tr>
-               <td style="padding:6px 8px; text-align:left;">`up`</td>
+               <td style="padding:6px 8px; text-align:right">`up`</td>
                <td style="padding:6px 8px;">מעבר לסרטון הקודם</td>
-               <td style="padding:6px 8px;">`up`</td>
+               <td style="padding:6px 8px; text-align:left;">up</td>
             </tr>
             <tr>
-               <td style="padding:6px 8px; text-align:left;">`enter`</td>
+               <td style="padding:6px 8px; text-align:right;">`enter`</td>
                <td style="padding:6px 8px;">בחירה/כניסה</td>
-               <td style="padding:6px 8px;">`enter`</td>
+               <td style="padding:6px 8px;text-align:left;">enter</td>
             </tr>
             <tr>
-               <td style="padding:6px 8px; text-align:left;">`back`</td>
+               <td style="padding:6px 8px; text-align:right;">`back`</td>
                <td style="padding:6px 8px;">חזרה</td>
-               <td style="padding:6px 8px;">`back`</td>
+               <td style="padding:6px 8px;text-align:left;">back</td>
             </tr>
             <tr>
-               <td style="padding:6px 8px; text-align:left;">`play_pause`</td>
+               <td style="padding:6px 8px; text-align:right;">`play_pause`</td>
                <td style="padding:6px 8px;">נגן/השהה</td>
-               <td style="padding:6px 8px;">`play_pause`</td>
+               <td style="padding:6px 8px; text-align:left;">play_pause</td>
             </tr>
             <tr>
-               <td style="padding:6px 8px; text-align:left;">`fullscreen`</td>
+               <td style="padding:6px 8px; text-align:right;">`fullscreen`</td>
                <td style="padding:6px 8px;">מסך מלא</td>
-               <td style="padding:6px 8px;">`fullscreen`</td>
+               <td style="padding:6px 8px; text-align:left;">fullscreen</td>
             </tr>
             <tr>
-               <td style="padding:6px 8px; text-align:left;">`like`</td>
+               <td style="padding:6px 8px; text-align:right;">`like`</td>
                <td style="padding:6px 8px;">לייק</td>
-               <td style="padding:6px 8px;">`like`</td>
+               <td style="padding:6px 8px; text-align:left;">like</td>
             </tr>
             <tr>
-               <td style="padding:6px 8px; text-align:left;">`refresh`</td>
+               <td style="padding:6px 8px; text-align:right;">`refresh`</td>
                <td style="padding:6px 8px;">רענון דף</td>
-               <td style="padding:6px 8px;">`refresh`</td>
+               <td style="padding:6px 8px; text-align:left;">refresh</td>
             </tr>
             <tr>
-               <td style="padding:6px 8px;">`search:`</td>
+               <td style="padding:6px 8px; text-align:right">`search:`</td>
                <td style="padding:6px 8px;">חיפוש</td>
-               <td style="padding:6px 8px; text-align:left;">`שירי ילדים :search`</td>
+               <td style="padding:6px 8px; text-align:left;">שירי ילדים :search</td>
             </tr>
             <tr>
-               <td style="padding:6px 8px;">`open:`</td>
+               <td style="padding:6px 8px; text-align:right">`open:`</td>
                <td style="padding:6px 8px;">קישור ישיר</td>
-               <td style="padding:6px 8px; text-align:left;">`קישור לסרטון :open`</td>
+               <td style="padding:6px 8px; text-align:left;">קישור לסרטון :open</td>
             </tr>
             <tr>
-               <td style="padding:6px 8px; text-align:left;">`exit`</td>
+               <td style="padding:6px 8px; text-align:right;">`exit`</td>
                <td style="padding:6px 8px;">סגירת התוסף</td>
-               <td style="padding:6px 8px;">`exit`</td>
+               <td style="padding:6px 8px; text-align:left;">exit</td>
             </tr>
          </tbody>
       </table>
@@ -285,56 +285,56 @@ Parameters: (ריק — ללא פרמטרים)
 
 <!-- Responsive grid of actions (order: Open URL, Search, Up, Enter, Fullscreen, Like, Exit) -->
 <div style="display:flex; flex-wrap:wrap; gap:18px; justify-content:center; direction:rtl; margin-top:12px;">
-   <div style="flex:0 1 220px; max-width:260px; text-align:center;">
+   <div style="flex:0 1 330px; max-width:390px; text-align:center;">
       <strong>פתיחת קישור — Open URL</strong>
-      <div style="margin-top:8px;"><img src="setup/open-url-command.png" style="max-width:900px; width:100%; height:auto;" alt="פתיחת קישור"/></div>
+      <div style="margin-top:8px;"><img src="setup/open-url-command.png" style="max-width:1350px; width:100%; height:auto;" alt="פתיחת קישור"/></div>
       <div style="font-size:0.95em; color:#333; margin-top:6px;">פרמטר: <code>קישור לסרטון :open</code></div>
    </div>
 
-   <div style="flex:0 1 220px; max-width:260px; text-align:center;">
+   <div style="flex:0 1 330px; max-width:390px; text-align:center;">
       <strong>Search — חיפוש</strong>
-      <div style="margin-top:8px;"><img src="setup/search-command.png" style="max-width:450px; width:100%; height:auto;" alt="חיפוש"/></div>
+      <div style="margin-top:8px;"><img src="setup/search-command.png" style="max-width:675px; width:100%; height:auto;" alt="חיפוש"/></div>
       <div style="font-size:0.95em; color:#333; margin-top:6px;">פרמטר: <code>מילות חיפוש :search</code></div>
    </div>
 
-   <div style="flex:0 1 220px; max-width:260px; text-align:center;">
+   <div style="flex:0 1 330px; max-width:390px; text-align:center;">
       <strong>Up — ניווט למעלה</strong>
-      <div style="margin-top:8px;"><img src="setup/up-command.png" style="max-width:450px; width:100%; height:auto;" alt="ניווט למעלה"/></div>
+      <div style="margin-top:8px;"><img src="setup/up-command.png" style="max-width:675px; width:100%; height:auto;" alt="ניווט למעלה"/></div>
       <div style="font-size:0.95em; color:#333; margin-top:6px;">פרמטר: <code>up</code></div>
    </div>
 
-   <div style="flex:0 1 220px; max-width:260px; text-align:center;">
+   <div style="flex:0 1 330px; max-width:390px; text-align:center;">
       <strong>Enter — בחירה / הפעלה</strong>
-      <div style="margin-top:8px;"><img src="setup/enter-command.png" style="max-width:450px; width:100%; height:auto;" alt="בחירה"/></div>
+      <div style="margin-top:8px;"><img src="setup/enter-command.png" style="max-width:675px; width:100%; height:auto;" alt="בחירה"/></div>
       <div style="font-size:0.95em; color:#333; margin-top:6px;">פרמטר: <code>enter</code></div>
    </div>
 
-   <div style="flex:0 1 220px; max-width:260px; text-align:center;">
+   <div style="flex:0 1 330px; max-width:390px; text-align:center;">
       <strong>Fullscreen — מסך מלא</strong>
-      <div style="margin-top:8px;"><img src="setup/fullscreen-command.png" style="max-width:450px; width:100%; height:auto;" alt="מסך מלא"/></div>
+      <div style="margin-top:8px;"><img src="setup/fullscreen-command.png" style="max-width:675px; width:100%; height:auto;" alt="מסך מלא"/></div>
       <div style="font-size:0.95em; color:#333; margin-top:6px;">פרמטר: <code>fullscreen</code></div>
    </div>
 
-   <div style="flex:0 1 220px; max-width:260px; text-align:center;">
+   <div style="flex:0 1 330px; max-width:390px; text-align:center;">
       <strong>Like — לייק</strong>
-      <div style="margin-top:8px;"><img src="setup/like-command.png" style="max-width:450px; width:100%; height:auto;" alt="לייק"/></div>
+      <div style="margin-top:8px;"><img src="setup/like-command.png" style="max-width:675px; width:100%; height:auto;" alt="לייק"/></div>
       <div style="font-size:0.95em; color:#333; margin-top:6px;">פרמטר: <code>like</code></div>
    </div>
 
-   <div style="flex:0 1 220px; max-width:260px; text-align:center;">
+   <div style="flex:0 1 330px; max-width:390px; text-align:center;">
       <strong>Exit — יציאה וסגירה</strong>
-      <div style="margin-top:8px;"><img src="setup/exit-command.png" style="max-width:450px; width:100%; height:auto;" alt="יציאה"/></div>
+      <div style="margin-top:8px;"><img src="setup/exit-command.png" style="max-width:675px; width:100%; height:auto;" alt="יציאה"/></div>
       <div style="font-size:0.95em; color:#333; margin-top:6px;">פרמטר: <code>exit</code></div>
    </div>
 
 </div>
 
-
+---
 ## הערת מעבר מגרסה קודמת
 
 שימו לב: לוחות תקשורת (Grid sets) שעבדו בגרסאות קודמות **לא יעבדו כלל** בגרסה הנוכחית, ולכן נדרש להשתמש בפורמט של הלוח החדש בלבד.
 
----
+
 
 </div>
 
