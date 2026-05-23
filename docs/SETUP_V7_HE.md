@@ -142,12 +142,16 @@ flowchart TD
 <table dir="rtl" style="margin:0 auto; border-collapse:collapse; white-space:nowrap;">
    <tr>
       <td style="text-align:center; vertical-align:top; padding:8px;">
-         <strong>תצוגת פקודות מלאה:</strong><br/>
-         <img src="setup/full-sidebar.png" style="width:180px; max-width:100%; height:auto; display:block; margin:8px auto;" alt="סרגל פקודות מלא"/>
+         <div style="display:flex; flex-direction:column; align-items:center; justify-content:flex-start;">
+            <strong style="display:block; margin-bottom:6px;">תצוגת פקודות מלאה:</strong>
+            <img src="setup/full-sidebar.png" style="width:180px; max-width:100%; height:auto; display:block; margin:0;" alt="סרגל פקודות מלא"/>
+         </div>
       </td>
       <td style="text-align:center; vertical-align:top; padding:8px;">
-         <strong>תצוגה מכווצת:</strong><br/>
-         <img src="setup/short-sidebar.png" style="width:80px; max-width:100%; height:auto; display:block; margin:8px auto;" alt="סרגל פקודות מקוצר"/>
+         <div style="display:flex; flex-direction:column; align-items:center; justify-content:flex-start;">
+            <strong style="display:block; margin-bottom:6px;">תצוגה מכווצת:</strong>
+            <img src="setup/short-sidebar.png" style="width:80px; max-width:100%; height:auto; display:block; margin:0;" alt="סרגל פקודות מקוצר"/>
+         </div>
       </td>
    </tr>
 </table>
@@ -157,12 +161,16 @@ flowchart TD
 <table dir="rtl" style="margin:0 auto; border-collapse:collapse; white-space:nowrap;">
    <tr>
       <td style="text-align:center; vertical-align:top; padding:8px;">
-         <strong>הצגת פקודות נוספות</strong><br/>
-         <img src="setup/more-commands.png" style="width:200px; max-width:100%; height:auto; display:block; margin:8px auto;" alt="פקודות נוספות"/>
+         <div style="display:flex; flex-direction:column; align-items:center; justify-content:flex-start;">
+            <strong style="display:block; margin-bottom:6px;">הצגת פקודות נוספות</strong>
+            <img src="setup/more-commands.png" style="width:200px; max-width:100%; height:auto; display:block; margin:0;" alt="פקודות נוספות"/>
+         </div>
       </td>
       <td style="text-align:center; vertical-align:top; padding:8px;">
-         <strong>הצגת פקודות מופחתות</strong><br/>
-         <img src="setup/less-commands.png" style="width:280px; max-width:100%; height:auto; display:block; margin:8px auto;" alt="פקודות מופחתות"/>
+         <div style="display:flex; flex-direction:column; align-items:center; justify-content:flex-start;">
+            <strong style="display:block; margin-bottom:6px;">הצגת פקודות מופחתות</strong>
+            <img src="setup/less-commands.png" style="width:280px; max-width:100%; height:auto; display:block; margin:0;" alt="פקודות מופחתות"/>
+         </div>
       </td>
    </tr>
 </table>
@@ -175,24 +183,30 @@ flowchart TD
 
 <ol style="direction:rtl; padding-inline-start:1.2em;">
    <li style="margin-bottom:18px; display:block; width:100%;">
-      <strong>3.1 — הוספת הפעולה: Start Program</strong>
-      <div style="text-align:center; margin-top:8px;"><img src="setup/start-program.png" width="500" alt="הוספת Start Program"/></div>
+      <div style="display:flex; flex-direction:column; align-items:center; justify-content:flex-start;">
+        <strong style="display:block; margin-bottom:8px;">3.1 — הוספת הפעולה: Start Program</strong>
+        <img src="setup/start-program.png" width="500" alt="הוספת Start Program" style="max-width:100%; height:auto;"/>
+      </div>
    </li>
    <li style="margin-bottom:18px; display:inline-block; width:48%; vertical-align:top; text-align:center;">
-      <strong>3.2 — בחירת קובץ התוכנה</strong>
-      <div style="text-align:center; margin-top:8px;"><img src="setup/choose-program.png" width="400" alt="בחירת קובץ התוכנה"/></div>
+      <div style="display:flex; flex-direction:column; align-items:center; justify-content:flex-start;">
+        <strong style="display:block; margin-bottom:8px;">3.2 — בחירת קובץ התוכנה</strong>
+        <img src="setup/choose-program.png" width="400" alt="בחירת קובץ התוכנה" style="max-width:100%; height:auto;"/>
+      </div>
    </li>
    <li style="margin-bottom:18px; display:inline-block; width:48%; vertical-align:top; text-align:center;">
-      <strong>3.3 — קביעת מיקום התוכנה במחשב</strong>
-      <div style="text-align:center; margin-top:8px;"><img src="setup/where-program.png" width="600" alt="נתיב התוכנה"/></div>
+      <div style="display:flex; flex-direction:column; align-items:center; justify-content:flex-start;">
+        <strong style="display:block; margin-bottom:8px;">3.3 — קביעת מיקום התוכנה במחשב</strong>
+        <img src="setup/where-program.png" width="600" alt="נתיב התוכנה" style="max-width:100%; height:auto;"/>
+      </div>
    </li>
 </ol>
-
+<div dir="ltr" lang="en" style="direction:ltr; text-align:left;">
 ```
 Program:    C:\YouTube_Navigator_V7\YouTubeControl.exe
 Parameters: (ריק — ללא פרמטרים)
 ```
-
+</div>
 ---
 
 ### שלב 4 — הגדרת תאי פקודה
