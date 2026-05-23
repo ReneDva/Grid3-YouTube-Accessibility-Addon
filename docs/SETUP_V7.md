@@ -1,5 +1,7 @@
 # Setup & Customization Guide (V7) — For Parents, Teachers, and Therapists
 
+Hebrew version (RTL): [SETUP_V7_HE.md](SETUP_V7_HE.md)
+
 This guide explains how to install, configure, and use the V7 YouTube accessibility system.
 
 V7 replaces the old V6 script-based flow (`send.vbs`, `nav.exe`, `skip_ads.exe`) with a single app:
