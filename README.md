@@ -120,6 +120,13 @@ Log evidence (in `logs/logs.txt`):
 | ChromeManager | Chrome discovery/launch, debug port wiring, user-data directory handling |
 | UserDataDirectoryPolicy | Canonical profile path selection, legacy migration, first-install bootstrap decision |
 
+### Execution Workflow (Daily Use)
+
+1. **Leader Startup:**
+   `YouTubeControl.exe` (no args) starts the Leader process. It launches Chrome and stays resident.
+2. **Command Relay:**
+   `YouTubeControl.exe <action>` (e.g., `down`) starts a Messenger process. It sends the command to the Leader via pipe and exits.
+
 ---
 
 ## Technology Stack
