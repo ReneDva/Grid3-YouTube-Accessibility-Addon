@@ -3,7 +3,10 @@
 
 If you are a parent, teacher, therapist, or installer, start with the V7 user guide: [docs/SETUP_V7.md](docs/SETUP_V7.md).
 
-![Demo](docs/ezgif.com-video-to-gif-converter.gif)
+<p align="center">
+  <img src="docs/ezgif.com-video-to-gif-converter.gif" width="480" alt="Demo"/>
+</p>
+
 ## Overview
 
 Grid3-YouTube-Accessibility-Addon V7 is a Windows background controller that connects Grid 3 command cells to YouTube in Chrome through CDP (Chrome DevTools Protocol).
