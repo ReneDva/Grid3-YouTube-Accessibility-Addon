@@ -289,51 +289,71 @@ Parameters: (ריק — ללא פרמטרים)</pre>
 
 ---
 
-<!-- Responsive grid of actions (order: Open URL, Search, Up, Enter, Fullscreen, Like, Exit) -->
-<div style="display:flex; flex-wrap:wrap; gap:18px; justify-content:center; direction:rtl; margin-top:12px;">
-   <div style="flex:0 1 330px; max-width:390px; text-align:center;">
-      <strong>פתיחת קישור — Open URL</strong>
-      <div style="margin-top:8px;"><img src="setup/open-url-command.png" style="max-width:1350px; width:100%; height:auto;" alt="פתיחת קישור"/></div>
-      <div style="font-size:0.95em; color:#333; margin-top:6px;">פרמטר: <code>קישור לסרטון :open</code></div>
-   </div>
+<!-- Actions shown as table pairs for reliable web side-by-side display -->
+<table dir="rtl" style="margin:12px auto; border-collapse:collapse; white-space:nowrap;">
+   <tr>
+      <th style="text-align:center; padding:8px 12px;">פתיחת קישור — Open URL</th>
+      <th style="text-align:center; padding:8px 12px;">Search — חיפוש</th>
+   </tr>
+   <tr>
+      <td style="text-align:center; padding:8px; vertical-align:top;">
+         <img src="setup/open-url-command.png" style="max-width:1350px; width:100%; height:auto; display:block; margin:0 auto;" alt="פתיחת קישור"/>
+         <div style="font-size:0.95em; color:#333; margin-top:6px;">פרמטר: <code>קישור לסרטון :open</code></div>
+      </td>
+      <td style="text-align:center; padding:8px; vertical-align:top;">
+         <img src="setup/search-command.png" style="max-width:675px; width:100%; height:auto; display:block; margin:0 auto;" alt="חיפוש"/>
+         <div style="font-size:0.95em; color:#333; margin-top:6px;">פרמטר: <code>מילות חיפוש :search</code></div>
+      </td>
+   </tr>
+</table>
 
-   <div style="flex:0 1 330px; max-width:390px; text-align:center;">
-      <strong>Search — חיפוש</strong>
-      <div style="margin-top:8px;"><img src="setup/search-command.png" style="max-width:675px; width:100%; height:auto;" alt="חיפוש"/></div>
-      <div style="font-size:0.95em; color:#333; margin-top:6px;">פרמטר: <code>מילות חיפוש :search</code></div>
-   </div>
+<table dir="rtl" style="margin:12px auto; border-collapse:collapse; white-space:nowrap;">
+   <tr>
+      <th style="text-align:center; padding:8px 12px;">Up — ניווט למעלה</th>
+      <th style="text-align:center; padding:8px 12px;">Enter — בחירה / הפעלה</th>
+   </tr>
+   <tr>
+      <td style="text-align:center; padding:8px; vertical-align:top;">
+         <img src="setup/up-command.png" style="max-width:675px; width:100%; height:auto; display:block; margin:0 auto;" alt="ניווט למעלה"/>
+         <div style="font-size:0.95em; color:#333; margin-top:6px;">פרמטר: <code>up</code></div>
+      </td>
+      <td style="text-align:center; padding:8px; vertical-align:top;">
+         <img src="setup/enter-command.png" style="max-width:675px; width:100%; height:auto; display:block; margin:0 auto;" alt="בחירה"/>
+         <div style="font-size:0.95em; color:#333; margin-top:6px;">פרמטר: <code>enter</code></div>
+      </td>
+   </tr>
+</table>
 
-   <div style="flex:0 1 330px; max-width:390px; text-align:center;">
-      <strong>Up — ניווט למעלה</strong>
-      <div style="margin-top:8px;"><img src="setup/up-command.png" style="max-width:675px; width:100%; height:auto;" alt="ניווט למעלה"/></div>
-      <div style="font-size:0.95em; color:#333; margin-top:6px;">פרמטר: <code>up</code></div>
-   </div>
+<table dir="rtl" style="margin:12px auto; border-collapse:collapse; white-space:nowrap;">
+   <tr>
+      <th style="text-align:center; padding:8px 12px;">Fullscreen — מסך מלא</th>
+      <th style="text-align:center; padding:8px 12px;">Like — לייק</th>
+   </tr>
+   <tr>
+      <td style="text-align:center; padding:8px; vertical-align:top;">
+         <img src="setup/fullscreen-command.png" style="max-width:675px; width:100%; height:auto; display:block; margin:0 auto;" alt="מסך מלא"/>
+         <div style="font-size:0.95em; color:#333; margin-top:6px;">פרמטר: <code>fullscreen</code></div>
+      </td>
+      <td style="text-align:center; padding:8px; vertical-align:top;">
+         <img src="setup/like-command.png" style="max-width:675px; width:100%; height:auto; display:block; margin:0 auto;" alt="לייק"/>
+         <div style="font-size:0.95em; color:#333; margin-top:6px;">פרמטר: <code>like</code></div>
+      </td>
+   </tr>
+</table>
 
-   <div style="flex:0 1 330px; max-width:390px; text-align:center;">
-      <strong>Enter — בחירה / הפעלה</strong>
-      <div style="margin-top:8px;"><img src="setup/enter-command.png" style="max-width:675px; width:100%; height:auto;" alt="בחירה"/></div>
-      <div style="font-size:0.95em; color:#333; margin-top:6px;">פרמטר: <code>enter</code></div>
-   </div>
-
-   <div style="flex:0 1 330px; max-width:390px; text-align:center;">
-      <strong>Fullscreen — מסך מלא</strong>
-      <div style="margin-top:8px;"><img src="setup/fullscreen-command.png" style="max-width:675px; width:100%; height:auto;" alt="מסך מלא"/></div>
-      <div style="font-size:0.95em; color:#333; margin-top:6px;">פרמטר: <code>fullscreen</code></div>
-   </div>
-
-   <div style="flex:0 1 330px; max-width:390px; text-align:center;">
-      <strong>Like — לייק</strong>
-      <div style="margin-top:8px;"><img src="setup/like-command.png" style="max-width:675px; width:100%; height:auto;" alt="לייק"/></div>
-      <div style="font-size:0.95em; color:#333; margin-top:6px;">פרמטר: <code>like</code></div>
-   </div>
-
-   <div style="flex:0 1 330px; max-width:390px; text-align:center;">
-      <strong>Exit — יציאה וסגירה</strong>
-      <div style="margin-top:8px;"><img src="setup/exit-command.png" style="max-width:675px; width:100%; height:auto;" alt="יציאה"/></div>
-      <div style="font-size:0.95em; color:#333; margin-top:6px;">פרמטר: <code>exit</code></div>
-   </div>
-
-</div>
+<table dir="rtl" style="margin:12px auto; border-collapse:collapse; white-space:nowrap;">
+   <tr>
+      <th style="text-align:center; padding:8px 12px;">Exit — יציאה וסגירה</th>
+      <th style="text-align:center; padding:8px 12px;"></th>
+   </tr>
+   <tr>
+      <td style="text-align:center; padding:8px; vertical-align:top;">
+         <img src="setup/exit-command.png" style="max-width:675px; width:100%; height:auto; display:block; margin:0 auto;" alt="יציאה"/>
+         <div style="font-size:0.95em; color:#333; margin-top:6px;">פרמטר: <code>exit</code></div>
+      </td>
+      <td style="text-align:center; padding:8px; vertical-align:top;">&nbsp;</td>
+   </tr>
+</table>
 
 ---
 ## הערת מעבר מגרסה קודמת
