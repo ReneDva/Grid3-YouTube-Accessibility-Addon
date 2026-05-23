@@ -1,10 +1,12 @@
-# Setup & Customization Guide (V7) — For Parents, Teachers, and Therapists
+# Setup & Customization Guide (V7) - For Parents, Teachers, and Therapists
 
 <img src="icon_v7.ico" align="right" width="100">
 
 Hebrew version (RTL): [SETUP_V7_HE.md](SETUP_V7_HE.md)
 
 This guide explains how to install and use the YouTube V7 Grid 3 add-on for computer. Technical details on how the system operates under the hood can be found in the main README.
+
+*Users who wish to configure their own grid set manually can skip to [Command Reference & Manual Setup](#command-reference--manual-setup).*
 
 ---
 
@@ -15,7 +17,7 @@ Before installation, make sure the target computer has:
 - Windows 10 or Windows 11
 - Grid 3 installed and licensed
 - **Child's Google account details:** Email address, password, and access to the secondary verification method (e.g., phone access) if two-factor authentication (2FA) is enabled.
-- Installer file: `Output\YouTube_V7_Full_Installer.exe`
+- Installer file: `Output\YouTube_V7_Full_Installer.exe` (Downloadable from [this link](https://github.com/ReneDva/Grid3-YouTube-Accessibility-Addon/releases/latest))
 
 **Note:**
 This add-on uses a specialized browser version called **Chrome Canary** (logo below). It will open YouTube in its WEB version, not through the standard desktop YouTube app or the regular Google Chrome.
@@ -56,6 +58,15 @@ Once this is done, the student can start the add-on directly from their Grid set
 ## Safe Exit
 
 The close action is built directly into the **"Back to Applications"** button in Grid 3. Using this button ensures that both the browser and the add-on close cleanly and quietly in the background. This applies to all users, whether using a pre-made grid set or a custom one.
+
+---
+
+## Grid Setup Tips
+In the opening page of this Grid set, place a Start button and add the following actions:
+
+- Action type: Start Program (Computer Control)
+- Program: `C:\YouTube_Navigator_V7\YouTubeControl.exe`
+- Parameters: (empty)
 
 ---
 
@@ -110,9 +121,10 @@ flowchart TD
 ## Troubleshooting (V7)
 
 If you encounter issues (Chrome not opening, commands not responding, etc.):
-1. Close `YouTubeControl.exe` using **Task Manager**.
-2. Relaunch the add-on from the Grid 3 grid set.
-3. If the problem persists, **restart the computer**.
+
+1.  **Check individual cells:** If only one specific button isn't working, check its configuration. Ensure there are no typos in the parameters and that it points to the correct program.
+2.  **General fix:** If multiple buttons fail or Chrome is behaving unexpectedly, the primary solution is to **restart the computer**. 
+    *   *Technical note:* You can also try closing `YouTubeControl.exe` via the **Task Manager** and then relaunching from Grid 3, but for most users, a full restart is the simplest and most effective way to clear the background app state.
 
 ---
 
