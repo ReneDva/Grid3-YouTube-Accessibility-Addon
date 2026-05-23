@@ -215,7 +215,10 @@ Parameters: (ריק — ללא פרמטרים)
 
 <div style="display:flex; gap:20px; align-items:flex-start; justify-content:center; margin-top:12px;">
    <div style="flex:0 0 auto; text-align:center; margin-left:12px;">
-      <img src="setup/start-program-with-parameters.png" style="max-width:720px; width:100%; height:auto;" alt="הגדרת פקודה עם פרמטרים"/>
+      <div style="display:flex; flex-direction:column; align-items:center; justify-content:flex-start;">
+         <strong style="display:block; margin-bottom:8px;">הגדרת פקודה עם פרמטרים</strong>
+         <img src="setup/start-program-with-parameters.png" style="max-width:720px; width:100%; height:auto; display:block; margin:0;" alt="הגדרת פקודה עם פרמטרים"/>
+      </div>
    </div>
 
    <div style="flex:1 1 960px; max-width:1350px; direction:rtl; text-align:right;">
