@@ -143,11 +143,11 @@ flowchart TD
    <span style="display:inline-flex; align-items:top; justify-content:center; gap:48px; white-space:nowrap; text-align:center;">
       <span style="display:inline-block; vertical-align:top; text-align:center;">
          <strong>תצוגת פקודות מלאה:</strong><br/>
-         <img src="setup/full-sidebar.png" width="200" alt="סרגל פקודות מלא"/>
+         <img src="setup/full-sidebar.png" width="180" alt="סרגל פקודות מלא"/>
       </span>
       <span style="display:inline-block; vertical-align:top; text-align:center;">
          <strong>תצוגה מכווצת:</strong><br/>
-         <img src="setup/short-sidebar.png" width="100" alt="סרגל פקודות מקוצר"/>
+         <img src="setup/short-sidebar.png" width="80" alt="סרגל פקודות מקוצר"/>
       </span>
    </span>
 </p>
