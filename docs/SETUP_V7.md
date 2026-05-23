@@ -6,7 +6,7 @@ Hebrew version (RTL): [SETUP_V7_HE.md](SETUP_V7_HE.md)
 
 This guide explains how to install and use the YouTube V7 Grid 3 add-on for computer. Technical details on how the system operates under the hood can be found in the main README.
 
-*Users who wish to configure their own grid set manually can skip to [Command Reference & Manual Setup](#command-reference--manual-setup).*
+*Users who wish to configure their own grid set manually can skip to [Manual Grid Set Configuration from scratch](#manual-grid-set-configuration-from-scratch). [[Link to community Grid sets for example (coming soon)]]*
 
 ---
 
@@ -16,7 +16,7 @@ Before installation, make sure the target computer has:
 
 - Windows 10 or Windows 11
 - Grid 3 installed and licensed
-- **Child's Google account details:** Email address, password, and access to the secondary verification method (e.g., phone access) if two-factor authentication (2FA) is enabled.
+- **User's Google account details:** Email address, password, and access to the secondary verification method (e.g., phone access) if two-factor authentication (2FA) is enabled.
 - Installer file: `Output\YouTube_V7_Full_Installer.exe` (Downloadable from [this link](https://github.com/ReneDva/Grid3-YouTube-Accessibility-Addon/releases/latest))
 
 **Note:**
@@ -50,7 +50,7 @@ Once this is done, the student can start the add-on directly from their Grid set
 ---
 
 ## Safety recommendations
-- It is highly recommended to set up the student's Google account as a supervised child account (using Google Family Link).
+- If the user is a minor, it is highly recommended to set up the student's Google account as a supervised child account (using Google Family Link).
 - Parents, teachers, and therapists should regularly monitor the content accessed.
 
 ---
@@ -58,17 +58,6 @@ Once this is done, the student can start the add-on directly from their Grid set
 ## Safe Exit
 
 The close action is built directly into the **"Back to Applications"** button in Grid 3. Using this button ensures that both the browser and the add-on close cleanly and quietly in the background. This applies to all users, whether using a pre-made grid set or a custom one.
-
----
-
-## Grid Setup Tips
-In the opening page of this Grid set, place a Start button and add the following actions:
-
-- Action type: Start Program (Computer Control)
-- Program: `C:\YouTube_Navigator_V7\YouTubeControl.exe`
-- Parameters: (empty)
-
----
 
 ## User Action Flow (Grid 3)
 
@@ -128,9 +117,18 @@ If you encounter issues (Chrome not opening, commands not responding, etc.):
 
 ---
 
-## Command Reference & Manual Setup
+## Manual Grid Set Configuration from scratch
 
 For users creating their own grid set (link to community grid sets to be provided later), you must configure cells to **Run Program** using the application path and the corresponding parameter from the list below.
+
+### Grid Setup Tips
+In the opening page of this Grid set, place a Start button and add the following actions:
+
+- Action type: Start Program (Computer Control)
+- Program: `C:\YouTube_Navigator_V7\YouTubeControl.exe`
+- Parameters: (empty)
+
+### Command Reference
 
 | Command | Purpose | Example Parameter |
 |---|---|---|
