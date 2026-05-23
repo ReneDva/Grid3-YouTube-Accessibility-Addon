@@ -187,7 +187,7 @@ flowchart TD
       <p style="margin:8px 0 0 0;"><img src="setup/choose-program.png" width="400" alt="בחירת קובץ התוכנה" style="max-width:100%; height:auto; display:block; margin:0 auto;"/></p>
    </li>
    <li style="margin-bottom:18px; display:inline-block; width:48%; vertical-align:top; text-align:center;">
-      <p><strong>3.3 — קביעת מיקום התוכנה במחשב</strong></p>
+      <p><strong>3.3 — איתור מיקום התוכנה במחשב</strong></p>
       <p style="margin:8px 0 0 0;"><img src="setup/where-program.png" width="600" alt="נתיב התוכנה" style="max-width:100%; height:auto; display:block; margin:0 auto;"/></p>
    </li>
 </ol>
