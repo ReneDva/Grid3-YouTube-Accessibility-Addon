@@ -123,32 +123,129 @@ flowchart TD
 
 עבור משתמשים היוצרים לוח (Grid set) משלהם, עליכם להגדיר בתאים את פעולת **Run Program** עם נתיב האפליקציה והפרמטר המתאים מהרשימה מטה.
 
-### טיפים להגדרת הלוח
-בלוח פתיחה של היישום גריד הזה שימו כפתור הפעל ובו תוסיפו את הפעולות:
+---
 
-- סוג פעולה: Start Program (Computer Control)
-- תוכנה: `C:\YouTube_Navigator_V7\YouTubeControl.exe`
-- פרמטרים: (ריק)
+### שלב 1 — הפעלת מצב Computer Control
 
-### רשימת פקודות
+ודאו ש-Grid 3 פועל במצב **Computer Control**.
 
-| פקודה | מטרה | דוגמת פרמטר (באנגלית) |
+<p align="center"><img src="setup/computer-controll.png" width="600" alt="הפעלת Computer Control"/></p>
+
+---
+
+### שלב 2 — כך נראה הלוח
+
+<p align="center"><img src="setup/opening-grid.png" width="600" alt="מראה הלוח"/></p>
+
+תצוגת פקודות מלאה:
+
+<p align="center"><img src="setup/full-sidebar.png" width="600" alt="סרגל פקודות מלא"/></p>
+
+תצוגה מכווצת:
+
+<p align="center"><img src="setup/short-sidebar.png" width="600" alt="סרגל פקודות מקוצר"/></p>
+
+הצגת פקודות נוספות / פחות:
+
+<p align="center">
+<img src="setup/more-commands.png" width="380" alt="פקודות נוספות"/>
+&nbsp;&nbsp;
+<img src="setup/less-commands.png" width="380" alt="פקודות מופחתות"/>
+</p>
+
+---
+
+### שלב 3 — הגדרת פעולת פתיחת הלוח
+
+בלוח הפתיחה, הוסיפו פעולת **Start Program**:
+
+<p align="center"><img src="setup/start-program.png" width="600" alt="הוספת Start Program"/></p>
+
+בחרו את קובץ התוכנה:
+
+<p align="center"><img src="setup/choose-program.png" width="600" alt="בחירת קובץ התוכנה"/></p>
+
+מיקום התוכנה במחשב:
+
+<p align="center"><img src="setup/where-program.png" width="600" alt="נתיב התוכנה"/></p>
+
+```
+Program:    C:\YouTube_Navigator_V7\YouTubeControl.exe
+Parameters: (ריק — ללא פרמטרים)
+```
+
+---
+
+### שלב 4 — הגדרת תאי פקודה
+
+לכל כפתור פעולה, הגדירו **Start Program** עם הפרמטר המתאים:
+
+<p align="center"><img src="setup/start-program-with-parameters.png" width="600" alt="הגדרת פקודה עם פרמטרים"/></p>
+
+---
+
+### פקודות מפורטות עם תמונות
+
+**Enter — בחירה / הפעלה** · פרמטר: `enter`
+
+<p align="center"><img src="setup/enter-command.png" width="600" alt="פקודת enter"/></p>
+
+---
+
+**Up — ניווט למעלה** · פרמטר: `up`
+
+<p align="center"><img src="setup/up-command.png" width="600" alt="פקודת up"/></p>
+
+---
+
+**Search — חיפוש** · פרמטר: `search:מילות החיפוש`
+
+<p align="center"><img src="setup/search-command.png" width="600" alt="פקודת search"/></p>
+
+---
+
+**Open URL — פתיחת קישור** · פרמטר: `open:https://...`
+
+<p align="center"><img src="setup/open-url-command.png" width="600" alt="פקודת open url"/></p>
+
+---
+
+**Fullscreen — מסך מלא** · פרמטר: `fullscreen`
+
+<p align="center"><img src="setup/fullscreen-command.png" width="600" alt="פקודת fullscreen"/></p>
+
+---
+
+**Like — לייק** · פרמטר: `like`
+
+<p align="center"><img src="setup/like-command.png" width="600" alt="פקודת like"/></p>
+
+---
+
+**Exit — יציאה וסגירה** · פרמטר: `exit`
+
+> חשוב: הגדירו תא יציאה שמריץ `exit` **לפני** המעבר ללוח הבית — כך Chrome ייסגר בצורה תקינה.
+
+<p align="center"><img src="setup/exit-command.png" width="600" alt="פקודת exit"/></p>
+
+---
+
+### רשימת כל הפקודות
+
+| פקודה | מטרה | דוגמת פרמטר |
 |---|---|:---|
-| home | מעבר לדף הבית | home |
-| down | מעבר לסרטון הבא | down |
-| up | מעבר לסרטון הקודם | up |
-| enter | בחירה/כניסה | enter |
-| back | חזרה | back |
-| play_pause | נגן/השהה | play_pause |
-| fullscreen | מסך מלא | fullscreen |
-| like | לייק | like |
-| refresh | רענון דף | refresh |
-| search: | חיפוש | מילות חיפוש :search  |
-| open: | קישור ישיר | קישור לסרטון ביוטיוב :open|
-| exit | סגירת התוסף | exit |
-
-### שלבי הגדרה ידנית
-להוראות טכניות מפורטות על אופן הגדרת תאים בודדים באופן ידני, אנא עיינו בסעיף "Grid 3 Configuration" בתיעוד ה-README הטכני.
+| `home` | מעבר לדף הבית | `home` |
+| `down` | מעבר לסרטון הבא | `down` |
+| `up` | מעבר לסרטון הקודם | `up` |
+| `enter` | בחירה/כניסה | `enter` |
+| `back` | חזרה | `back` |
+| `play_pause` | נגן/השהה | `play_pause` |
+| `fullscreen` | מסך מלא | `fullscreen` |
+| `like` | לייק | `like` |
+| `refresh` | רענון דף | `refresh` |
+| `search:` | חיפוש | `search:שירי ילדים` |
+| `open:` | קישור ישיר | `open:https://youtube.com/...` |
+| `exit` | סגירת התוסף | `exit` |
 
 ---
 
