@@ -1,9 +1,11 @@
 ﻿<div dir="rtl" lang="he" style="direction:rtl; text-align:right;">
 
-<div dir="ltr" lang="en" style="direction:ltr; text-align:left; width:100%; display:block; margin:0; padding:0;">
-   <pre style="text-align:left; margin:0; padding:10px; background:#f7f7f7; border:1px solid #e1e1e1; border-radius:4px; overflow:auto;">Program:    C:\YouTube_Navigator_V7\YouTubeControl.exe
-Parameters: (ריק — ללא פרמטרים)</pre>
-</div>
+<img src="icon_v7.ico" align="left" width="100">
+
+# מדריך התקנה והגדרה (V7) - להורים, מורים ומטפלים
+
+מדריך זה מסביר כיצד להתקין ולהשתמש בתוסף ליוטיוב עבור Grid 3 למחשב (גרסה V7). פרטים טכניים על אופן פעולת המערכת מאחורי הקלעים נמצאים בתיעוד ה-README הראשי.
+
 *משתמשים שרוצים להגדיר לוח באופן עצמאי יכולים לדלג ל-[הגדרת לוח מ-0 באופן עצמאי](#הגדרת-לוח-מ-0-באופן-עצמאי). [קישור לאתר הקהילה להורדת לוח לדוגמה (בקרוב)]*
 
 ---
@@ -200,7 +202,10 @@ flowchart TD
 Program:    C:\YouTube_Navigator_V7\YouTubeControl.exe
 Parameters: (ריק — ללא פרמטרים)
 ```
-
+<div dir="ltr" lang="en" style="direction:ltr; text-align:left; width:100%; display:block; margin:0; padding:0;">
+   <pre style="text-align:left; margin:0; padding:10px; background:#f7f7f7; border:1px solid #e1e1e1; border-radius:4px; overflow:auto;">Program:    C:\YouTube_Navigator_V7\YouTubeControl.exe
+Parameters: (ריק — ללא פרמטרים)</pre>
+</div>
 ---
 
 ### שלב 4 — הגדרת תאי פקודה
