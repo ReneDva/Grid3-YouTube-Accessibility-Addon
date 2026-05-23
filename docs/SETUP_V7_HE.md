@@ -129,45 +129,64 @@ flowchart TD
 
 ודאו ש-Grid 3 פועל במצב **Computer Control**.
 
-<p align="center"><img src="setup/computer-controll.png" width="600" alt="הפעלת Computer Control"/></p>
+<p align="center"><img src="setup/computer-controll.png" width="400" alt="הפעלת Computer Control"/></p>
 
 ---
 
 ### שלב 2 — כך נראה הלוח
 
-<p align="center"><img src="setup/opening-grid.png" width="600" alt="מראה הלוח"/></p>
+<p align="center"><img src="setup/opening-grid.png" width="500" alt="מראה הלוח"/></p>
 
-תצוגת פקודות מלאה:
+תצוגת פקודות מלאה ומכווצת:
 
-<p align="center"><img src="setup/full-sidebar.png" width="200" alt="סרגל פקודות מלא"/></p>
-
-תצוגה מכווצת:
-
-<p align="center"><img src="setup/short-sidebar.png" width="100" alt="סרגל פקודות מקוצר"/></p>
+<p align="center">
+   <span style="display:inline-flex; align-items:top; justify-content:center; gap:48px; white-space:nowrap; text-align:center;">
+      <span style="display:inline-block; vertical-align:top; text-align:center;">
+         <strong>תצוגת פקודות מלאה:</strong><br/>
+         <img src="setup/full-sidebar.png" width="200" alt="סרגל פקודות מלא"/>
+      </span>
+      <span style="display:inline-block; vertical-align:top; text-align:center;">
+         <strong>תצוגה מכווצת:</strong><br/>
+         <img src="setup/short-sidebar.png" width="100" alt="סרגל פקודות מקוצר"/>
+      </span>
+   </span>
+</p>
 
 הצגת פקודות נוספות / פחות:
 
 <p align="center">
-<img src="setup/more-commands.png" width="380" alt="פקודות נוספות"/>
-&nbsp;&nbsp;
-<img src="setup/less-commands.png" width="380" alt="פקודות מופחתות"/>
+   <span style="display:inline-block; white-space:nowrap; text-align:center;">
+      <span style="display:inline-block; vertical-align:top; text-align:center; margin-right:8px;">
+         <strong>הצגת פקודות נוספות</strong><br/>
+         <img src="setup/more-commands.png" width="200" alt="פקודות נוספות"/>
+      </span>
+      <span style="display:inline-block; vertical-align:top; text-align:center; margin-left:8px;">
+         <strong>הצגת פקודות מופחתות</strong><br/>
+         <img src="setup/less-commands.png" width="280" alt="פקודות מופחתות"/>
+      </span>
+   </span>
 </p>
 
 ---
 
 ### שלב 3 — הגדרת פעולת פתיחת הלוח
 
-בלוח הפתיחה, הוסיפו פעולת **Start Program**:
+בלוח הפתיחה, בצעו את השלבים הבאים:
 
-<p align="center"><img src="setup/start-program.png" width="600" alt="הוספת Start Program"/></p>
-
-בחרו את קובץ התוכנה:
-
-<p align="center"><img src="setup/choose-program.png" width="300" alt="בחירת קובץ התוכנה"/></p>
-
-מיקום התוכנה במחשב:
-
-<p align="center"><img src="setup/where-program.png" width="600" alt="נתיב התוכנה"/></p>
+<ol style="direction:rtl; padding-inline-start:1.2em;">
+   <li style="margin-bottom:18px; display:block; width:100%;">
+      <strong>3.1 — הוספת הפעולה: Start Program</strong>
+      <div style="text-align:center; margin-top:8px;"><img src="setup/start-program.png" width="500" alt="הוספת Start Program"/></div>
+   </li>
+   <li style="margin-bottom:18px; display:inline-block; width:48%; vertical-align:top; text-align:center;">
+      <strong>3.2 — בחירת קובץ התוכנה</strong>
+      <div style="text-align:center; margin-top:8px;"><img src="setup/choose-program.png" width="400" alt="בחירת קובץ התוכנה"/></div>
+   </li>
+   <li style="margin-bottom:18px; display:inline-block; width:48%; vertical-align:top; text-align:center;">
+      <strong>3.3 — קביעת מיקום התוכנה במחשב</strong>
+      <div style="text-align:center; margin-top:8px;"><img src="setup/where-program.png" width="600" alt="נתיב התוכנה"/></div>
+   </li>
+</ol>
 
 ```
 Program:    C:\YouTube_Navigator_V7\YouTubeControl.exe
@@ -177,77 +196,139 @@ Parameters: (ריק — ללא פרמטרים)
 ---
 
 ### שלב 4 — הגדרת תאי פקודה
-
 לכל כפתור פעולה, הגדירו **Start Program** עם הפרמטר המתאים:
+---
 
-<p align="center"><img src="setup/start-program-with-parameters.png" width="600" alt="הגדרת פקודה עם פרמטרים"/></p>
+<div style="display:flex; gap:20px; align-items:flex-start; justify-content:center; margin-top:12px;">
+   <div style="flex:0 0 auto; text-align:center; margin-left:12px;">
+      <img src="setup/start-program-with-parameters.png" style="max-width:480px; width:100%; height:auto;" alt="הגדרת פקודה עם פרמטרים"/>
+   </div>
+
+   <div style="flex:1 1 640px; max-width:900px; direction:rtl; text-align:right;">
+      <h3>רשימת כל הפקודות</h3>
+      <table style="border-collapse:collapse; width:100%;">
+         <thead>
+            <tr>
+               <th style="border-bottom:1px solid #ccc; padding:6px 8px; text-align:right;">פקודה</th>
+               <th style="border-bottom:1px solid #ccc; padding:6px 8px; text-align:right;">מטרה</th>
+               <th style="border-bottom:1px solid #ccc; padding:6px 8px; text-align:left;">דוגמת פרמטר</th>
+            </tr>
+         </thead>
+         <tbody>
+            <tr>
+               <td style="padding:6px 8px; text-align:left;">`home`</td>
+               <td style="padding:6px 8px;">מעבר לדף הבית</td>
+               <td style="padding:6px 8px;">`home`</td>
+            </tr>
+            <tr>
+               <td style="padding:6px 8px; text-align:left;">`down`</td>
+               <td style="padding:6px 8px;">מעבר לסרטון הבא</td>
+               <td style="padding:6px 8px;">`down`</td>
+            </tr>
+            <tr>
+               <td style="padding:6px 8px; text-align:left;">`up`</td>
+               <td style="padding:6px 8px;">מעבר לסרטון הקודם</td>
+               <td style="padding:6px 8px;">`up`</td>
+            </tr>
+            <tr>
+               <td style="padding:6px 8px; text-align:left;">`enter`</td>
+               <td style="padding:6px 8px;">בחירה/כניסה</td>
+               <td style="padding:6px 8px;">`enter`</td>
+            </tr>
+            <tr>
+               <td style="padding:6px 8px; text-align:left;">`back`</td>
+               <td style="padding:6px 8px;">חזרה</td>
+               <td style="padding:6px 8px;">`back`</td>
+            </tr>
+            <tr>
+               <td style="padding:6px 8px; text-align:left;">`play_pause`</td>
+               <td style="padding:6px 8px;">נגן/השהה</td>
+               <td style="padding:6px 8px;">`play_pause`</td>
+            </tr>
+            <tr>
+               <td style="padding:6px 8px; text-align:left;">`fullscreen`</td>
+               <td style="padding:6px 8px;">מסך מלא</td>
+               <td style="padding:6px 8px;">`fullscreen`</td>
+            </tr>
+            <tr>
+               <td style="padding:6px 8px; text-align:left;">`like`</td>
+               <td style="padding:6px 8px;">לייק</td>
+               <td style="padding:6px 8px;">`like`</td>
+            </tr>
+            <tr>
+               <td style="padding:6px 8px; text-align:left;">`refresh`</td>
+               <td style="padding:6px 8px;">רענון דף</td>
+               <td style="padding:6px 8px;">`refresh`</td>
+            </tr>
+            <tr>
+               <td style="padding:6px 8px;">`search:`</td>
+               <td style="padding:6px 8px;">חיפוש</td>
+               <td style="padding:6px 8px; text-align:left;">`שירי ילדים :search`</td>
+            </tr>
+            <tr>
+               <td style="padding:6px 8px;">`open:`</td>
+               <td style="padding:6px 8px;">קישור ישיר</td>
+               <td style="padding:6px 8px; text-align:left;">`קישור לסרטון :open`</td>
+            </tr>
+            <tr>
+               <td style="padding:6px 8px; text-align:left;">`exit`</td>
+               <td style="padding:6px 8px;">סגירת התוסף</td>
+               <td style="padding:6px 8px;">`exit`</td>
+            </tr>
+         </tbody>
+      </table>
+   </div>
+
+</div>
 
 ---
 
-### פקודות מפורטות עם תמונות
+<!-- Responsive grid of actions (order: Open URL, Search, Up, Enter, Fullscreen, Like, Exit) -->
+<div style="display:flex; flex-wrap:wrap; gap:18px; justify-content:center; direction:rtl; margin-top:12px;">
+   <div style="flex:0 1 220px; max-width:260px; text-align:center;">
+      <strong>פתיחת קישור — Open URL</strong>
+      <div style="margin-top:8px;"><img src="setup/open-url-command.png" style="max-width:900px; width:100%; height:auto;" alt="פתיחת קישור"/></div>
+      <div style="font-size:0.95em; color:#333; margin-top:6px;">פרמטר: <code>קישור לסרטון :open</code></div>
+   </div>
 
-**Enter — בחירה / הפעלה** · פרמטר: `enter`
+   <div style="flex:0 1 220px; max-width:260px; text-align:center;">
+      <strong>Search — חיפוש</strong>
+      <div style="margin-top:8px;"><img src="setup/search-command.png" style="max-width:450px; width:100%; height:auto;" alt="חיפוש"/></div>
+      <div style="font-size:0.95em; color:#333; margin-top:6px;">פרמטר: <code>מילות חיפוש :search</code></div>
+   </div>
 
-<p align="center"><img src="setup/enter-command.png" width="600" alt="פקודת enter"/></p>
+   <div style="flex:0 1 220px; max-width:260px; text-align:center;">
+      <strong>Up — ניווט למעלה</strong>
+      <div style="margin-top:8px;"><img src="setup/up-command.png" style="max-width:450px; width:100%; height:auto;" alt="ניווט למעלה"/></div>
+      <div style="font-size:0.95em; color:#333; margin-top:6px;">פרמטר: <code>up</code></div>
+   </div>
 
----
+   <div style="flex:0 1 220px; max-width:260px; text-align:center;">
+      <strong>Enter — בחירה / הפעלה</strong>
+      <div style="margin-top:8px;"><img src="setup/enter-command.png" style="max-width:450px; width:100%; height:auto;" alt="בחירה"/></div>
+      <div style="font-size:0.95em; color:#333; margin-top:6px;">פרמטר: <code>enter</code></div>
+   </div>
 
-**Up — ניווט למעלה** · פרמטר: `up`
+   <div style="flex:0 1 220px; max-width:260px; text-align:center;">
+      <strong>Fullscreen — מסך מלא</strong>
+      <div style="margin-top:8px;"><img src="setup/fullscreen-command.png" style="max-width:450px; width:100%; height:auto;" alt="מסך מלא"/></div>
+      <div style="font-size:0.95em; color:#333; margin-top:6px;">פרמטר: <code>fullscreen</code></div>
+   </div>
 
-<p align="center"><img src="setup/up-command.png" width="600" alt="פקודת up"/></p>
+   <div style="flex:0 1 220px; max-width:260px; text-align:center;">
+      <strong>Like — לייק</strong>
+      <div style="margin-top:8px;"><img src="setup/like-command.png" style="max-width:450px; width:100%; height:auto;" alt="לייק"/></div>
+      <div style="font-size:0.95em; color:#333; margin-top:6px;">פרמטר: <code>like</code></div>
+   </div>
 
----
+   <div style="flex:0 1 220px; max-width:260px; text-align:center;">
+      <strong>Exit — יציאה וסגירה</strong>
+      <div style="margin-top:8px;"><img src="setup/exit-command.png" style="max-width:450px; width:100%; height:auto;" alt="יציאה"/></div>
+      <div style="font-size:0.95em; color:#333; margin-top:6px;">פרמטר: <code>exit</code></div>
+   </div>
 
-**Search — חיפוש** · פרמטר: `search:מילות החיפוש`
+</div>
 
-<p align="center"><img src="setup/search-command.png" width="600" alt="פקודת search"/></p>
-
----
-
-**Open URL — פתיחת קישור** · פרמטר: `open:https://...`
-
-<p align="center"><img src="setup/open-url-command.png" width="600" alt="פקודת open url"/></p>
-
----
-
-**Fullscreen — מסך מלא** · פרמטר: `fullscreen`
-
-<p align="center"><img src="setup/fullscreen-command.png" width="600" alt="פקודת fullscreen"/></p>
-
----
-
-**Like — לייק** · פרמטר: `like`
-
-<p align="center"><img src="setup/like-command.png" width="600" alt="פקודת like"/></p>
-
----
-
-**Exit — יציאה וסגירה** · פרמטר: `exit`
-
-> חשוב: הגדירו תא יציאה שמריץ `exit` **לפני** המעבר ללוח הבית — כך Chrome ייסגר בצורה תקינה.
-
-<p align="center"><img src="setup/exit-command.png" width="600" alt="פקודת exit"/></p>
-
----
-
-### רשימת כל הפקודות
-
-| פקודה | מטרה | דוגמת פרמטר |
-|---|---|:---|
-| `home` | מעבר לדף הבית | `home` |
-| `down` | מעבר לסרטון הבא | `down` |
-| `up` | מעבר לסרטון הקודם | `up` |
-| `enter` | בחירה/כניסה | `enter` |
-| `back` | חזרה | `back` |
-| `play_pause` | נגן/השהה | `play_pause` |
-| `fullscreen` | מסך מלא | `fullscreen` |
-| `like` | לייק | `like` |
-| `refresh` | רענון דף | `refresh` |
-| `search:` | חיפוש | `search:שירי ילדים` |
-| `open:` | קישור ישיר | `open:https://youtube.com/...` |
-| `exit` | סגירת התוסף | `exit` |
-
----
 
 ## הערת מעבר מגרסה קודמת
 
