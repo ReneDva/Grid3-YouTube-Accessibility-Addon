@@ -28,7 +28,7 @@ Notes:
 2. Follow the setup wizard.
 3. The installer will:
    - Install app files into `C:\YouTube_Navigator_V7\`
-   - Create user-data directory `C:\Grid3_YouTube_Accessibility_Addon_User_Data`
+   - Create user-data directory `C:\YouTube_User_Data`
    - Add Windows Defender exclusions for the app directory and the user-data directory
    - Add desktop/start-menu shortcuts for `YouTubeControl.exe`
    - Install Chrome Canary silently if not already installed
@@ -48,6 +48,15 @@ On first startup:
    - `C:\YouTube_Navigator_V7\YouTubeControl.exe exit`
 
 After this first supervised run, daily use is fully command-driven from Grid 3.
+
+Important:
+- `C:\YouTube_User_Data` is created on first install and keeps the signed-in session.
+- On future updates, sign-in is usually not required again unless the profile folder was removed.
+- After first sign-in, restart the computer once before regular daily use.
+
+Safety recommendation:
+- Use a supervised Google child account for the student (Google Family Link / parental controls).
+- Parents/teachers/therapists should monitor accessible content regularly.
 
 ---
 
@@ -99,6 +108,9 @@ For the Grid Explorer / Home cell:
 
 This ensures YouTubeControl and browser session close cleanly when leaving the YouTube grid.
 
+For Grid 3 users:
+- If the child leaves the communication board using "Back to Applications", the app should close cleanly.
+
 ---
 
 ## Full V7 Command Reference (All Supported Commands)
@@ -142,7 +154,7 @@ cd C:\YouTube_Navigator_V7
 .\YouTubeControl.exe fullscreen
 .\YouTubeControl.exe refresh
 .\YouTubeControl.exe search:disney songs
-.\YouTubeControl.exe open:https://www.youtube.com/shorts
+.\YouTubeControl.exe open: https://www.youtube.com/shorts
 .\YouTubeControl.exe stop
 ```
 
@@ -158,6 +170,8 @@ cd C:\YouTube_Navigator_V7
 | First run fails for user | Perform supervised manual sign-in once (teacher/therapist) |
 | Search/open command not working | Validate correct `search:<query>` or `open:<url>` format |
 | Shutdown does not happen | Use `exit` or `stop` command explicitly |
+| Chrome was closed manually with X and app no longer reopens Chrome | Close `YouTubeControl.exe` from Task Manager, then start again. If still stuck, restart the computer. |
+| App does not start correctly after leaving the grid | End `YouTubeControl.exe` in Task Manager, then retry from Grid 3. If still stuck, restart the computer. |
 
 ---
 
