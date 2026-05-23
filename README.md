@@ -3,6 +3,7 @@
 
 If you are a parent, teacher, therapist, or installer, start with the V7 user guide: [docs/SETUP_V7.md](docs/SETUP_V7.md).
 
+![Demo](docs/ezgif.com-video-to-gif-converter.gif)
 ## Overview
 
 Grid3-YouTube-Accessibility-Addon V7 is a Windows background controller that connects Grid 3 command cells to YouTube in Chrome through CDP (Chrome DevTools Protocol).
@@ -63,6 +64,35 @@ cd C:\YouTube_Navigator_V7
 .\YouTubeControl.exe home
 .\YouTubeControl.exe stop
 ```
+
+### Local Focus Validation (Manual)
+
+Use this check to validate that launching Leader keeps Chrome startup behavior while returning focus to the caller window.
+
+```cmd
+C:\YouTube_Navigator_V7\YouTubeControl.exe
+```
+
+Expected behavior:
+
+- Chrome Canary opens.
+- Within roughly 1-3 seconds, focus returns to the original caller window (CMD/Grid launcher).
+
+Repeat 5 cycles for confidence:
+
+```cmd
+C:\YouTube_Navigator_V7\YouTubeControl.exe exit
+C:\YouTube_Navigator_V7\YouTubeControl.exe
+```
+
+Pass criteria:
+
+- Focus returns to the caller window in at least 4 out of 5 launch cycles.
+
+Log evidence (in `logs/logs.txt`):
+
+- Success: `Foreground restore sequence completed successfully on attempt ...` or `... on final pass.`
+- Failure: `Foreground restore sequence did not restore the previous window.`
 
 ---
 
@@ -167,6 +197,38 @@ Expected output:
 ```text
 Output/YouTube_V7_Full_Installer.exe
 ```
+
+### Deploy to Target Machine (V7)
+
+1. Copy `Output/YouTube_V7_Full_Installer.exe` to the target machine.
+2. Run the installer as Administrator.
+3. Confirm app files are installed to `C:\YouTube_Navigator_V7`.
+4. Launch once for validation:
+
+```powershell
+C:\YouTube_Navigator_V7\YouTubeControl.exe
+```
+
+5. Optional shutdown check:
+
+```powershell
+C:\YouTube_Navigator_V7\YouTubeControl.exe exit
+```
+
+### User Profile Data Path (V7)
+
+V7 runtime uses a canonical Chrome user-data directory:
+
+```text
+C:\YouTube_User_Data
+```
+
+Behavior:
+
+- If `C:\YouTube_User_Data` already has profile data (`Default\Login Data` or `Default\Preferences`), runtime uses it directly.
+- If canonical path has no profile data but a legacy V7 path contains data (`C:\Grid3_YouTube_Accessibility_Addon_User_Data`), runtime migrates profile data to `C:\YouTube_User_Data` and then uses the canonical path.
+- If neither path has profile data, runtime bootstraps first install at `C:\YouTube_User_Data`; manual sign-in is required only for this first-time state.
+- On software updates with existing profile data, manual sign-in should not be required again.
 
 ---
 

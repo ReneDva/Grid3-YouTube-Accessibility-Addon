@@ -2,6 +2,9 @@
 // Resolves binary and user-data paths from config with safe fallbacks.
 // Contains the ChromeManager class for Chrome startup orchestration.
 using System.Diagnostics;
+using System.Runtime.InteropServices;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace YouTubeControl;
 
@@ -14,6 +17,86 @@ namespace YouTubeControl;
 internal static class ChromeManager
 {
     private const string ComponentName = "ChromeManager";
+
+    private static IntPtr _previousForeground = IntPtr.Zero;
+
+    [DllImport("user32.dll")]
+    private static extern IntPtr GetForegroundWindow();
+
+    [DllImport("user32.dll")]
+    private static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
+
+    [DllImport("kernel32.dll")]
+    private static extern uint GetCurrentThreadId();
+
+    [DllImport("user32.dll")]
+    private static extern bool AttachThreadInput(uint idAttach, uint idAttachTo, bool fAttach);
+
+    [DllImport("user32.dll")]
+    private static extern bool SetForegroundWindow(IntPtr hWnd);
+
+    [DllImport("user32.dll")]
+    private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
+    private const int SW_RESTORE = 9;
+
+    private static void CaptureForegroundWindow()
+    {
+        try
+        {
+            _previousForeground = GetForegroundWindow();
+        }
+        catch
+        {
+            _previousForeground = IntPtr.Zero;
+        }
+    }
+
+    private static bool RestoreForegroundWindow(Logger logger)
+    {
+        try
+        {
+            if (_previousForeground == IntPtr.Zero)
+            {
+                return false;
+            }
+
+            var current = GetForegroundWindow();
+            if (current == _previousForeground)
+            {
+                return true;
+            }
+
+            // Try attaching input threads to allow SetForegroundWindow to succeed.
+            var prevThread = GetWindowThreadProcessId(_previousForeground, out _);
+            var currentThread = GetCurrentThreadId();
+
+            var attached = false;
+            try
+            {
+                attached = AttachThreadInput(currentThread, prevThread, true);
+                // Restore if minimized
+                ShowWindow(_previousForeground, SW_RESTORE);
+                SetForegroundWindow(_previousForeground);
+
+                // Check if succeeded
+                var after = GetForegroundWindow();
+                return after == _previousForeground;
+            }
+            finally
+            {
+                if (attached)
+                {
+                    AttachThreadInput(currentThread, prevThread, false);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            logger.LogException(ComponentName, "RestoreForegroundWindow failed", ex);
+            return false;
+        }
+    }
 
     public const int DebugPort = 15432;
     public const string BrowserUrl = "http://127.0.0.1:15432";
@@ -32,7 +115,9 @@ internal static class ChromeManager
         "Application",
         "chrome.exe");
 
-    private const string FixedUserDataDir = @"C:\Grid3_YouTube_Accessibility_Addon_User_Data";
+    private const string PreferredUserDataDir = @"C:\YouTube_User_Data";
+    private const string LegacyGrid3UserDataDir = @"C:\Grid3_YouTube_Accessibility_Addon_User_Data";
+    private const string LegacyUserDataDirV5 = @"C:\YouTube_User_Data_V5";
 
     /// <summary>
     /// Launches Chrome with the configured debugging profile.
@@ -41,6 +126,8 @@ internal static class ChromeManager
     /// <returns><see langword="true" /> when launch succeeds; otherwise, <see langword="false" />.</returns>
     public static bool Launch(Logger logger)
     {
+        CaptureForegroundWindow();
+
         var chromePath = ResolveChromePath(string.Empty, logger);
         if (string.IsNullOrWhiteSpace(chromePath))
         {
@@ -84,11 +171,96 @@ internal static class ChromeManager
             }
 
             logger.Log(ComponentName, $"Chrome launched on debugging port {DebugPort}.");
+
+            // Restore previous foreground window shortly after launch so the user's grid regains focus.
+            Task.Run(() =>
+            {
+                try
+                {
+                    const int attempts = 20;
+                    const int delayMs = 250;
+                    const int stabilityCheckDelayMs = 120;
+                    const int stableChecksRequired = 3;
+
+                    var stableSuccessAttempt = 0;
+                    var sawForegroundSwitch = false;
+                    var stableChecks = 0;
+
+                    for (var attempt = 0; attempt < attempts; attempt++)
+                    {
+                        Thread.Sleep(delayMs);
+
+                        var currentForeground = GetForegroundWindow();
+                        if (currentForeground != _previousForeground)
+                        {
+                            sawForegroundSwitch = true;
+                        }
+
+                        // Keep trying throughout the entire launch window to handle delayed Chrome focus steals.
+                        RestoreForegroundWindow(logger);
+
+                        // Guard against early success by requiring sustained foreground stability.
+                        Thread.Sleep(stabilityCheckDelayMs);
+                        if (IsPreviousWindowForeground())
+                        {
+                            if (sawForegroundSwitch)
+                            {
+                                stableChecks++;
+                                if (stableChecks >= stableChecksRequired)
+                                {
+                                    stableSuccessAttempt = attempt + 1;
+                                    break;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            stableChecks = 0;
+                        }
+                    }
+
+                    if (!IsPreviousWindowForeground())
+                    {
+                        RestoreForegroundWindow(logger);
+                        Thread.Sleep(stabilityCheckDelayMs);
+                    }
+
+                    if (stableSuccessAttempt > 0)
+                    {
+                        logger.Log(ComponentName, $"Foreground restore sequence completed successfully on attempt {stableSuccessAttempt}.");
+                    }
+                    else if (IsPreviousWindowForeground())
+                    {
+                        logger.Log(ComponentName, "Foreground restore sequence completed successfully on final pass.");
+                    }
+                    else
+                    {
+                        logger.Log(ComponentName, "Foreground restore sequence did not restore the previous window.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    logger.LogException(ComponentName, "Failed restoring previous foreground window", ex);
+                }
+            });
+
             return true;
         }
         catch (Exception ex)
         {
             logger.LogException(ComponentName, "Failed to launch Chrome", ex);
+            return false;
+        }
+    }
+
+    private static bool IsPreviousWindowForeground()
+    {
+        try
+        {
+            return _previousForeground != IntPtr.Zero && GetForegroundWindow() == _previousForeground;
+        }
+        catch
+        {
             return false;
         }
     }
@@ -100,17 +272,17 @@ internal static class ChromeManager
     /// <returns>A usable directory path, or an empty string when unavailable.</returns>
     private static string ResolveUserDataDirectory(Logger logger)
     {
-        try
+        var migrationCandidates = new[]
         {
-            Directory.CreateDirectory(FixedUserDataDir);
-            return FixedUserDataDir;
-        }
-        catch (Exception ex)
-        {
-            logger.LogException(ComponentName, $"Failed preparing user data dir: {FixedUserDataDir}", ex);
-        }
+            LegacyGrid3UserDataDir,
+            LegacyUserDataDirV5,
+        };
 
-        return string.Empty;
+        return UserDataDirectoryPolicy.Resolve(
+            ComponentName,
+            PreferredUserDataDir,
+            migrationCandidates,
+            logger);
     }
 
     /// <summary>
