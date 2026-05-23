@@ -221,7 +221,7 @@ Parameters: (ריק — ללא פרמטרים)</pre>
             <tr>
                <td style="padding:6px 8px; text-align:right;">`home`</td>
                <td style="padding:6px 8px;">מעבר לדף הבית</td>
-               <td style="padding:6px 8px; text-align:left;">home</td>
+               <td style="padding:6px 8px; ">home</td>
             </tr>
             <tr>
                <td style="padding:6px 8px; text-align:right">`down`</td>
