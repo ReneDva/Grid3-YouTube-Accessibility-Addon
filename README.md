@@ -295,6 +295,24 @@ Stop on first failure:
 powershell -ExecutionPolicy Bypass -File ./scripts/run_youtubecontrol_sequence.ps1 -StopOnFailure
 ```
 
+### Local Testing Without Grid 3 (quick check)
+
+```powershell
+cd C:\YouTube_Navigator_V7
+.\YouTubeControl.exe
+# wait until Chrome opens
+.\YouTubeControl.exe home
+.\YouTubeControl.exe down
+.\YouTubeControl.exe enter
+.\YouTubeControl.exe play_pause
+.\YouTubeControl.exe like
+.\YouTubeControl.exe fullscreen
+.\YouTubeControl.exe refresh
+.\YouTubeControl.exe search: disney songs
+.\YouTubeControl.exe open: https://www.youtube.com/shorts
+.\YouTubeControl.exe stop # exit also works as a shutdown command
+```
+
 ### Manual runtime smoke test (full command coverage)
 
 ```powershell

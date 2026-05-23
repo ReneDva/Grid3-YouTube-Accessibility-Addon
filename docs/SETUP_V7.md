@@ -96,7 +96,7 @@ For each YouTube control cell:
 
 - Action type: Run Program (Computer Control)
 - Program: `C:\YouTube_Navigator_V7\YouTubeControl.exe`
-- Parameters: action command (for example `down`, `home`, `search:disney songs`)
+- Parameters: action command (for example `down`, `home`, `search: disney songs`)
 
 ## Leave grid safely
 For the Grid Explorer / Home cell:
@@ -109,6 +109,7 @@ For the Grid Explorer / Home cell:
 This ensures YouTubeControl and browser session close cleanly when leaving the YouTube grid.
 
 For Grid 3 users:
+- The `exit` action is already built into the "Back to Applications" button.
 - If the child leaves the communication board using "Back to Applications", the app should close cleanly.
 
 ---
@@ -124,39 +125,64 @@ For Grid 3 users:
 | `back` | Browser history back | `back` |
 | `play_pause` | Toggle play/pause | `play_pause` |
 | `fullscreen` | Toggle fullscreen | `fullscreen` |
-| `toggle` | Fullscreen alias toggle path | `toggle` |
 | `like` | Toggle Like | `like` |
 | `refresh` | Reload active YouTube page | `refresh` |
-| `search:<query>` | Open YouTube search results | `search:disney songs` |
-| `open:<url>` | Open direct URL | `open:https://www.youtube.com/shorts` |
+| `search: keywords` | Open YouTube search results | `search: disney songs` |
+| `open: url` | Open direct URL | `open: https://www.youtube.com/shorts` |
 | `exit` | Stop leader and close browser | `exit` |
 | `stop` | Alias of `exit` | `stop` |
 
 Notes:
 - `stop` and `exit` are equivalent shutdown commands.
-- `search:` and `open:` include payload after `:`.
+- `search:` and `open:` include text after `:`.
 
 ---
 
-## Local Testing Without Grid 3
+## User Action Flow (Grid 3)
 
-From CMD/PowerShell:
+```mermaid
+flowchart TD
+   A[Open YouTube Grid] --> B[Click Start button]
+   B --> C[App starts Chrome in the background]
+   C --> C1[Child watches splash animation with opening sound]
+   C1 --> C2[YouTube is ready]
 
-```powershell
-cd C:\YouTube_Navigator_V7
-.\YouTubeControl.exe
-# wait until Chrome opens
-.\YouTubeControl.exe home
-.\YouTubeControl.exe down
-.\YouTubeControl.exe enter
-.\YouTubeControl.exe play_pause
-.\YouTubeControl.exe like
-.\YouTubeControl.exe fullscreen
-.\YouTubeControl.exe refresh
-.\YouTubeControl.exe search:disney songs
-.\YouTubeControl.exe open: https://www.youtube.com/shorts
-.\YouTubeControl.exe stop
+   C2 --> D{Choose action in Grid 3}
+   D --> E[home]
+   E --> E1[Go to YouTube Home]
+
+   D --> F[down or up]
+   F --> F1[Move to next or previous item]
+
+   D --> G[enter]
+   G --> G1[Open selected video or item]
+
+   D --> H[play_pause]
+   H --> H1[Pause or resume current video]
+
+   D --> I[fullscreen]
+   I --> I1[Enter or exit fullscreen]
+
+   D --> J[like]
+   J --> J1[Like or unlike current video]
+
+   D --> K[search: keywords]
+   K --> K1[Open YouTube search results]
+
+   D --> L[open: url]
+   L --> L1[Open requested YouTube link]
+
+   D --> M[refresh]
+   M --> M1[Reload current page]
+
+   D --> N[back]
+   N --> N1[Go back to previous page]
+
+   D --> O[exit or stop]
+   O --> O1[Close YouTube and stop the app]
 ```
+
+If the red navigation frame does not appear, press one navigation key (`down` or `up`) once. The frame should appear and navigation can continue normally.
 
 ---
 
@@ -168,7 +194,7 @@ cd C:\YouTube_Navigator_V7
 | Commands do nothing | Verify Leader is running first (no-args launch) |
 | Grid cell command fails | Ensure Program is `YouTubeControl.exe` and Parameters contain only the command |
 | First run fails for user | Perform supervised manual sign-in once (teacher/therapist) |
-| Search/open command not working | Validate correct `search:<query>` or `open:<url>` format |
+| Search/open command not working | Validate correct `search: keywords` or `open: url` format |
 | Shutdown does not happen | Use `exit` or `stop` command explicitly |
 | Chrome was closed manually with X and app no longer reopens Chrome | Close `YouTubeControl.exe` from Task Manager, then start again. If still stuck, restart the computer. |
 | App does not start correctly after leaving the grid | End `YouTubeControl.exe` in Task Manager, then retry from Grid 3. If still stuck, restart the computer. |
