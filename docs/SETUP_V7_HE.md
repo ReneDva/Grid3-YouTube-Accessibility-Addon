@@ -192,7 +192,7 @@ flowchart TD
    </li>
    <li style="margin-bottom:18px; display:inline-block; width:48%; vertical-align:top; text-align:center;">
       <div style="display:flex; flex-direction:column; align-items:center; justify-content:flex-start;">
-        <strong style="display:block; margin-bottom:8px;">3.3 — קביעת מיקום התוכנה במחשב</strong>
+        <strong style="display:block; margin-bottom:8px; vertical-align:top;">3.3 — קביעת מיקום התוכנה במחשב</strong>
         <img src="setup/where-program.png" width="600" alt="נתיב התוכנה" style="max-width:100%; height:auto;"/>
       </div>
    </li>
