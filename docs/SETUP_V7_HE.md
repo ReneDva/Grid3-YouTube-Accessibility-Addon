@@ -179,29 +179,19 @@ flowchart TD
 
 <ol style="direction:rtl; padding-inline-start:1.2em;">
    <li style="margin-bottom:18px; display:block; width:100%;">
-      <div style="display:flex; flex-direction:column; align-items:center; justify-content:flex-start;">
-        <strong style="display:block; margin-bottom:8px;">3.1 — הוספת הפעולה: Start Program</strong>
-        <img src="setup/start-program.png" width="500" alt="הוספת Start Program" style="max-width:100%; height:auto;"/>
-      </div>
+      <p><strong>3.1 — הוספת הפעולה: Start Program</strong></p>
+      <p style="margin:8px 0 0 0;"><img src="setup/start-program.png" width="500" alt="הוספת Start Program" style="max-width:100%; height:auto; display:block; margin:0 auto;"/></p>
    </li>
    <li style="margin-bottom:18px; display:inline-block; width:48%; vertical-align:top; text-align:center;">
-      <div style="display:flex; flex-direction:column; align-items:center; justify-content:flex-start;">
-        <strong style="display:block; margin-bottom:8px;">3.2 — בחירת קובץ התוכנה</strong>
-        <img src="setup/choose-program.png" width="400" alt="בחירת קובץ התוכנה" style="max-width:100%; height:auto;"/>
-      </div>
+      <p><strong>3.2 — בחירת קובץ התוכנה</strong></p>
+      <p style="margin:8px 0 0 0;"><img src="setup/choose-program.png" width="400" alt="בחירת קובץ התוכנה" style="max-width:100%; height:auto; display:block; margin:0 auto;"/></p>
    </li>
    <li style="margin-bottom:18px; display:inline-block; width:48%; vertical-align:top; text-align:center;">
-      <div style="display:flex; flex-direction:column; align-items:center; justify-content:flex-start;">
-        <strong style="display:block; margin-bottom:8px;">3.3 — קביעת מיקום התוכנה במחשב</strong>
-        <img src="setup/where-program.png" width="600" alt="נתיב התוכנה" style="max-width:100%; height:auto;"/>
-      </div>
+      <p><strong>3.3 — קביעת מיקום התוכנה במחשב</strong></p>
+      <p style="margin:8px 0 0 0;"><img src="setup/where-program.png" width="600" alt="נתיב התוכנה" style="max-width:100%; height:auto; display:block; margin:0 auto;"/></p>
    </li>
 </ol>
 
-```
-Program:    C:\YouTube_Navigator_V7\YouTubeControl.exe
-Parameters: (ריק — ללא פרמטרים)
-```
 <div dir="ltr" lang="en" style="direction:ltr; text-align:left; width:100%; display:block; margin:0; padding:0;">
    <pre style="text-align:left; margin:0; padding:10px; background:#f7f7f7; border:1px solid #e1e1e1; border-radius:4px; overflow:auto;">Program:    C:\YouTube_Navigator_V7\YouTubeControl.exe
 Parameters: (ריק — ללא פרמטרים)</pre>
