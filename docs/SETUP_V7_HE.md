@@ -202,16 +202,13 @@ Parameters: (ריק — ללא פרמטרים)</pre>
 לכל כפתור פעולה, הגדירו **Start Program** עם הפרמטר המתאים:
 ---
 
-<div style="display:flex; gap:20px; align-items:flex-start; justify-content:center; margin-top:12px;">
-   <div style="flex:0 0 auto; text-align:center; margin-left:12px;">
-      <div style="display:flex; flex-direction:column; align-items:center; justify-content:flex-start;">
-         <strong style="display:block; margin-bottom:8px;">הגדרת פקודה עם פרמטרים</strong>
-         <img src="setup/start-program-with-parameters.png" style="max-width:720px; width:100%; height:auto; display:block; margin:0;" alt="הגדרת פקודה עם פרמטרים"/>
-      </div>
-   </div>
-
-   <div style="flex:1 1 960px; max-width:1350px; direction:rtl; text-align:right;">
-      <h3>רשימת כל הפקודות</h3>
+<table dir="rtl" style="margin:12px auto; border-collapse:collapse; width:100%;">
+  <tr>
+    <td style="width:40%; padding:12px; vertical-align:top; text-align:center;">
+      <img src="setup/start-program-with-parameters.png" style="max-width:720px; width:100%; height:auto; display:block; margin:0 auto;" alt="הגדרת פקודה עם פרמטרים"/>
+    </td>
+    <td style="width:60%; padding:12px; vertical-align:top; text-align:right;">
+      <h3 style="margin-top:0;">רשימת כל הפקודות</h3>
       <table style="border-collapse:collapse; width:100%;">
          <thead>
             <tr>
@@ -283,9 +280,9 @@ Parameters: (ריק — ללא פרמטרים)</pre>
             </tr>
          </tbody>
       </table>
-   </div>
-
-</div>
+    </td>
+  </tr>
+</table>
 
 ---
 
