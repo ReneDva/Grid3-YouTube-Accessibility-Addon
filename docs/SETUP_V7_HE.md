@@ -1,11 +1,9 @@
 ﻿<div dir="rtl" lang="he" style="direction:rtl; text-align:right;">
 
-<img src="icon_v7.ico" align="left" width="100">
-
-# מדריך התקנה והגדרה (V7) - להורים, מורים ומטפלים
-
-מדריך זה מסביר כיצד להתקין ולהשתמש בתוסף ליוטיוב עבור Grid 3 למחשב (גרסה V7). פרטים טכניים על אופן פעולת המערכת מאחורי הקלעים נמצאים בתיעוד ה-README הראשי.
-
+<div dir="ltr" lang="en" style="direction:ltr; text-align:left; width:100%; display:block; margin:0; padding:0;">
+   <pre style="text-align:left; margin:0; padding:10px; background:#f7f7f7; border:1px solid #e1e1e1; border-radius:4px; overflow:auto;">Program:    C:\YouTube_Navigator_V7\YouTubeControl.exe
+Parameters: (ריק — ללא פרמטרים)</pre>
+</div>
 *משתמשים שרוצים להגדיר לוח באופן עצמאי יכולים לדלג ל-[הגדרת לוח מ-0 באופן עצמאי](#הגדרת-לוח-מ-0-באופן-עצמאי). [קישור לאתר הקהילה להורדת לוח לדוגמה (בקרוב)]*
 
 ---
@@ -192,7 +190,7 @@ flowchart TD
    </li>
    <li style="margin-bottom:18px; display:inline-block; width:48%; vertical-align:top; text-align:center;">
       <div style="display:flex; flex-direction:column; align-items:center; justify-content:flex-start;">
-        <strong style="display:flex; margin-bottom:8px; vertical-align:top;">3.3 — קביעת מיקום התוכנה במחשב</strong>
+        <strong style="display:block; margin-bottom:8px;">3.3 — קביעת מיקום התוכנה במחשב</strong>
         <img src="setup/where-program.png" width="600" alt="נתיב התוכנה" style="max-width:100%; height:auto;"/>
       </div>
    </li>
