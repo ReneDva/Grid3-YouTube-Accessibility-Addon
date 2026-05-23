@@ -139,33 +139,29 @@ flowchart TD
 
 תצוגת פקודות מלאה ומכווצת:
 
-<p align="center">
-   <span style="display:inline-flex; align-items:top; justify-content:center; gap:48px; white-space:nowrap; text-align:center;">
-      <span style="display:inline-block; vertical-align:top; text-align:center;">
-         <strong>תצוגת פקודות מלאה:</strong><br/>
-         <img src="setup/full-sidebar.png" width="180" alt="סרגל פקודות מלא"/>
-      </span>
-      <span style="display:inline-block; vertical-align:top; text-align:center;">
-         <strong>תצוגה מכווצת:</strong><br/>
-         <img src="setup/short-sidebar.png" width="80" alt="סרגל פקודות מקוצר"/>
-      </span>
-   </span>
-</p>
+<div style="display:flex; gap:24px; justify-content:center; align-items:flex-start; flex-wrap:wrap; direction:rtl; text-align:center;">
+   <div style="text-align:center; flex:0 0 auto;">
+      <strong>תצוגת פקודות מלאה:</strong><br/>
+      <img src="setup/full-sidebar.png" style="width:180px; max-width:100%; height:auto;" alt="סרגל פקודות מלא"/>
+   </div>
+   <div style="text-align:center; flex:0 0 auto;">
+      <strong>תצוגה מכווצת:</strong><br/>
+      <img src="setup/short-sidebar.png" style="width:80px; max-width:100%; height:auto;" alt="סרגל פקודות מקוצר"/>
+   </div>
+</div>
 
 הצגת פקודות נוספות / פחות:
 
-<p align="center">
-   <span style="display:inline-block; white-space:nowrap; text-align:center;">
-      <span style="display:inline-block; vertical-align:top; text-align:center; margin-right:8px;">
-         <strong>הצגת פקודות נוספות</strong><br/>
-         <img src="setup/more-commands.png" width="200" alt="פקודות נוספות"/>
-      </span>
-      <span style="display:inline-block; vertical-align:top; text-align:center; margin-left:8px;">
-         <strong>הצגת פקודות מופחתות</strong><br/>
-         <img src="setup/less-commands.png" width="280" alt="פקודות מופחתות"/>
-      </span>
-   </span>
-</p>
+<div style="display:flex; gap:16px; justify-content:center; align-items:flex-start; flex-wrap:wrap; direction:rtl; text-align:center;">
+   <div style="text-align:center; flex:0 0 auto; margin-right:8px;">
+      <strong>הצגת פקודות נוספות</strong><br/>
+      <img src="setup/more-commands.png" style="width:200px; max-width:100%; height:auto;" alt="פקודות נוספות"/>
+   </div>
+   <div style="text-align:center; flex:0 0 auto; margin-left:8px;">
+      <strong>הצגת פקודות מופחתות</strong><br/>
+      <img src="setup/less-commands.png" style="width:280px; max-width:100%; height:auto;" alt="פקודות מופחתות"/>
+   </div>
+</div>
 
 ---
 
