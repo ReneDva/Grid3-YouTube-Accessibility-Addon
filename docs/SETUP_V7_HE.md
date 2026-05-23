@@ -140,39 +140,35 @@ flowchart TD
 תצוגת פקודות מלאה ומכווצת:
 
 <table dir="rtl" style="margin:0 auto; border-collapse:collapse; white-space:nowrap;">
-   <tr>
-      <td style="text-align:center; vertical-align:top; padding:8px;">
-         <div style="display:flex; flex-direction:column; align-items:center; justify-content:flex-start;">
-            <strong style="display:block; margin-bottom:6px;">תצוגת פקודות מלאה:</strong>
-            <img src="setup/full-sidebar.png" style="width:180px; max-width:100%; height:auto; display:block; margin:0;" alt="סרגל פקודות מלא"/>
-         </div>
-      </td>
-      <td style="text-align:center; vertical-align:top; padding:8px;">
-         <div style="display:flex; flex-direction:column; align-items:center; justify-content:flex-start;">
-            <strong style="display:block; margin-bottom:6px;">תצוגה מכווצת:</strong>
-            <img src="setup/short-sidebar.png" style="width:80px; max-width:100%; height:auto; display:block; margin:0;" alt="סרגל פקודות מקוצר"/>
-         </div>
-      </td>
-   </tr>
+  <tr>
+    <th style="text-align:center; padding:6px 12px;">תצוגת פקודות מלאה:</th>
+    <th style="text-align:center; padding:6px 12px;">תצוגה מכווצת:</th>
+  </tr>
+  <tr>
+    <td style="text-align:center; vertical-align:top; padding:8px;">
+      <img src="setup/full-sidebar.png" style="width:180px; max-width:100%; height:auto; display:block; margin:0 auto;" alt="סרגל פקודות מלא"/>
+    </td>
+    <td style="text-align:center; vertical-align:top; padding:8px;">
+      <img src="setup/short-sidebar.png" style="width:80px; max-width:100%; height:auto; display:block; margin:0 auto;" alt="סרגל פקודות מקוצר"/>
+    </td>
+  </tr>
 </table>
 
 הצגת פקודות נוספות / פחות:
 
 <table dir="rtl" style="margin:0 auto; border-collapse:collapse; white-space:nowrap;">
-   <tr>
-      <td style="text-align:center; vertical-align:top; padding:8px;">
-         <div style="display:flex; flex-direction:column; align-items:center; justify-content:flex-start;">
-            <strong style="display:block; margin-bottom:6px;">הצגת פקודות נוספות</strong>
-            <img src="setup/more-commands.png" style="width:200px; max-width:100%; height:auto; display:block; margin:0;" alt="פקודות נוספות"/>
-         </div>
-      </td>
-      <td style="text-align:center; vertical-align:top; padding:8px;">
-         <div style="display:flex; flex-direction:column; align-items:center; justify-content:flex-start;">
-            <strong style="display:block; margin-bottom:6px;">הצגת פקודות מופחתות</strong>
-            <img src="setup/less-commands.png" style="width:280px; max-width:100%; height:auto; display:block; margin:0;" alt="פקודות מופחתות"/>
-         </div>
-      </td>
-   </tr>
+  <tr>
+    <th style="text-align:center; padding:6px 12px;">הצגת פקודות נוספות</th>
+    <th style="text-align:center; padding:6px 12px;">הצגת פקודות מופחתות</th>
+  </tr>
+  <tr>
+    <td style="text-align:center; vertical-align:top; padding:8px;">
+      <img src="setup/more-commands.png" style="width:200px; max-width:100%; height:auto; display:block; margin:0 auto;" alt="פקודות נוספות"/>
+    </td>
+    <td style="text-align:center; vertical-align:top; padding:8px;">
+      <img src="setup/less-commands.png" style="width:280px; max-width:100%; height:auto; display:block; margin:0 auto;" alt="פקודות מופחתות"/>
+    </td>
+  </tr>
 </table>
 
 ---
@@ -201,12 +197,12 @@ flowchart TD
       </div>
    </li>
 </ol>
-<div dir="ltr" lang="en" style="direction:ltr; text-align:left;">
+
 ```
 Program:    C:\YouTube_Navigator_V7\YouTubeControl.exe
 Parameters: (ריק — ללא פרמטרים)
 ```
-</div>
+
 ---
 
 ### שלב 4 — הגדרת תאי פקודה
@@ -235,7 +231,7 @@ Parameters: (ריק — ללא פרמטרים)
             <tr>
                <td style="padding:6px 8px; text-align:right;">`home`</td>
                <td style="padding:6px 8px;">מעבר לדף הבית</td>
-               <td style="padding:6px 8px; text-align:left ">home</td>
+               <td style="padding:6px 8px; text-align:left;">home</td>
             </tr>
             <tr>
                <td style="padding:6px 8px; text-align:right">`down`</td>
