@@ -139,29 +139,33 @@ flowchart TD
 
 תצוגת פקודות מלאה ומכווצת:
 
-<div style="display:flex; gap:24px; justify-content:center; align-items:flex-start; flex-wrap:wrap; direction:rtl; text-align:center;">
-   <div style="text-align:center; flex:0 0 auto;">
-      <strong>תצוגת פקודות מלאה:</strong><br/>
-      <img src="setup/full-sidebar.png" style="width:180px; max-width:100%; height:auto;" alt="סרגל פקודות מלא"/>
-   </div>
-   <div style="text-align:center; flex:0 0 auto;">
-      <strong>תצוגה מכווצת:</strong><br/>
-      <img src="setup/short-sidebar.png" style="width:80px; max-width:100%; height:auto;" alt="סרגל פקודות מקוצר"/>
-   </div>
-</div>
+<table dir="rtl" style="margin:0 auto; border-collapse:collapse; white-space:nowrap;">
+   <tr>
+      <td style="text-align:center; vertical-align:top; padding:8px;">
+         <strong>תצוגת פקודות מלאה:</strong><br/>
+         <img src="setup/full-sidebar.png" style="width:180px; max-width:100%; height:auto; display:block; margin:8px auto;" alt="סרגל פקודות מלא"/>
+      </td>
+      <td style="text-align:center; vertical-align:top; padding:8px;">
+         <strong>תצוגה מכווצת:</strong><br/>
+         <img src="setup/short-sidebar.png" style="width:80px; max-width:100%; height:auto; display:block; margin:8px auto;" alt="סרגל פקודות מקוצר"/>
+      </td>
+   </tr>
+</table>
 
 הצגת פקודות נוספות / פחות:
 
-<div style="display:flex; gap:16px; justify-content:center; align-items:flex-start; flex-wrap:wrap; direction:rtl; text-align:center;">
-   <div style="text-align:center; flex:0 0 auto; margin-right:8px;">
-      <strong>הצגת פקודות נוספות</strong><br/>
-      <img src="setup/more-commands.png" style="width:200px; max-width:100%; height:auto;" alt="פקודות נוספות"/>
-   </div>
-   <div style="text-align:center; flex:0 0 auto; margin-left:8px;">
-      <strong>הצגת פקודות מופחתות</strong><br/>
-      <img src="setup/less-commands.png" style="width:280px; max-width:100%; height:auto;" alt="פקודות מופחתות"/>
-   </div>
-</div>
+<table dir="rtl" style="margin:0 auto; border-collapse:collapse; white-space:nowrap;">
+   <tr>
+      <td style="text-align:center; vertical-align:top; padding:8px;">
+         <strong>הצגת פקודות נוספות</strong><br/>
+         <img src="setup/more-commands.png" style="width:200px; max-width:100%; height:auto; display:block; margin:8px auto;" alt="פקודות נוספות"/>
+      </td>
+      <td style="text-align:center; vertical-align:top; padding:8px;">
+         <strong>הצגת פקודות מופחתות</strong><br/>
+         <img src="setup/less-commands.png" style="width:280px; max-width:100%; height:auto; display:block; margin:8px auto;" alt="פקודות מופחתות"/>
+      </td>
+   </tr>
+</table>
 
 ---
 
