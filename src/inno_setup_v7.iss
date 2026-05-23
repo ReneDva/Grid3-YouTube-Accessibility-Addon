@@ -9,6 +9,7 @@
 ; Inno Setup requires .ico for SetupIconFile / IconFilename / UninstallDisplayIcon.
 ; TODO: Regenerate icon_v7.ico from AppIconSourceSvg whenever the SVG is updated.
 #define AppIcon "..\\docs\\icon_v7.ico"
+#define OpeningAnimation "..\\docs\\opening-animation.mp4"
 #define UserDataDir "C:\YouTube_User_Data"
 #define LegacyUserDataDir "C:\Grid3_YouTube_Accessibility_Addon_User_Data"
 
@@ -31,6 +32,7 @@ WizardStyle=modern
 [Files]
 Source: "{#PublishExe}"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#AppIcon}"; DestDir: "{app}"; DestName: "icon_v7.ico"; Flags: ignoreversion
+Source: "{#OpeningAnimation}"; DestDir: "{app}"; Flags: ignoreversion
 
 ; Bundled Chrome Canary installer for prerequisite install when missing.
 Source: "{#ChromeSetupBundle}"; DestDir: "{tmp}"; DestName: "ChromeSetup.exe"; Flags: ignoreversion deleteafterinstall

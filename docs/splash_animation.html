@@ -230,88 +230,70 @@
 </div>
 
 <script>
-// ── SOUND — Intro Sting (Disney/Netflix style, 10s) ──
+// ── SOUND — Web Audio API ──
+// מנגינה עליזה וקצבית, 10 שניות
 window.addEventListener('click', startSound, { once: true });
-window.addEventListener('load', () => setTimeout(startSound, 100));
+window.addEventListener('load', () => {
+  // ניסיון אוטומטי (עובד בחלק מהדפדפנים)
+  setTimeout(startSound, 100);
+});
 
 function startSound() {
   const ctx = new (window.AudioContext || window.webkitAudioContext)();
-  const t = ctx.currentTime;
-
-  // ── Simulated reverb via feedback delay network ──
-  function makeReverb(wet = 0.4) {
-    const delay1 = ctx.createDelay(0.5); delay1.delayTime.value = 0.13;
-    const delay2 = ctx.createDelay(0.5); delay2.delayTime.value = 0.17;
-    const fb1 = ctx.createGain(); fb1.gain.value = 0.25;
-    const fb2 = ctx.createGain(); fb2.gain.value = 0.22;
-    const wetGain = ctx.createGain(); wetGain.gain.value = wet;
-    delay1.connect(fb1); fb1.connect(delay1);
-    delay2.connect(fb2); fb2.connect(delay2);
-    delay1.connect(wetGain); delay2.connect(wetGain);
-    wetGain.connect(ctx.destination);
-    return { in1: delay1, in2: delay2 };
-  }
-
-  const reverb = makeReverb(0.45);
   const master = ctx.createGain();
-  master.gain.setValueAtTime(0.0, t);
-  master.gain.linearRampToValueAtTime(0.55, t + 0.05);
-  master.gain.setValueAtTime(0.55, t + 7.5);
-  master.gain.linearRampToValueAtTime(0.0, t + 10.0);
+  master.gain.setValueAtTime(0.28, ctx.currentTime);
   master.connect(ctx.destination);
-  master.connect(reverb.in1);
 
-  // ── Helper: play one note with envelope ──
-  function note(freq, start, dur, vol = 0.5, type = 'sine') {
+  // מנגינה — נוטות C major עליז
+  const notes = {
+    C4:261.6, D4:293.7, E4:329.6, F4:349.2,
+    G4:392.0, A4:440.0, B4:493.9, C5:523.3,
+    E5:659.3, G5:784.0
+  };
+
+  // סקוונס מנגינה (תו, זמן_התחלה, משך)
+  const melody = [
+    ['C4',0.0,0.25], ['E4',0.25,0.25], ['G4',0.5,0.25], ['C5',0.75,0.5],
+    ['G4',1.3,0.25], ['E4',1.55,0.25], ['C4',1.8,0.4],
+    ['D4',2.3,0.25], ['F4',2.55,0.25], ['A4',2.8,0.25], ['C5',3.05,0.5],
+    ['A4',3.6,0.25], ['F4',3.85,0.25], ['D4',4.1,0.4],
+    ['E4',4.6,0.25], ['G4',4.85,0.25], ['B4',5.1,0.25], ['E5',5.35,0.5],
+    ['G4',5.9,0.25], ['E4',6.15,0.25], ['C4',6.4,0.4],
+    ['G4',6.9,0.3],  ['A4',7.2,0.3],  ['G4',7.5,0.3],  ['E4',7.8,0.3],
+    ['C4',8.2,0.3],  ['E4',8.5,0.3],  ['G4',8.8,0.25], ['C5',9.1,0.7],
+  ];
+
+  melody.forEach(([note, start, dur]) => {
     const osc = ctx.createOscillator();
-    const env = ctx.createGain();
-    osc.type = type;
-    osc.frequency.value = freq;
-    const attack = 0.015, release = Math.min(0.4, dur * 0.4);
-    env.gain.setValueAtTime(0, t + start);
-    env.gain.linearRampToValueAtTime(vol, t + start + attack);
-    env.gain.setValueAtTime(vol, t + start + dur - release);
-    env.gain.exponentialRampToValueAtTime(0.0001, t + start + dur);
-    osc.connect(env); env.connect(master);
-    osc.start(t + start); osc.stop(t + start + dur + 0.05);
-  }
-
-  // ── Helper: sparkle shimmer (high bells) ──
-  function sparkle(freq, start) {
-    note(freq,      start,        0.6,  0.18, 'sine');
-    note(freq * 2,  start + 0.04, 0.4,  0.10, 'sine');
-    note(freq * 3,  start + 0.08, 0.25, 0.06, 'sine');
-  }
-
-  // ── PHASE 1 (0–2.5s): Rising sparkle build-up ──
-  // Ascending shimmer like Disney star sweep
-  [1047, 1175, 1319, 1568, 1760, 2093].forEach((f, i) => {
-    sparkle(f, i * 0.32);
+    const gain = ctx.createGain();
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(notes[note], ctx.currentTime);
+    gain.gain.setValueAtTime(0, ctx.currentTime + start);
+    gain.gain.linearRampToValueAtTime(0.7, ctx.currentTime + start + 0.02);
+    gain.gain.linearRampToValueAtTime(0, ctx.currentTime + start + dur - 0.02);
+    osc.connect(gain);
+    gain.connect(master);
+    osc.start(ctx.currentTime + start);
+    osc.stop(ctx.currentTime + start + dur);
   });
 
-  // ── PHASE 2 (2.5–5s): Main fanfare HIT ──
-  // Big C major chord — root, third, fifth, octave all at once
-  const hitT = 2.5;
-  const chord = [261.6, 329.6, 392.0, 523.3, 659.3, 784.0];
-  chord.forEach(f => note(f, hitT, 3.5, 0.22, 'triangle'));
-
-  // Bass thud underneath (like Netflix "dum")
-  note(65.4,  hitT,        2.8, 0.55, 'sine'); // C2
-  note(130.8, hitT,        2.5, 0.35, 'sine'); // C3
-  note(130.8, hitT + 0.6,  2.0, 0.20, 'sine'); // echo
-
-  // Bright high bell accent on the hit
-  note(2093, hitT,        1.2, 0.14, 'sine');
-  note(2637, hitT + 0.08, 0.8, 0.10, 'sine');
-
-  // ── PHASE 3 (5–10s): Gentle tail / shimmer decay ──
-  [1047, 1319, 1568].forEach((f, i) => {
-    sparkle(f, 5.2 + i * 0.5);
-    sparkle(f * 1.5, 6.5 + i * 0.4);
+  // Bass פשוט
+  const bassNotes = [
+    ['C4',0,1],['F4',1,1],['D4',2,1],['G4',3,1],
+    ['C4',4,1],['F4',5,1],['G4',6,1],['C4',7,2],
+  ];
+  bassNotes.forEach(([note, start, dur]) => {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(notes[note] / 2, ctx.currentTime);
+    gain.gain.setValueAtTime(0.18, ctx.currentTime + start);
+    gain.gain.linearRampToValueAtTime(0, ctx.currentTime + start + dur - 0.05);
+    osc.connect(gain);
+    gain.connect(master);
+    osc.start(ctx.currentTime + start);
+    osc.stop(ctx.currentTime + start + dur);
   });
-
-  // Soft held chord under the tail
-  [523.3, 659.3, 784.0].forEach(f => note(f, 5.0, 4.8, 0.08, 'sine'));
 }
 </script>
 </body>

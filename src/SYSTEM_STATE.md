@@ -33,8 +33,16 @@ This document captures the currently implemented runtime state for the code unde
 
 - ChromeManager.cs
 - Resolves Chrome binary path (Canary fallback to Stable).
-- Launches Chrome with remote debugging port 15432 and a fixed user data directory:
-  - C:\\Grid3_YouTube_Accessibility_Addon_User_Data
+- Uses UserDataDirectoryPolicy to resolve the runtime profile directory.
+- Launches Chrome with remote debugging port 15432 and a canonical user data directory:
+  - C:\\YouTube_User_Data
+- Restores foreground window after launch using retry + stability checks and a final-pass fallback.
+
+- UserDataDirectoryPolicy.cs
+- Selects preferred profile directory with this order:
+  - Use canonical path directly when existing profile data is found.
+  - Migrate legacy profile from `%LOCALAPPDATA%\YouTubeControl` if it exists.
+  - Bootstrap first install at C:\\YouTube_User_Data when no profile data exists.
 
 - Actions/NavigationActions.cs
 - Provides the browser-side JavaScript script used for navigation, focus highlighting, media controls, and activation.
@@ -55,8 +63,9 @@ This document captures the currently implemented runtime state for the code unde
 1. Grid 3 (or any caller) starts YouTubeControl.exe with or without args.
 2. Program attempts mutex acquisition.
 3. If leader already exists, process runs MessengerMode and sends command to named pipe.
-4. Leader receives command, validates action, resolves page, executes command via CDP.
-5. Messenger exits immediately; Leader continues resident until exit/stop or shutdown.
+4. If Leader needs a browser launch, it resolves the user-data path via UserDataDirectoryPolicy, launches Chrome, then runs foreground-restore verification.
+5. Leader receives command, validates action, resolves page, executes command via CDP.
+6. Messenger exits immediately; Leader continues resident until exit/stop or shutdown.
 
 ## Mermaid Flowchart
 
@@ -75,8 +84,9 @@ flowchart TD
   H --> I["EnsureBrowserConnectedAsync"]
   I --> J{"CDP attached?"}
   J -- "Yes" --> K["Start 3 parallel leader loops"]
-  J -- "No, launch allowed" --> L["ChromeManager.Launch"]
-  L --> I
+  J -- "No, launch allowed" --> L["UserDataDirectoryPolicy.Resolve + ChromeManager.Launch"]
+  L --> L2["Foreground restore retries + stability verification"]
+  L2 --> I
   J -- "No, launch not allowed" --> M["Command cannot execute"]
 
   K --> N["Pipe Server Loop"]
@@ -152,6 +162,8 @@ Navigation frame details:
 
 - Leader is single-instance by mutex; Messenger is intentionally short-lived.
 - Named pipe is the only command transport (no runtime HTTP command server in V7).
+- Profile policy uses canonical path C:\\YouTube_User_Data with legacy migration support.
 - Browser reconnect/retry logic is present for transient CDP session failures.
+- Foreground restore is launch-time hardened with retries, stability checks, and final-pass attempt logging.
 - Exit flow closes tabs/window and requests graceful shutdown.
 - Logs are written to logs.txt in the app base directory, with temp fallback if needed.

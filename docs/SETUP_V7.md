@@ -1,10 +1,12 @@
-# Setup & Customization Guide (V7) — For Parents, Teachers, and Therapists
+# Setup & Customization Guide (V7) - For Parents, Teachers, and Therapists
 
-This guide explains how to install, configure, and use the V7 YouTube accessibility system.
+<img src="icon_v7.ico" align="right" width="100">
 
-V7 replaces the old V6 script-based flow (`send.vbs`, `nav.exe`, `skip_ads.exe`) with a single app:
-- `YouTubeControl.exe` in Leader mode (resident background)
-- `YouTubeControl.exe <action>` in Messenger mode (quick relay)
+Hebrew version (RTL): [SETUP_V7_HE.md](SETUP_V7_HE.md)
+
+This guide explains how to install and use the YouTube V7 Grid 3 add-on for computer. Technical details on how the system operates under the hood can be found in the main README.
+
+*Users who wish to configure their own grid set manually can skip to [Manual Grid Set Configuration from scratch](#manual-grid-set-configuration-from-scratch). [[Link to community Grid sets for example (coming soon)]]*
 
 ---
 
@@ -14,153 +16,142 @@ Before installation, make sure the target computer has:
 
 - Windows 10 or Windows 11
 - Grid 3 installed and licensed
-- Installer file: `Output\YouTube_V7_Full_Installer.exe`
+- **User's Google account details:** Email address, password, and access to the secondary verification method (e.g., phone access) if two-factor authentication (2FA) is enabled.
+- Installer file: `Output\YouTube_V7_Full_Installer.exe` (Downloadable from [this link](https://github.com/ReneDva/Grid3-YouTube-Accessibility-Addon/releases/latest))
 
-Notes:
-- The V7 installer includes a bundled Chrome Canary setup (`ChromeSetup.exe`).
-- If Chrome Canary is missing, it is installed automatically during setup.
+**Note:**
+This add-on uses a specialized browser version called **Chrome Canary** (logo below). It will open YouTube in its WEB version, not through the standard desktop YouTube app or the regular Google Chrome.
+
+<img src="Chrome-canary-logo.svg" width="64">
 
 ---
 
 ## Installation (V7)
 
 1. Run `Output\YouTube_V7_Full_Installer.exe` as Administrator.
-2. Follow the setup wizard.
-3. The installer will:
-   - Install app files into `C:\YouTube_Navigator_V7\`
-   - Create user-data directory `C:\Grid3_YouTube_Accessibility_Addon_User_Data`
-   - Add Windows Defender exclusions for the app directory and the user-data directory
-   - Add desktop/start-menu shortcuts for `YouTubeControl.exe`
-   - Install Chrome Canary silently if not already installed
-4. At the end of setup, a message is shown: first startup must be done by a teacher/therapist because manual sign-in is required.
+2. **Security Alert:** Windows might alert you that the file is unknown. Click **"More info"** and then **"Run anyway"**.
+3. Follow the setup wizard instructions.
+4. **Completion:** Upon finishing the setup, a new **Chrome Canary** window will open automatically.
+5. **Initial Sign-in:** You must sign in to the child's Google account in this window.
+6. **Final Step:** After signing in successfully, **you must restart the computer** before daily use begins.
 
 ---
 
-## First Startup (Required Supervision)
+## Initial Sign-in on First Launch
 
-On first startup:
+If you accidentally closed the Chrome Canary window before signing in:
+1. Locate the desktop shortcut with the app icon:
+   <img src="icon_v7.ico" width="32">
+2. Launch it manually. The Chrome Canary window will reappear.
+3. Complete the sign-in, confirm YouTube is working, and then **restart the computer**.
 
-1. Launch `C:\YouTube_Navigator_V7\YouTubeControl.exe` (no arguments).
-2. Wait for Chrome to open.
-3. Manually sign in to the user Chrome profile account.
-4. Confirm YouTube opens correctly.
-5. Close with:
-   - `C:\YouTube_Navigator_V7\YouTubeControl.exe exit`
-
-After this first supervised run, daily use is fully command-driven from Grid 3.
+Once this is done, the student can start the add-on directly from their Grid set.
 
 ---
 
-## Daily Use Model
-
-### Leader startup (once)
-When entering the YouTube grid set, start:
-
-`C:\YouTube_Navigator_V7\YouTubeControl.exe`
-
-This starts Leader mode and keeps the background controller running.
-
-### Command relay (per button press)
-Each Grid 3 command button should run:
-
-`C:\YouTube_Navigator_V7\YouTubeControl.exe <action>`
-
-This starts Messenger mode, relays one command to Leader, and exits immediately.
+## Safety recommendations
+- If the user is a minor, it is highly recommended to set up the student's Google account as a supervised child account (using Google Family Link).
+- Parents, teachers, and therapists should regularly monitor the content accessed.
 
 ---
 
-## Grid 3 Configuration (V7)
+## Safe Exit
 
-## Computer Control requirement
+The close action is built directly into the **"Back to Applications"** button in Grid 3. Using this button ensures that both the browser and the add-on close cleanly and quietly in the background. This applies to all users, whether using a pre-made grid set or a custom one.
 
-Use Grid 3 in Computer Control mode (Windows only).
+## User Action Flow (Grid 3)
 
-## Grid open action
-Configure "When this grid opens":
+```mermaid
+flowchart TD
+   A[Open YouTube Grid] --> B[Click Start button]
+   B --> C[App starts Chrome in the background]
+   C --> C1[Child watches splash animation with opening sound]
+   C1 --> C2[YouTube is ready]
 
-- Action type: Start Program (Computer Control)
-- Program: `C:\YouTube_Navigator_V7\YouTubeControl.exe`
-- Parameters: (empty)
+   C2 --> D{Choose action in Grid 3}
+   D --> E[home]
+   E --> E1[Go to YouTube Home]
 
-## Command cell action
-For each YouTube control cell:
+   D --> F[down or up]
+   F --> F1[Move to next or previous item]
 
-- Action type: Run Program (Computer Control)
-- Program: `C:\YouTube_Navigator_V7\YouTubeControl.exe`
-- Parameters: action command (for example `down`, `home`, `search:disney songs`)
+   D --> G[enter]
+   G --> G1[Open selected video or item]
 
-## Leave grid safely
-For the Grid Explorer / Home cell:
+   D --> H[play_pause]
+   H --> H1[Pause or resume current video]
 
-1. Add command action first:
-   - Program: `C:\YouTube_Navigator_V7\YouTubeControl.exe`
-   - Parameters: `exit`
-2. Keep existing "Jump to grid" action after it.
+   D --> I[fullscreen]
+   I --> I1[Enter or exit fullscreen]
 
-This ensures YouTubeControl and browser session close cleanly when leaving the YouTube grid.
+   D --> J[like]
+   J --> J1[Like or unlike current video]
 
----
+   D --> K[search: search keywords]
+   K --> K1[Open YouTube search results]
 
-## Full V7 Command Reference (All Supported Commands)
+   D --> L[open: link to YouTube video]
+   L --> L1[Open requested YouTube link]
 
-| Command | Purpose | Example Grid Parameter |
-|---|---|---|
-| `home` | Go to YouTube home | `home` |
-| `down` | Move selection down/next | `down` |
-| `up` | Move selection up/previous | `up` |
-| `enter` | Activate current selection | `enter` |
-| `back` | Browser history back | `back` |
-| `play_pause` | Toggle play/pause | `play_pause` |
-| `fullscreen` | Toggle fullscreen | `fullscreen` |
-| `toggle` | Fullscreen alias toggle path | `toggle` |
-| `like` | Toggle Like | `like` |
-| `refresh` | Reload active YouTube page | `refresh` |
-| `search:<query>` | Open YouTube search results | `search:disney songs` |
-| `open:<url>` | Open direct URL | `open:https://www.youtube.com/shorts` |
-| `exit` | Stop leader and close browser | `exit` |
-| `stop` | Alias of `exit` | `stop` |
+   D --> M[refresh]
+   M --> M1[Reload current page]
 
-Notes:
-- `stop` and `exit` are equivalent shutdown commands.
-- `search:` and `open:` include payload after `:`.
+   D --> N[back]
+   N --> N1[Go back to previous page]
 
----
-
-## Local Testing Without Grid 3
-
-From CMD/PowerShell:
-
-```powershell
-cd C:\YouTube_Navigator_V7
-.\YouTubeControl.exe
-# wait until Chrome opens
-.\YouTubeControl.exe home
-.\YouTubeControl.exe down
-.\YouTubeControl.exe enter
-.\YouTubeControl.exe play_pause
-.\YouTubeControl.exe like
-.\YouTubeControl.exe fullscreen
-.\YouTubeControl.exe refresh
-.\YouTubeControl.exe search:disney songs
-.\YouTubeControl.exe open:https://www.youtube.com/shorts
-.\YouTubeControl.exe stop
+   D --> O[exit or stop]
+   O --> O1[Close YouTube and stop the app]
 ```
+
+**Tip:** If the red navigation frame does not appear, press one navigation key (`down` or `up`) once. The frame should appear and navigation can continue normally.
 
 ---
 
 ## Troubleshooting (V7)
 
-| Problem | What to check |
-|---|---|
-| Chrome does not open | Start Leader manually: `C:\YouTube_Navigator_V7\YouTubeControl.exe` |
-| Commands do nothing | Verify Leader is running first (no-args launch) |
-| Grid cell command fails | Ensure Program is `YouTubeControl.exe` and Parameters contain only the command |
-| First run fails for user | Perform supervised manual sign-in once (teacher/therapist) |
-| Search/open command not working | Validate correct `search:<query>` or `open:<url>` format |
-| Shutdown does not happen | Use `exit` or `stop` command explicitly |
+If you encounter issues (Chrome not opening, commands not responding, etc.):
+
+1.  **Check individual cells:** If only one specific button isn't working, check its configuration. Ensure there are no typos in the parameters and that it points to the correct program.
+2.  **General fix:** If multiple buttons fail or Chrome is behaving unexpectedly, the primary solution is to **restart the computer**. 
+    *   *Technical note:* You can also try closing `YouTubeControl.exe` via the **Task Manager** and then relaunching from Grid 3, but for most users, a full restart is the simplest and most effective way to clear the background app state.
+
+---
+
+## Manual Grid Set Configuration from scratch
+
+For users creating their own grid set (link to community grid sets to be provided later), you must configure cells to **Run Program** using the application path and the corresponding parameter from the list below.
+
+### Grid Setup Tips
+In the opening page of this Grid set, place a Start button and add the following actions:
+
+- Action type: Start Program (Computer Control)
+- Program: `C:\YouTube_Navigator_V7\YouTubeControl.exe`
+- Parameters: (empty)
+
+### Command Reference
+
+| Command | Purpose | Example Parameter |
+|---|---|---|
+| `home` | Go to YouTube home | `home` |
+| `down` | Move selection down | `down` |
+| `up` | Move selection up | `up` |
+| `enter` | Activate current selection | `enter` |
+| `back` | Browser history back | `back` |
+| `play_pause` | Toggle play/pause | `play_pause` |
+| `fullscreen` | Toggle fullscreen | `fullscreen` |
+| `like` | Toggle Like | `like` |
+| `refresh` | Reload current page | `refresh` |
+| `search:` | Open search results | `search: search keywords` |
+| `open:` | Open direct URL | `open: link to YouTube video` |
+| `exit` | Stop and close browser | `exit` |
+
+### Manual Configuration Steps
+For detailed technical instructions on how to set up individual cells manually, please refer to the "Grid 3 Configuration" section in the technical [README](../README.md).
 
 ---
 
 ## Migration Note
 
-This file is the V7 setup guide. The old V6 setup flow with `send.vbs`, HTTP port `3000`, and `Setup_System.bat` is not used in the V7 runtime.
+Please note: Grid sets that worked with V6 or earlier **will not work** with the current version. You must use the new grid set format.
+
+---
