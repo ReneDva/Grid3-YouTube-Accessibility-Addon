@@ -1,4 +1,4 @@
-﻿<div dir="rtl" lang="he">
+﻿<div dir="rtl" lang="he" style="direction:rtl; text-align:right;">
 
 <img src="icon_v7.ico" align="left" width="100">
 
