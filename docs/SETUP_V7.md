@@ -37,7 +37,7 @@ This add-on uses a specialized browser version called **Chrome Canary** (logo be
 
 ---
 
-## Startup and Connection Fix
+## Initial Sign-in on First Launch
 
 If you accidentally closed the Chrome Canary window before signing in:
 1. Locate the desktop shortcut with the app icon:
