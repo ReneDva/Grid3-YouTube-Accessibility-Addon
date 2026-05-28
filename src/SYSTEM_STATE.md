@@ -167,3 +167,112 @@ Navigation frame details:
 - Foreground restore is launch-time hardened with retries, stability checks, and final-pass attempt logging.
 - Exit flow closes tabs/window and requests graceful shutdown.
 - Logs are written to logs.txt in the app base directory, with temp fallback if needed.
+
+## End-to-end flow: Grid3 click → V8 injection (diagram and locations)
+
+Below is a flowchart that shows the entire command path from Grid3 (or another caller) through the YouTubeControl process into the browser page where the JavaScript is injected and executed in V8. The diagram also marks where key state is stored (server-side `IBrowser`, in-page `window.navIndex`, and the Chrome user-data directory on disk).
+
+```mermaid
+flowchart TD
+  %% Outer groupings
+  subgraph Grid3App["<b>Grid3 (external app) - Windows user space</b>"]
+    G["Grid3\n(user click / command)"]
+  end
+
+  subgraph WindowsOS["<div align='left'><b>Windows OS (kernel / IPC / mutex)</b></div>"]
+    Proc["Start YouTubeControl.exe\n(args)"]
+    Mutex{"Acquire leader mutex?"}
+  end
+
+  subgraph DotNetApplicationLayer["<div align='left'><b>.NET application layer (Windows user-mode)</b></div>"]
+    subgraph MessengerRuntimeInstance["<div align='center'><b>Messenger process (.NET runtime instance)</b></div>"]
+      Msg["Build command\n(MessengerMode)"]
+      PipeClient["Send to named pipe\n(YouTubeControlPipe)"]
+    end
+
+    subgraph LeaderRuntimeInstance["<div align='left'><b>Leader process (.NET runtime instance)</b></div>"]
+      LeaderPipe["Leader pipe receive"]
+      Dispatch["Dispatch CommandAsync\n(retry once\non recoverable error)"]
+      ResolvePage["Resolve page\n(GetYouTubePageAsync)"]
+      EnsureSession["Ensure session (attach 3x)\n-> launch gate\n-> launch\n-> attach 5x"]
+      BrowserCSharp["_browser (IBrowser)\nvolatile C# memory"]
+      PageOps["Page operations\nbring-to-front, sync viewport,\nnavigate/reload, normalize"]
+      Inject["Build + evaluate nav script"]
+
+      AdLoop["Ad skipper loop"]
+      AdResolve["Resolve skippable page\n(TryGetSkippable\nYouTubePageAsync)"]
+      AdInject["Evaluate skip script\n+ click if found"]
+    end
+  end
+
+  subgraph ChromeProc["<b>Chrome process (browser on Windows)</b>"]
+    Launch["Launch Chrome\n(remote debugging)\n+ user data dir"]
+    Connect["CDP connect"]
+    Page["IPage target"]
+    V8["V8 page context"]
+    DOM["DOM updates / navigation"]
+    NavIndex["window.navIndex\nvolatile in-page memory"]
+  end
+
+  %% Main command flow
+  G --> Proc --> Mutex
+  Mutex -- "No (leader exists)" --> Msg --> PipeClient --> LeaderPipe
+  Mutex -- "Yes (this process is leader)" --> LeaderPipe
+
+  LeaderPipe --> Dispatch --> ResolvePage --> EnsureSession
+  EnsureSession -->|attach ok| Connect
+  EnsureSession -->|launch path| Launch --> Connect
+  Connect --> BrowserCSharp --> ResolvePage
+  ResolvePage --> PageOps --> Inject --> V8 --> DOM
+  V8 --> NavIndex
+  DOM --> ResolvePage
+
+  %% Ad skipper (separate page-resolution path)
+  LeaderPipe --> AdLoop --> AdResolve --> AdInject --> V8
+  AdResolve -. "watch/shorts only" .-> Page
+
+  %% Storage / persistence
+  subgraph PersistentStorage["<b>Persistent: user machine (disk)</b>"]
+    Disk["C:\\YouTube_User_Data\n(Chrome profile)"]
+  end
+
+  subgraph VolatileMemory["<b>Volatile: RAM</b>"]
+    BrowserCSharp
+    NavIndex
+  end
+
+  Disk --> Launch
+
+  %% Minimal styling for readability
+  style Grid3App fill:#dff4ff,stroke:#1a73e8,stroke-width:1px
+  style WindowsOS fill:#e8f7e8,stroke:#2e7d32,stroke-width:1px
+  style DotNetApplicationLayer fill:#f8f6ff,stroke:#6a1b9a,stroke-width:1px
+  style MessengerRuntimeInstance fill:#eef6ff,stroke:#1a73e8,stroke-width:1px
+  style LeaderRuntimeInstance fill:#fff2f8,stroke:#c6007e,stroke-width:1px
+  style PersistentStorage fill:#f0f7ff,stroke:#1a73e8,stroke-width:1px
+  style VolatileMemory fill:#fffaf0,stroke:#b37f00,stroke-width:1px
+```
+
+Legend — where things run / what stores state:
+- Grid3: external assistive app (Windows user space) that launches or signals `YouTubeControl.exe`.
+- Windows OS: global mutex and named pipe are Win32 concepts implemented by the OS; the mutex enforces single leader and the named pipe (`YouTubeControlPipe`) transports commands.
+- .NET application layer (Windows user-mode): shown as one outer group with two inner groups, each representing a separate process/runtime instance:
+  - Messenger process (.NET runtime instance): current process is not leader, so it only builds and sends one command to the existing leader via named pipe.
+  - Leader process (.NET runtime instance): receives the command, resolves page/session, performs page operations, and injects/evaluates scripts.
+- Chrome process (Windows): the Chrome browser process is launched by `ChromeManager.Launch` with `--remote-debugging-port=15432` and stores profile data under `C:\\YouTube_User_Data` (persistent on disk).
+- V8 / renderer: the injected JS executes inside the renderer process (V8), where `window.navIndex` and DOM state live (volatile in renderer memory).
+- Connection robustness (summarized in `Ensure session`): attach attempts happen before and after launch with backoff.
+- Ad skipper path is intentionally separate: it resolves skippable pages (watch/shorts filter) and does not reuse the main command page-resolution path.
+
+About the `style` lines you saw:
+- Those are Mermaid styling directives intended to change node appearance (for example fill and border). They are not separate diagram boxes — they are instructions for the Mermaid renderer.
+- This diagram now uses automatic node sizing by text content (no fixed width/height directives).
+
+If you want nodes to always show full text reliably across renderers, I can:
+- split long labels into multiple lines (already done using `\n`), or
+- wrap nodes in subgraphs with fixed-size containers (some renderers will respect that better), or
+- generate an exported PNG/SVG here if you want a guaranteed visual.
+
+Next step: would you like a separate mini-diagram for error recovery (CDP disconnect → `InvalidateBrowserAsync` → reconnect attempts) or a rendered image of this diagram?
+
+
