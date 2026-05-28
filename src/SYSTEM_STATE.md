@@ -170,138 +170,116 @@ Navigation frame details:
 
 ## End-to-end flow: Grid3 click → V8 injection (diagram and locations)
 
-Below is a flowchart that shows the end-to-end command/runtime path from Grid3 (or another caller) through the YouTubeControl process into the browser page where JavaScript is evaluated in V8. The diagram also marks where key state is stored (server-side `IBrowser`, in-page `window.navIndex`, and the Chrome user-data directory on disk).
+Below is the updated command/runtime map with explicit execution boundaries between the LeaderMode host process and the Browser/V8 environment reached through CDP.
 
 ```mermaid
 flowchart TD
-  %% Legend for node semantics
-  subgraph DiagramLegend["<b>Legend</b>"]
-    LegendAction["Action / Step"]
-    LegendMemServer["[MEM-C#] _browser\nMemory component (Leader process)"]
-    LegendMemPage["[MEM-JS] window.navIndex\nMemory component (page context)"]
-    LegendStore["[STORE] profile directory\nPersistent storage (disk)"]
+  %% Trigger and IPC ingress
+  subgraph Grid3Space["Grid3 (external app)"]
+    G["User switch press"]
   end
 
-  %% Outer groupings
-  subgraph Grid3App["<b>Grid3 (external app) - Windows user space</b>"]
-    G["Grid3\n(user click / command)"]
+  subgraph IPCPath["Windows IPC path"]
+    M["MessengerMode builds command"]
+    P["Named Pipe\nYouTubeControlPipe"]
   end
 
-  subgraph WindowsOS["<div align='left'><b>Windows OS (kernel / IPC / mutex)</b></div>"]
-    Proc["Start YouTubeControl.exe\n(args)"]
-    Mutex{"Acquire leader mutex?"}
+  %% Host-side execution (C#)
+  subgraph Host["LeaderMode host application (.NET / C#)"]
+    L0["Leader pipe read"]
+    L1["TryParseCommand(raw)"]
+    L2["DispatchCommandAsync(action, query)"]
+    L3["GetYouTubePageAsync()"]
+    L4["TryBringToFrontAsync(page)"]
+    LR{"Action category?"}
+
+    A0["Category A\nup/down/enter"]
+    B0["Category B\nhome/search/back/open/refresh"]
+    C0["Category C\nplay_pause/like"]
+    D0["Category D\nfullscreen/exit"]
+
+    B1["GoToAsync / ReloadAsync\n(back uses history navigation)"]
+    D1["Keyboard.PressAsync or CloseAsync"]
+    Log["Logger.Log result"]
+
+    AD0["Ad skipper loop\n(background, no Grid3 trigger)"]
+    AD1["Resolve skippable YouTube page"]
   end
 
-  subgraph DotNetApplicationLayer["<div align='left'><b>.NET application layer (Windows user-mode)</b></div>"]
-    subgraph MessengerRuntimeInstance["<div align='center'><b>Messenger process (.NET runtime instance)</b></div>"]
-      Msg["Build command\n(MessengerMode)"]
-      PipeClient["Send to named pipe\n(YouTubeControlPipe)"]
-    end
+  %% CDP boundary and browser-side execution
+  CDP["CDP transport boundary"]
 
-    subgraph LeaderRuntimeInstance["<div align='left'><b>Leader process (.NET runtime instance)</b></div>"]
-      LeaderStart["Leader startup\n(LeaderMode.RunAsync)"]
-      LeaderPipe["Leader pipe receive"]
-      Dispatch["Dispatch CommandAsync\n(retry once\non recoverable error)"]
-      ResolvePage["Resolve page\n(GetYouTubePageAsync)"]
-      EnsureSession["Ensure session (attach 3x)\n-> launch gate\n-> launch\n-> attach 5x"]
-      BrowserCSharp["[MEM-C#] _browser (IBrowser)\nvolatile C# memory"]
-      PageOps["Page operations\nbring-to-front, sync viewport,\nnavigate/reload, normalize"]
-      Inject["Build + evaluate nav script\n(navigation actions only)"]
-      DirectOps["Direct action path\n(refresh/fullscreen)"]
-      ExitPath["Exit path\n(close browser + shutdown request)"]
-
-      AdLoop["Ad skipper loop"]
-      AdResolve["Resolve skippable page\n(TryGetSkippable\nYouTubePageAsync)"]
-      AdInject["Evaluate skip script\n+ click if found"]
-    end
+  subgraph Browser["Chrome page runtime (Renderer / V8)"]
+    Eval["EvaluateExpressionAsync(...)\n(script runs in page context)"]
+    DOM["DOM interaction / navigation state"]
+    NavIdx["[MEM-JS] window.navIndex\nvolatile in-page state"]
+    NativeClick["Mouse.ClickAsync(x,y)"]
   end
 
-  subgraph ChromeProc["<b>Chrome process (browser on Windows)</b>"]
-    Launch["Launch Chrome\n(remote debugging)\n+ user data dir"]
-    Connect["CDP connect"]
-    Page["IPage target"]
-    V8["V8 page context"]
-    NavIndex["[MEM-JS] window.navIndex\nvolatile in-page memory"]
-    DOM["DOM updates / navigation"]
-  end
+  %% Persistent state
+  Store[("[STORE] C:\\YouTube_User_Data\nChrome profile on disk")]
+  BrowserMem["[MEM-C#] _browser (IBrowser)\nLeader process memory"]
 
-  %% Main command flow
-  G --> Proc --> Mutex
-  Mutex -- "No (leader exists)" --> Msg --> PipeClient --> LeaderPipe
-  Mutex -- "Yes (this process is leader)" --> LeaderStart
-  LeaderStart --> EnsureSession
-  EnsureSession --> LeaderPipe
-  EnsureSession --> AdLoop
+  %% Shared flow
+  G --> M --> P --> L0 --> L1 --> L2 --> L3 --> L4 --> LR
+  L3 -. "uses" .-> BrowserMem
+  BrowserMem -. "session via" .-> CDP
+  CDP -. "connect/attach" .-> Browser
 
-  LeaderPipe --> Dispatch --> ResolvePage --> EnsureSession
-  EnsureSession -->|attach ok| Connect
-  EnsureSession -->|launch path| Launch --> Connect
-  Connect --> BrowserCSharp --> ResolvePage
-  ResolvePage --> PageOps
-  PageOps --> Inject --> V8 --> DOM
-  ResolvePage --> DirectOps --> DOM
-  Dispatch --> ExitPath
-  V8 --> NavIndex
-  DOM --> ResolvePage
+  %% Category branches
+  LR --> A0 --> Eval
+  LR --> B0 --> B1 --> Eval
+  LR --> C0 --> Eval
+  LR --> D0 --> D1 --> Log
 
-  %% Ad skipper (separate page-resolution path)
-  AdLoop --> AdResolve
-  AdResolve -. "watch/shorts only" .-> Page
-  Page --> AdInject --> V8
+  Eval --> DOM --> NavIdx
+  Eval --> Log
 
-  %% Storage / persistence
-  subgraph PersistentStorage["<b>Persistent: user machine (disk)</b>"]
-    Disk[("[STORE] C:\\YouTube_User_Data\n(Chrome profile)")]
-  end
+  %% Background ad-skip flow
+  AD0 --> AD1 --> Eval
+  AD1 --> NativeClick --> Log
 
-  Launch -. "read/write profile data" .-> Disk
+  %% Storage relation
+  Browser -. "profile read/write" .-> Store
 
-  %% Memory semantics (not actions)
-  classDef actionNode fill:#eef6ff,stroke:#1a73e8,stroke-width:1px
-  classDef memServerNode fill:#fff3cd,stroke:#8a6d3b,stroke-width:2px,stroke-dasharray: 4 2
-  classDef memPageNode fill:#e6fff2,stroke:#1e7f4f,stroke-width:2px,stroke-dasharray: 2 2
-  classDef storeNode fill:#e8f4ff,stroke:#005a9e,stroke-width:2px,stroke-dasharray: 1 0
+  %% Styling
+  classDef hostNode fill:#eef6ff,stroke:#1a73e8,stroke-width:1px
+  classDef runtimeNode fill:#e6fff2,stroke:#1e7f4f,stroke-width:1px
+  classDef memNode fill:#fff3cd,stroke:#8a6d3b,stroke-width:2px,stroke-dasharray: 4 2
+  classDef storeNode fill:#e8f4ff,stroke:#005a9e,stroke-width:2px
 
-  class LegendAction actionNode
-  class BrowserCSharp,LegendMemServer memServerNode
-  class NavIndex,LegendMemPage memPageNode
-  class Disk,LegendStore storeNode
-
-  %% Minimal styling for readability
-  style Grid3App fill:#dff4ff,stroke:#1a73e8,stroke-width:1px
-  style WindowsOS fill:#e8f7e8,stroke:#2e7d32,stroke-width:1px
-  style DotNetApplicationLayer fill:#f8f6ff,stroke:#6a1b9a,stroke-width:1px
-  style MessengerRuntimeInstance fill:#eef6ff,stroke:#1a73e8,stroke-width:1px
-  style LeaderRuntimeInstance fill:#fff2f8,stroke:#c6007e,stroke-width:1px
-  style PersistentStorage fill:#f0f7ff,stroke:#1a73e8,stroke-width:1px
+  class L0,L1,L2,L3,L4,LR,A0,B0,C0,D0,B1,D1,Log,AD0,AD1 hostNode
+  class Eval,DOM,NavIdx,NativeClick runtimeNode
+  class BrowserMem,NavIdx memNode
+  class Store storeNode
 ```
 
-Legend — where things run / what stores state:
-- Node markers at the top of the diagram:
-  - `[MEM-C#]` marks `_browser` as a memory component in the Leader .NET process (not an action).
-  - `[MEM-JS]` marks `window.navIndex` as a memory component in the page JavaScript context (not an action).
-  - `[STORE]` marks persistent storage on disk (not volatile RAM).
-- Grid3: external assistive app (Windows user space) that launches or signals `YouTubeControl.exe`.
-- Windows OS: global mutex and named pipe are Win32 concepts implemented by the OS; the mutex enforces single leader and the named pipe (`YouTubeControlPipe`) transports commands.
-- .NET application layer (Windows user-mode): shown as one outer group with two inner groups, each representing a separate process/runtime instance:
-  - Messenger process (.NET runtime instance): current process is not leader, so it only builds and sends one command to the existing leader via named pipe.
-  - Leader process (.NET runtime instance): when elected leader, starts runtime loops and bootstraps browser/session; command dispatch happens when pipe commands arrive.
-- Chrome process (Windows): the Chrome browser process is launched by `ChromeManager.Launch` with `--remote-debugging-port=15432` and stores profile data under `C:\\YouTube_User_Data` (persistent on disk).
-- V8 / renderer: the injected JS executes inside the renderer process (V8), where `window.navIndex` and DOM state live (volatile in renderer memory).
-- Connection robustness (summarized in `Ensure session`): attach attempts happen before and after launch with backoff.
-- Script evaluation is action-dependent: navigation actions use the injected nav script, while refresh/fullscreen use direct command-specific paths.
-- `exit` follows a dedicated shutdown path (close browser + request leader shutdown), not a DOM-update path.
-- Ad skipper path is intentionally separate and parallel to command intake: it resolves skippable pages (watch/shorts filter) without waiting for pipe commands.
-
-About the `style` lines you saw:
-- Those are Mermaid styling directives intended to change node appearance (for example fill and border). They are not separate diagram boxes — they are instructions for the Mermaid renderer.
-- This diagram now uses automatic node sizing by text content (no fixed width/height directives).
-
-If you want nodes to always show full text reliably across renderers, I can:
-- split long labels into multiple lines (already done using `\n`), or
-- wrap nodes in subgraphs with fixed-size containers (some renderers will respect that better), or
-- generate an exported PNG/SVG here if you want a guaranteed visual.
-
-Next step: would you like a separate mini-diagram for error recovery (CDP disconnect → `InvalidateBrowserAsync` → reconnect attempts) or a rendered image of this diagram?
+Location map and execution boundaries:
+- Shared flow for all actions:
+  - Grid3 trigger enters YouTubeControl through `MessengerMode` and `YouTubeControlPipe` (named pipe transport).
+  - Parsing and routing occur in `LeaderMode.cs` via `TryParseCommand(...)` then `DispatchCommandAsync(...)`.
+  - Active-tab resolution and focusing occur in `LeaderMode.cs` via `GetYouTubePageAsync(...)` and `TryBringToFrontAsync(...)`.
+  - Command outcomes are logged from the host (`Logger.Log(...)`) after each execution path.
+- Category A: Stateful DOM navigation (`up`, `down`, `enter`):
+  - Host builds route and invokes `page.EvaluateExpressionAsync<string>(...)`.
+  - Script executes inside V8/page context and updates DOM state (including `window.navIndex`).
+- Category B: URL navigation (`home`, `search`, `back`, `open`, `refresh`):
+  - Host-side navigation uses `page.GoToAsync(...)` and `page.ReloadAsync()`.
+  - `back` uses history navigation (`page.GoBackAsync()`), then action script continues through `EvaluateExpressionAsync(...)` for focus/normalization behavior.
+  - Resulting script/DOM work still runs inside V8.
+- Category C: Stateless page actions (`play_pause`, `like`):
+  - Host invokes `EvaluateExpressionAsync(...)` only.
+  - Player/element interaction executes entirely in the V8 page context.
+- Category D: System-level actions (`fullscreen`, `exit`):
+  - `fullscreen` uses browser-level input through `page.Keyboard.PressAsync(...)` (with state check around fullscreen state).
+  - `exit` closes page/browser via `page.CloseAsync()` and `browser.CloseAsync()`.
+  - These are host-initiated browser control operations, not DOM-nav script paths.
+- Background automated action (no Grid3 trigger):
+  - Ad skip loop runs independently from command intake.
+  - `AdSkipperTask.TrySkipAsync(...)` uses `EvaluateExpressionAsync(...)` to detect a skip/close target and `page.Mouse.ClickAsync(...)` to perform the click.
+- State locations:
+  - `[MEM-C#] _browser` is in Leader process memory.
+  - `[MEM-JS] window.navIndex` is in renderer/V8 memory.
+  - `[STORE] C:\YouTube_User_Data` is persistent Chrome profile storage on disk.
 
 
