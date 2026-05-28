@@ -239,7 +239,7 @@ flowchart TD
   Connect --> BrowserCSharp --> ResolvePage
   ResolvePage --> PageOps
   PageOps --> Inject --> V8 --> DOM
-  Dispatch --> DirectOps --> DOM
+  ResolvePage --> DirectOps --> DOM
   Dispatch --> ExitPath
   V8 --> NavIndex
   DOM --> ResolvePage
