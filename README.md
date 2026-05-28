@@ -317,7 +317,7 @@ cd C:\YouTube_Navigator_V7
 .\YouTubeControl.exe refresh
 .\YouTubeControl.exe search: disney songs
 .\YouTubeControl.exe open: https://www.youtube.com/shorts
-.\YouTubeControl.exe stop # exit also works as a shutdown command
+.\YouTubeControl.exe exit # stop also works as a shutdown command
 ```
 
 ### Manual runtime smoke test (full command coverage)
