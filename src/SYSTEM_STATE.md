@@ -207,7 +207,8 @@ flowchart TD
       BrowserCSharp["[MEM-C#] _browser (IBrowser)\nvolatile C# memory"]
       PageOps["Page operations\nbring-to-front, sync viewport,\nnavigate/reload, normalize"]
       Inject["Build + evaluate nav script\n(navigation actions only)"]
-      DirectOps["Direct action path\n(refresh/fullscreen/exit)"]
+      DirectOps["Direct action path\n(refresh/fullscreen)"]
+      ExitPath["Exit path\n(close browser + shutdown request)"]
 
       AdLoop["Ad skipper loop"]
       AdResolve["Resolve skippable page\n(TryGetSkippable\nYouTubePageAsync)"]
@@ -220,8 +221,8 @@ flowchart TD
     Connect["CDP connect"]
     Page["IPage target"]
     V8["V8 page context"]
-    DOM["DOM updates / navigation"]
     NavIndex["[MEM-JS] window.navIndex\nvolatile in-page memory"]
+    DOM["DOM updates / navigation"]
   end
 
   %% Main command flow
@@ -229,7 +230,8 @@ flowchart TD
   Mutex -- "No (leader exists)" --> Msg --> PipeClient --> LeaderPipe
   Mutex -- "Yes (this process is leader)" --> LeaderStart
   LeaderStart --> EnsureSession
-  LeaderStart --> LeaderPipe
+  EnsureSession --> LeaderPipe
+  EnsureSession --> AdLoop
 
   LeaderPipe --> Dispatch --> ResolvePage --> EnsureSession
   EnsureSession -->|attach ok| Connect
@@ -238,13 +240,14 @@ flowchart TD
   ResolvePage --> PageOps
   PageOps --> Inject --> V8 --> DOM
   Dispatch --> DirectOps --> DOM
+  Dispatch --> ExitPath
   V8 --> NavIndex
   DOM --> ResolvePage
 
   %% Ad skipper (separate page-resolution path)
-  LeaderStart --> AdLoop
-  AdLoop --> AdResolve --> AdInject --> V8
+  AdLoop --> AdResolve
   AdResolve -. "watch/shorts only" .-> Page
+  Page --> AdInject --> V8
 
   %% Storage / persistence
   subgraph PersistentStorage["<b>Persistent: user machine (disk)</b>"]
@@ -286,7 +289,8 @@ Legend — where things run / what stores state:
 - Chrome process (Windows): the Chrome browser process is launched by `ChromeManager.Launch` with `--remote-debugging-port=15432` and stores profile data under `C:\\YouTube_User_Data` (persistent on disk).
 - V8 / renderer: the injected JS executes inside the renderer process (V8), where `window.navIndex` and DOM state live (volatile in renderer memory).
 - Connection robustness (summarized in `Ensure session`): attach attempts happen before and after launch with backoff.
-- Script evaluation is action-dependent: navigation actions use the injected nav script, while refresh/fullscreen/exit use direct command-specific paths.
+- Script evaluation is action-dependent: navigation actions use the injected nav script, while refresh/fullscreen use direct command-specific paths.
+- `exit` follows a dedicated shutdown path (close browser + request leader shutdown), not a DOM-update path.
 - Ad skipper path is intentionally separate and parallel to command intake: it resolves skippable pages (watch/shorts filter) without waiting for pipe commands.
 
 About the `style` lines you saw:
