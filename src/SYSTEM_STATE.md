@@ -12,60 +12,36 @@ This document captures the currently implemented runtime state for the code unde
 
 ## Main Runtime Components
 
-- Program.cs
-- Process startup, global exception handlers, leader election, and shutdown token wiring.
-- If mutex is not acquired, process acts as Messenger and forwards command to Leader.
-- If mutex is acquired, process starts LeaderMode and stays resident.
+Components are listed in runtime order (startup -> leader runtime -> browser/profile -> automation -> infrastructure).
 
-- MessengerMode.cs
-- Combines CLI args into one command line.
-- Sends one line over named pipe and exits quickly.
+| Layer | Component | Responsibility |
+|---|---|---|
+| Startup and election | Program.cs | Initializes logging and global handlers, attempts global mutex acquisition, and routes process mode. |
+| Leader runtime | LeaderMode.cs | Owns browser session and command dispatch. Runs three concurrent loops: pipe server, CDP recovery, and ad skipper (1500 ms). |
+| Messenger relay | MessengerMode.cs | Builds a single command line from CLI args, sends it over named pipe, and exits quickly. |
+| Browser lifecycle | ChromeManager.cs | Resolves Chrome binary (Canary -> Stable), launches with remote debugging port 15432, and performs hardened foreground restore checks. |
+| Profile policy | UserDataDirectoryPolicy.cs | Resolves profile path with policy order: existing canonical profile -> legacy migration from `%LOCALAPPDATA%\YouTubeControl` -> first-install bootstrap at C:\\YouTube_User_Data. |
+| Browser navigation script | Actions/NavigationActions.cs | Provides the browser-side JavaScript used for focus management, navigation, and media controls. |
+| Background ad handling | Actions/AdSkipperTask.cs | Polls YouTube pages for skip/close-ad targets and clicks when found. |
+| Infrastructure | Logger.cs | Thread-safe file logging with temp fallback. |
+| Configuration model | Models/AppConfig.cs | Config schema and loader for config.json defaults; currently a placeholder not yet used in the active startup/ChromeManager path. |
 
-- LeaderMode.cs
-- Owns the active browser session and command dispatch pipeline.
-- Runs three concurrent loops:
-  - Pipe server loop (receive and dispatch commands)
-  - CDP recovery loop (reattach when session drops)
-  - Ad skipper loop (polls every 1500 ms)
-- Supports actions:
-  - home, up, down, enter, back, play_pause, fullscreen, toggle, like, search, open, refresh, exit, stop
-- stop is normalized to exit.
+LeaderMode action vocabulary:
 
-- ChromeManager.cs
-- Resolves Chrome binary path (Canary fallback to Stable).
-- Uses UserDataDirectoryPolicy to resolve the runtime profile directory.
-- Launches Chrome with remote debugging port 15432 and a canonical user data directory:
-  - C:\\YouTube_User_Data
-- Restores foreground window after launch using retry + stability checks and a final-pass fallback.
-
-- UserDataDirectoryPolicy.cs
-- Selects preferred profile directory with this order:
-  - Use canonical path directly when existing profile data is found.
-  - Migrate legacy profile from `%LOCALAPPDATA%\YouTubeControl` if it exists.
-  - Bootstrap first install at C:\\YouTube_User_Data when no profile data exists.
-
-- Actions/NavigationActions.cs
-- Provides the browser-side JavaScript script used for navigation, focus highlighting, media controls, and activation.
-
-- Actions/AdSkipperTask.cs
-- Executes browser-side selector checks for skip/close-ad targets.
-- Clicks the target when found on watch/shorts pages.
-
-- Logger.cs
-- Thread-safe file logger with fallback log file behavior.
-
-- Models/AppConfig.cs
-- Exists and can load config.json defaults.
-- Current runtime state: not referenced by startup/ChromeManager flow in the active code path.
+| Action | Notes |
+|---|---|
+| home, up, down, enter, back, play_pause, fullscreen, toggle, like, search, open, refresh, exit, stop | Supported action set in current runtime. |
+| stop | Normalized to exit. |
 
 ## Current Command Lifecycle
 
-1. Grid 3 (or any caller) starts YouTubeControl.exe with or without args.
+Text summary aligned to the flowchart below:
+
+1. Caller starts YouTubeControl.exe with or without args.
 2. Program attempts mutex acquisition.
-3. If leader already exists, process runs MessengerMode and sends command to named pipe.
-4. If Leader needs a browser launch, it resolves the user-data path via UserDataDirectoryPolicy, launches Chrome, then runs foreground-restore verification.
-5. Leader receives command, validates action, resolves page, executes command via CDP.
-6. Messenger exits immediately; Leader continues resident until exit/stop or shutdown.
+3. If leader already exists, process runs MessengerMode, sends one command to named pipe, and exits.
+4. If this process becomes Leader, it ensures browser connectivity (including profile resolution and launch when required).
+5. Leader validates and dispatches actions via CDP, while staying resident until exit/stop or shutdown.
 
 ## Mermaid Flowchart
 
@@ -141,18 +117,22 @@ flowchart TD
 
 ## User Actions and Visible Effects
 
-- home: opens YouTube home and applies focus reset with red navigation frame on the first navigable item.
-- search:query: opens search results and resets focus with red navigation frame.
-- open:url: opens the given URL and resets focus with red navigation frame when a navigable list is available.
-- back: browser back navigation and focus reset with red navigation frame.
-- down (next): moves to next item in list navigation.
-- up (prev): moves to previous item in list navigation.
-- enter (choose current video): clicks the currently focused item (thumbnail/title link).
-- play_pause: toggles play/pause in standard video or Shorts context.
-- like: clicks like action when selector is found.
-- fullscreen and toggle: toggles fullscreen state.
-- refresh: reloads active YouTube page.
-- exit and stop: closes browser and requests leader shutdown.
+| Action | Category | Visible effect |
+|---|---|---|
+| home | Navigation | Opens YouTube home and resets focus to the first navigable item (red frame). |
+| search:query | Navigation | Opens search results and resets focus (red frame). |
+| open:url | Navigation | Opens explicit URL and resets focus when a navigable list is available. |
+| back | Navigation | Goes back in browser history and resets focus (red frame). |
+| down (next) | Stateful navigation | Moves focus to the next item in list navigation. |
+| up (prev) | Stateful navigation | Moves focus to the previous item in list navigation. |
+| enter (choose current video) | Stateful navigation | Clicks currently focused item (thumbnail/title link). |
+| play_pause | Media control | Toggles play/pause in standard video or Shorts context. |
+| like | Media control | Clicks the like action when selector is found. |
+| fullscreen | System-level action | Toggles fullscreen state. |
+| toggle | System-level action | Toggles fullscreen state. |
+| refresh | Navigation | Reloads active YouTube page. |
+| exit | Shutdown | Closes browser and requests leader shutdown. |
+| stop | Shutdown | Alias of exit (normalized to exit). |
 
 Navigation frame details:
 - Implemented by browser-side highlight styling in NavigationActions (8px red outline).
@@ -255,31 +235,37 @@ flowchart TD
 ```
 
 Location map and execution boundaries:
-- Shared flow for all actions:
-  - Grid3 trigger enters YouTubeControl through `MessengerMode` and `YouTubeControlPipe` (named pipe transport).
-  - Parsing and routing occur in `LeaderMode.cs` via `TryParseCommand(...)` then `DispatchCommandAsync(...)`.
-  - Active-tab resolution and focusing occur in `LeaderMode.cs` via `GetYouTubePageAsync(...)` and `TryBringToFrontAsync(...)`.
-  - Command outcomes are logged from the host (`Logger.Log(...)`) after each execution path.
-- Category A: Stateful DOM navigation (`up`, `down`, `enter`):
-  - Host builds route and invokes `page.EvaluateExpressionAsync<string>(...)`.
-  - Script executes inside V8/page context and updates DOM state (including `window.navIndex`).
-- Category B: URL navigation (`home`, `search`, `back`, `open`, `refresh`):
-  - Host-side navigation uses `page.GoToAsync(...)` and `page.ReloadAsync()`.
-  - `back` uses history navigation (`page.GoBackAsync()`), then action script continues through `EvaluateExpressionAsync(...)` for focus/normalization behavior.
-  - Resulting script/DOM work still runs inside V8.
-- Category C: Stateless page actions (`play_pause`, `like`):
-  - Host invokes `EvaluateExpressionAsync(...)` only.
-  - Player/element interaction executes entirely in the V8 page context.
-- Category D: System-level actions (`fullscreen`, `exit`):
-  - `fullscreen` uses browser-level input through `page.Keyboard.PressAsync(...)` (with state check around fullscreen state).
-  - `exit` closes page/browser via `page.CloseAsync()` and `browser.CloseAsync()`.
-  - These are host-initiated browser control operations, not DOM-nav script paths.
-- Background automated action (no Grid3 trigger):
-  - Ad skip loop runs independently from command intake.
-  - `AdSkipperTask.TrySkipAsync(...)` uses `EvaluateExpressionAsync(...)` to detect a skip/close target and `page.Mouse.ClickAsync(...)` to perform the click.
-- State locations:
-  - `[MEM-C#] _browser` is in Leader process memory.
-  - `[MEM-JS] window.navIndex` is in renderer/V8 memory.
-  - `[STORE] C:\YouTube_User_Data` is persistent Chrome profile storage on disk.
+
+Shared flow (all actions):
+
+| Step | Host location | Notes |
+|---|---|---|
+| Command ingress | MessengerMode + YouTubeControlPipe | Grid3 trigger enters through named pipe transport. |
+| Parse and dispatch | LeaderMode.cs (`TryParseCommand(...)` -> `DispatchCommandAsync(...)`) | Host validates and routes action. |
+| Page resolution and focus | LeaderMode.cs (`GetYouTubePageAsync(...)`, `TryBringToFrontAsync(...)`) | Ensures active target page before execution. |
+| Outcome logging | Logger (`Logger.Log(...)`) | Result is recorded after each execution path. |
+
+Category execution map:
+
+| Category | Actions | Primary host path | Browser/V8 execution boundary |
+|---|---|---|---|
+| A: Stateful DOM navigation | up, down, enter | Host routes action and calls `page.EvaluateExpressionAsync<string>(...)`. | Script runs in page/V8 and mutates DOM state, including `window.navIndex`. |
+| B: URL navigation | home, search, back, open, refresh | Host uses `page.GoToAsync(...)`, `page.ReloadAsync()`, and `page.GoBackAsync()` for back. | Focus/normalization script continues via `EvaluateExpressionAsync(...)` in V8. |
+| C: Stateless page actions | play_pause, like | Host calls `EvaluateExpressionAsync(...)` only. | Player/element interaction runs entirely in page/V8 context. |
+| D: System-level actions | fullscreen, exit | Host uses `page.Keyboard.PressAsync(...)` for fullscreen and page/browser close APIs for exit. | Host-initiated browser control path (not DOM-navigation script path). |
+
+Background automation map:
+
+| Flow | Host path | Browser/V8 execution boundary |
+|---|---|---|
+| Ad skip loop (no Grid3 trigger) | `AdSkipperTask.TrySkipAsync(...)` | Detects skip target via `EvaluateExpressionAsync(...)`, then clicks via `page.Mouse.ClickAsync(...)`. |
+
+State locations:
+
+| State | Location |
+|---|---|
+| [MEM-C#] _browser | Leader process memory |
+| [MEM-JS] window.navIndex | Renderer/V8 memory |
+| [STORE] C:\YouTube_User_Data | Persistent Chrome profile storage on disk |
 
 
