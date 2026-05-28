@@ -33,6 +33,7 @@ internal static class LeaderMode
         "home", "up", "down", "enter", "back", "play_pause", "fullscreen", "toggle", "like", "search", "open", "exit", "stop", "refresh",
     ];
 
+    // The active browser instance shared across command executions and the ad-skipper loop.
     private static IBrowser? _browser;
 
     /// <summary>
@@ -41,8 +42,10 @@ internal static class LeaderMode
     /// <param name="logger">The logger used for command and error events.</param>
     /// <param name="cancellationToken">The cancellation token for graceful shutdown.</param>
     /// <returns>A task that represents the lifetime of the leader loop.</returns>
+    
     public static async Task RunAsync(Logger logger, CancellationToken cancellationToken)
-    {
+    {   
+        // Reset state on each run to allow for clean restarts after exit commands.
         _exitRequested = false;
 
         var startupBrowser = await EnsureBrowserConnectedAsync(
